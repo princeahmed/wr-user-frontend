@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: WP Radio User Front-end
+ * Plugin Name: WP Radio User Frontend
  * Plugin URI:  https://princeboss.com
  * Description: Let Engage Users to your website.
  * Version:     0.0.1
@@ -51,7 +51,7 @@ final class WR_User_Frontend {
 		}
 
 		// Check if Elementor installed and activated
-		if ( ! did_action( 'elementor/loaded' ) ) {
+		if ( ! did_action( 'wp_radio_loaded' ) ) {
 
 			add_action( 'admin_notices', function () { ?>
                 <div class="notice is-dismissible notice-error">
@@ -68,11 +68,13 @@ final class WR_User_Frontend {
                 </div>
 			<?php } );
 
+			require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 			deactivate_plugins( plugin_basename( __FILE__ ) );
 
 			return false;
 		}
 
+		return true;
 	}
 
 	function define_constants() {
@@ -86,24 +88,23 @@ final class WR_User_Frontend {
 	}
 
 	function includes() {
-
 		//core includes
-		include_once WP_RADIO_INCLUDES . '/class-install.php';
-		include_once WP_RADIO_INCLUDES . '/functions.php';
-		include_once WP_RADIO_INCLUDES . '/hooks.php';
-		include_once WP_RADIO_INCLUDES . '/enqueue.php';
-		include_once WP_RADIO_INCLUDES . '/class-shortcode.php';
+		include_once WR_USER_FRONTEND_INCLUDES . '/class-install.php';
+		include_once WR_USER_FRONTEND_INCLUDES . '/class-form-handler.php';
+		include_once WR_USER_FRONTEND_INCLUDES . '/class-shortcode.php';
+		include_once WR_USER_FRONTEND_INCLUDES . '/class-hooks.php';
+		include_once WR_USER_FRONTEND_INCLUDES . '/class-enqueue.php';
+		include_once WR_USER_FRONTEND_INCLUDES . '/class-ajax.php';
+		include_once WR_USER_FRONTEND_INCLUDES . '/functions.php';
 
 		//admin includes
 		if ( is_admin() ) {
-			include_once WP_RADIO_INCLUDES . '/admin/class-admin.php';
+			include_once WR_USER_FRONTEND_INCLUDES . '/class-admin.php';
 		}
 
 	}
 
 	function init_hooks() {
-
-		add_action( 'admin_notices', [ $this, 'admin_notices' ], 15 );
 
 		// Localize our plugin
 		add_action( 'init', [ $this, 'localization_setup' ] );
@@ -127,6 +128,7 @@ final class WR_User_Frontend {
 	static function instance() {
 
 		if ( is_null( self::$instance ) ) {
+
 			self::$instance = new self();
 		}
 
