@@ -13,7 +13,7 @@
                     &nbsp;<span class="required">*</span></label>
                 <input type="text" class="wp-radio-input wp-radio-input--text" name="username" id="username" autocomplete="username" value="<?php echo ( ! empty( $_POST['username'] ) ) ? esc_attr( wp_unslash( $_POST['username'] ) ) : ''; ?>"/>
             </p>
-	        
+
             <p class="wp-radio-form-row wp-radio-form-row--wide">
                 <label for="password"><?php esc_html_e( 'Password', 'wp-radio' ); ?>
                     &nbsp;<span class="required">*</span></label>
@@ -33,9 +33,9 @@
             <p class="wp-radio-lost-password">
                 <a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php esc_html_e( 'Lost your password?', 'wp-radio' ); ?></a>
             </p>
-	        
+
         </form>
-	    
+
     </div>
 
     <div class="wp-radio-col-6">
@@ -45,7 +45,8 @@
         <form method="post" class="wp-radio-form wp-radio-form-register register">
 
             <p class="wp-radio-form-row wp-radio-form-row--wide">
-                <label for="reg_username"><?php esc_html_e( 'Username', 'wp-radio' ); ?>&nbsp;<span class="required">*</span></label>
+                <label for="reg_username"><?php esc_html_e( 'Username', 'wp-radio' ); ?>
+                    &nbsp;<span class="required">*</span></label>
                 <input type="text" class="wp-radio-input wp-radio-input--text" name="username" id="reg_username" autocomplete="username" value="<?php echo ( ! empty( $_POST['username'] ) ) ? esc_attr( wp_unslash( $_POST['username'] ) ) : ''; ?>"/><?php // @codingStandardsIgnoreLine ?>
             </p>
 
@@ -56,10 +57,25 @@
             </p>
 
             <p class="wp-radio-form-row wp-radio-form-row--wide">
-                <label for="reg_password"><?php esc_html_e( 'Password', 'wp-radio' ); ?>&nbsp;<span class="required">*</span></label>
+                <label for="reg_password"><?php esc_html_e( 'Password', 'wp-radio' ); ?>
+                    &nbsp;<span class="required">*</span></label>
                 <input type="password" class="wp-radio-input wp-radio-input--text" name="password" id="reg_password" autocomplete="new-password"/>
             </p>
 
+            <div class="wp-radio-flex">
+                <div class="wp-radio-col-6">
+                    <p class="wp-radio-form-row wp-radio-form-row--wide">
+                        <label for="first_name"><?php esc_html_e( 'First Name', 'wp-radio' ); ?></label>
+                        <input type="text" name="first_name" id="first_name" placeholder="First Name">
+                    </p>
+                </div>
+                <div class="wp-radio-col-6">
+                    <p class="wp-radio-form-row wp-radio-form-row--wide">
+                        <label for="last_name"><?php esc_html_e( 'Last Name', 'wp-radio' ); ?></label>
+                        <input type="text" name="last_name" id="last_name" placeholder="Last Name">
+                    </p>
+                </div>
+            </div>
 
             <p class="wp-radio-form-row">
 				<?php wp_nonce_field( 'wp-radio-register', 'wp-radio-register-nonce' ); ?>

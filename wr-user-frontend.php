@@ -112,7 +112,9 @@ final class WR_User_Frontend {
 		//action_links
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_action_links' ) );
 
-		register_activation_hook( __FILE__, [ 'WR_User_Frontend_Install', 'activate' ] );
+		register_activation_hook( __FILE__, function (){
+		    return;
+        } );
 	}
 
 	function localization_setup() {
