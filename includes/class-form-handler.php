@@ -6,6 +6,9 @@ class WR_User_Frontend_Form_Handler {
 	function __construct() {
 		add_action( 'wp_loaded', [ $this, 'process_login' ], 20 );
 		add_action( 'wp_loaded', [ $this, 'process_registration' ], 20 );
+
+		add_action( 'admin_post_submit_station', [ $this, 'process_submit_station' ], 20 );
+		add_action( 'admin_post_nopriv_submit_station', [ $this, 'process_submit_station' ], 20 );
 	}
 
 	function process_login() {
@@ -137,6 +140,65 @@ class WR_User_Frontend_Form_Handler {
 				}
 			}
 		}
+	}
+
+	function process_submit_station() {
+
+		$args = [
+			'post_status' => 'pending',
+			'post_type'   => 'wp_radio',
+		];
+
+		$args['post_title']   = ! empty( $_REQUEST['title'] ) ? sanitize_text_field( $_REQUEST['title'] ) : '';
+		$args['post_content'] = ! empty( $_REQUEST['content'] ) ? sanitize_textarea_field( $_REQUEST['content'] ) : '';
+
+		$args['tax_input'] = [
+			'radio_country' => ! empty( $_REQUEST['country'] ) ? sanitize_textarea_field( $_REQUEST['country'] ) : '',
+			'radio_genre'   => ! empty( $_REQUEST['genres'] ) ? array_map( 'intval', $_REQUEST['genres'] ) : '',
+		];
+
+		$args['meta_input'] = [
+			'language'        => ! empty( $_REQUEST['language'] ) ? sanitize_text_field( $_REQUEST['language'] ) : '',
+			'stream_url'      => ! empty( $_REQUEST['stream_url'] ) ? esc_url( $_REQUEST['stream_url'] ) : '',
+			'social_links'    => ! empty( $_REQUEST['social-links'] ) ? $_REQUEST['social-links'] : '',
+			'contact_address' => ! empty( $_REQUEST['contact_address'] ) ? sanitize_textarea_field( $_REQUEST['contact_address'] ) : '',
+			'contact_email'   => ! empty( $_REQUEST['contact_email'] ) ? sanitize_email( $_REQUEST['contact_email'] ) : '',
+			'contact_phone'   => ! empty( $_REQUEST['contact_phone'] ) ? sanitize_text_field( $_REQUEST['contact_phone'] ) : '',
+		];
+
+		if ( ! empty( $_FILES['thumbnail'] ) && empty( $_FILES['thumbnail']['error'] ) ) {
+
+			$type = wp_check_filetype( $_FILES['thumbnail']['name'] );
+
+			if ( in_array( $type['type'], [ 'image/png', 'image/jpg', 'image/jpeg', 'image/gif' ] ) ) {
+				if ( ! function_exists( 'wp_handle_upload' ) ) {
+					require_once( ABSPATH . 'wp-admin/includes/file.php' );
+				}
+				$uploadedfile     = $_FILES['thumbnail'];
+				$upload_overrides = array( 'test_form' => false );
+				$movefile         = wp_handle_upload( $uploadedfile, $upload_overrides );
+				if ( $movefile ) {
+					$thumbnail = $movefile['file'];
+					$upload_id = wp_insert_attachment( array(
+						'guid'           => $movefile['url'],
+						'post_mime_type' => $movefile['type'],
+						'post_content'   => '',
+						'post_status'    => 'inherit'
+					), $thumbnail, 0 );
+
+					$attach_data = wp_generate_attachment_metadata( $upload_id, $movefile['file'] );
+					wp_update_attachment_metadata( $upload_id, $attach_data );
+
+				}
+			}
+		}
+
+		$post_id = wp_insert_post( $args );
+
+		if ( ! empty( $upload_id ) ) {
+			update_post_meta( $post_id, 'logo', wp_get_attachment_url( $upload_id ) );
+		}
+
 	}
 }
 

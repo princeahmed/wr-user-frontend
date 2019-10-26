@@ -61,7 +61,7 @@
             </p>
 
 
-            <p class="wp-radio-FormRow form-row">
+            <p class="wp-radio-form-row">
 				<?php wp_nonce_field( 'wp-radio-register', 'wp-radio-register-nonce' ); ?>
                 <button type="submit" class="wp-radio-Button button" name="register" value="<?php esc_attr_e( 'Register', 'wp-radio' ); ?>"><?php esc_html_e( 'Register', 'wp-radio' ); ?></button>
             </p>
