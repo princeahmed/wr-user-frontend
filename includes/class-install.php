@@ -8,8 +8,6 @@ defined( 'ABSPATH' ) || exit;
 class WR_User_Frontend_Install {
 
 	public static function activate() {
-		var_dump('a');
-		die();
 		//self::create_pages();
 		self::update_option();
 
@@ -31,9 +29,7 @@ class WR_User_Frontend_Install {
 	}
 
 	private static function update_option() {
-		var_dump('a');
-		die();
-		add_role( 'custom_role', 'Custom Subscriber', array( 'read' => true) );
+		add_role( 'listener', __( 'Listener', 'wp-radio' ), [ 'read' => true ] );
 	}
 
 }

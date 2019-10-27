@@ -25,12 +25,20 @@ final class WR_User_Frontend {
 
 	private $min_php = '5.6.0';
 
+	private $min_wp_radio = '2.0.4.5';
+
 	private $name = 'WP Radio User Frontend';
 
 	protected static $instance = null;
 
 	public function __construct() {
+		register_activation_hook( __FILE__, [ $this, 'install' ] );
 		add_action( 'plugins_loaded', [ $this, 'let_the_journey_begin' ] );
+	}
+
+	function install() {
+		include_once dirname( __FILE__ ) . '/includes/class-install.php';
+		call_user_func( [ 'WR_User_Frontend_Install', 'activate' ] );
 	}
 
 	function let_the_journey_begin() {
@@ -89,7 +97,6 @@ final class WR_User_Frontend {
 
 	function includes() {
 		//core includes
-		include_once WR_USER_FRONTEND_INCLUDES . '/class-install.php';
 		include_once WR_USER_FRONTEND_INCLUDES . '/class-form-handler.php';
 		include_once WR_USER_FRONTEND_INCLUDES . '/class-shortcode.php';
 		include_once WR_USER_FRONTEND_INCLUDES . '/class-hooks.php';
@@ -108,17 +115,19 @@ final class WR_User_Frontend {
 
 		// Localize our plugin
 		add_action( 'init', [ $this, 'localization_setup' ] );
+		add_action( 'init', [ $this, 'add_image_sizes' ] );
 
 		//action_links
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_action_links' ) );
-
-		register_activation_hook( __FILE__, function (){
-		    return;
-        } );
 	}
 
 	function localization_setup() {
 		load_plugin_textdomain( 'wr-user-frontend', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+	}
+
+	function add_image_sizes() {
+		add_image_size( 'wr_user_frontend_avatar_small', 32, 32, true );
+		add_image_size( 'wr_user_frontend_avatar_large', 128, 128, true );
 	}
 
 	function plugin_action_links( $links ) {

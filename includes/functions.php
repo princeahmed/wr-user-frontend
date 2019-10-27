@@ -1,5 +1,17 @@
 <?php
 
+defined( 'ABSPATH' ) || exit();
+
+/**
+ * Login a customer (set auth cookie and set global user object).
+ *
+ * @param int $customer_id Customer ID.
+ */
+function wr_user_frontend_set_auth_cookie( $customer_id ) {
+	wp_set_current_user( $customer_id );
+	wp_set_auth_cookie( $customer_id, true );
+}
+
 if ( ! function_exists( 'wp_radio_create_new_listener' ) ) {
 	function wp_radio_create_new_listener( $email, $username = '', $password = '', $args = array() ) {
 		if ( empty( $email ) || ! is_email( $email ) ) {
@@ -31,22 +43,22 @@ if ( ! function_exists( 'wp_radio_create_new_listener' ) ) {
 			return $errors;
 		}
 
-		$new_customer_data = array_merge(
-				$args,
-				array(
-					'user_login' => $username,
-					'user_pass'  => $password,
-					'user_email' => $email,
-					'role'       => 'listener',
-				)
-			);
+		$new_listener_data = array(
+			'user_login' => $username,
+			'user_pass'  => $password,
+			'user_email' => $email,
+			'role'       => 'listener',
+		);
 
-		$customer_id = wp_insert_user( $new_customer_data );
+		$listener_id = wp_insert_user( $new_listener_data );
 
-		if ( is_wp_error( $customer_id ) ) {
-			return $customer_id;
+		update_user_meta( $listener_id, 'first_name', $args['first_name'] );
+		update_user_meta( $listener_id, 'last_name', $args['last_name'] );
+
+		if ( is_wp_error( $listener_id ) ) {
+			return $listener_id;
 		}
 
-		return $customer_id;
+		return $listener_id;
 	}
 }

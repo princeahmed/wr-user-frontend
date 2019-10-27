@@ -2,31 +2,48 @@
 
 defined( 'ABSPATH' ) || exit();
 
-
 $items = array(
-	'dashboard'       => __( 'Dashboard', 'wp-radio' ),
-	'favourites'      => __( 'Favourites', 'wp-radio' ),
-	'edit-account'    => __( 'Account details', 'wp-radio' ),
-	//'listener-logout' => __( 'Logout', 'wp-radio' ),
+	'dashboard'    => [ 'icon' => 'dashboard', 'label' => __( 'Dashboard', 'wp-radio' ), ],
+	'favourites'   => [ 'icon' => 'heart', 'label' => __( 'Favourites', 'wp-radio' ), ],
+	'edit-account' => [ 'icon' => 'admin-users', 'label' => __( 'Account details', 'wp-radio' ), ],
 );
+
 ?>
 
-<nav class="wp-radio-my-account-navigation">
-    <ul>
-		<?php foreach ( $items as $endpoint => $label ) { ?>
-            <li class="<?php echo $endpoint; ?>">
-                <a href="#<?php echo $endpoint; ?>"><?php echo esc_html( $label ); ?></a>
-            </li>
-		<?php } ?>
-    </ul>
-</nav>
+<div class="wp-radio-my-account wp-radio-flex">
+    <nav class="wp-radio-my-account-navigation wp-radio-col-3">
+        <ul>
+			<?php foreach ( $items as $endpoint => $label ) { ?>
+                <li class="<?php echo $endpoint; ?>" data-target=".content-<?php echo $endpoint; ?>">
+                    <a href="#">
+                        <i class="dashicons dashicons-<?php echo $label['icon'] ?>"></i>
+						<?php echo esc_html( $label['label'] ); ?>
+                    </a>
+                </li>
+			<?php } ?>
 
-<nav class="wp-radio-my-account-content">
-	<?php foreach ( $items as $endpoint => $label ) { ?>
-        <div class="<?php echo $endpoint; ?>" id="content-<?php echo $endpoint; ?>">
-			<?php
-			wp_radio_get_template( "my-account/$endpoint", [], '', WR_USER_FRONTEND_TEMPLATES );
-			?>
+            <li class="logout">
+                <a href="<?php echo wp_logout_url(); ?>">
+                    <i class="dashicons dashicons-migrate"></i>
+                    Logout
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+
+    <div class="wp-radio-my-account-content wp-radio-col-9">
+
+        <div class="wp-radio-notices">
+			<?php do_action( 'wp_radio_notices' ); ?>
         </div>
-	<?php } ?>
-</nav>
+
+		<?php foreach ( $items as $endpoint => $label ) { ?>
+            <div class="content-<?php echo $endpoint; ?>" id="content-<?php echo $endpoint; ?>">
+				<?php
+				wp_radio_get_template( "my-account/$endpoint", [], '', WR_USER_FRONTEND_TEMPLATES );
+				?>
+            </div>
+		<?php } ?>
+    </div>
+</div>
