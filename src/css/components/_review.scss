@@ -2,9 +2,29 @@
   border-bottom: 1px solid rgba(#555, .5);
 }
 
-.review-form {
-  border-bottom: 1px solid rgba(#555, .5);
+.review-form-notices {
+  display: none;
+  padding: 5px 10px;
+  margin: 10px 0;
 
+  &.error {
+    background: red;
+    border-left: 5px solid darkred;
+    color: #fff;
+  }
+
+  &.success {
+    background: forestgreen;
+    color: #fff;
+    border-left: 5px solid #000;
+  }
+
+  &.show {
+    display: block;
+  }
+}
+
+.review-form {
   .set-review {
     display: flex;
     align-items: center;
@@ -17,6 +37,12 @@
 }
 
 .review-listing {
+  margin-bottom: 20px;
+
+  .review-listing-title {
+    border-bottom: 1px solid rgba(#555, .5);
+  }
+
   .single-review {
     display: flex;
     flex-wrap: wrap;
@@ -34,6 +60,13 @@
 
     .reviewer-rating {
       margin-right: 15px;
+
+      i {
+
+        &.dashicons-star-empty:hover:before {
+          content: '\f154';
+        }
+      }
     }
 
     .review-comments {

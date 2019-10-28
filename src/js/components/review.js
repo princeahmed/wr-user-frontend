@@ -1,9 +1,9 @@
 (function ($) {
     $(document).ready(function () {
-        $(document).on('hover', '.set-review-stars>.star', setReview);
+        //$(document).on('hover', '.set-review-stars>.star', setReview);
         $(document).on('click', '.set-review-stars>.star', setReview);
-
         $(document).on('click', '#review_submit', submitReview);
+        $(document).on('click', '.load-more-review', loadMoreReviews);
 
         function setReview() {
             let selectors = $(this);
@@ -17,17 +17,57 @@
 
         }
 
-        function submitReview() {
-            const data = $('#review-form').serialize();
+        function submitReview(e) {
+            e.preventDefault();
+
+            if($(this).hasClass('disabled')){
+                alert('Please, Login to submit a review for this radio station.');
+                return;
+            }
+
+            if ($('#rating').val() === '' || $('#review').val() === '') {
+                $('.review-form-notices').addClass('error show').text('Please fill all the fields.');
+                return;
+            }
+
+            const formData = $('#review-form').serialize();
 
             wp.ajax.send('submit_review', {
-                data,
+                data: {
+                    formData,
+                    nonce: wpradio.nonce
+                },
                 success: function (response) {
-
+                    if(response.update) {
+                        $('.review-listing>.current-user-review').replaceWith(response.html);
+                    }else{
+                        $('.review-listing>h3').after(response.html);
+                    }
+                    $('.review-form-notices').addClass('success show').text('Your review have been submitted.');
                 },
                 error: function (error) {
                     console.log(error);
                 },
+            });
+        }
+
+        function loadMoreReviews(e) {
+            e.preventDefault();
+            const $this = $(this);
+            const offset = $(this).attr('data-offset');
+
+            wp.ajax.send('load_more_reviews', {
+                data: {
+                    offset,
+                },
+                success: function (response) {
+                    $('.review-listing').append(response.html);
+                    $this.attr('data-offset', offset + 10);
+                },
+                error: function (error) {
+                    $this.text('No More Reviews!');
+                    console.log(error);
+                }
             });
         }
 

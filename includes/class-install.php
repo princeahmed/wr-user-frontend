@@ -8,8 +8,8 @@ defined( 'ABSPATH' ) || exit;
 class WR_User_Frontend_Install {
 
 	public static function activate() {
-		//self::create_pages();
 		self::update_option();
+		//self::create_pages();
 
 	}
 

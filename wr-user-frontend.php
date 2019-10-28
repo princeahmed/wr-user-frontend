@@ -101,6 +101,7 @@ final class WR_User_Frontend {
 		include_once WR_USER_FRONTEND_INCLUDES . '/class-shortcode.php';
 		include_once WR_USER_FRONTEND_INCLUDES . '/class-hooks.php';
 		include_once WR_USER_FRONTEND_INCLUDES . '/class-enqueue.php';
+		include_once WR_USER_FRONTEND_INCLUDES . '/class-cpt.php';
 		include_once WR_USER_FRONTEND_INCLUDES . '/class-ajax.php';
 		include_once WR_USER_FRONTEND_INCLUDES . '/functions.php';
 

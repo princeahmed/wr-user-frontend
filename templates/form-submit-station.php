@@ -9,8 +9,6 @@ defined( 'ABSPATH' ) || exit();
     <div class="wp-radio-col-12">
 
         <form class="wp-radio-form wp-radio-form-login" method="post" action="<?php echo admin_url( 'admin-post.php' ); ?>" enctype="multipart/form-data">
-			<?php wp_nonce_field( 'wp-radio-submit-station', 'wp-radio-submit-station-nonce' ); ?>
-            <input type="hidden" name="action" value="submit_station">
 
             <!--Station Title-->
             <p class="wp-radio-form-row wp-radio-form-row--wide">
@@ -150,6 +148,8 @@ defined( 'ABSPATH' ) || exit();
 
             <!--Submit-->
             <p class="wp-radio-form-row">
+	            <?php wp_nonce_field( 'wp-radio-submit-station', 'wp-radio-submit-station-nonce' ); ?>
+                <input type="hidden" name="action" value="submit_station">
                 <button type="submit" class="wp-radio-button button" name="submit"><?php esc_attr_e( 'Submit', 'wp-radio' ); ?></button>
             </p>
 

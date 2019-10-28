@@ -20,8 +20,9 @@ class WR_User_Frontend_Hooks {
 	<?php }
 
 	function review( $post_id ) {
-		wp_radio_get_template( 'review', [ 'post_id' => $post_id ], '', WR_USER_FRONTEND_TEMPLATES );
+		wp_radio_get_template( 'reviews', [ 'post_id' => $post_id ], '', WR_USER_FRONTEND_TEMPLATES );
 	}
+
 }
 
 new WR_User_Frontend_Hooks();
