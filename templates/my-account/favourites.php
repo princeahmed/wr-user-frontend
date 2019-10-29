@@ -6,13 +6,13 @@ $is_grid = 'grid' == prince_get_option( 'listing_view' );
 
 $favourites = wr_user_frontend_get_favourites();
 ?>
-    <h1>Favourite Stations</h1>
+    <h3 class="section-title">Favourite Stations</h3>
 <?php if ( ! empty( $favourites ) ) { ?>
     <div class="wp-radio-favourites wp-radio-listings <?php echo $is_grid ? 'wp-radio-listing-grid' : ''; ?>">
 		<?php
 		foreach ( $favourites as $post_id ) {
 			$station = get_post( $post_id );
-			wp_radio_get_template( 'listing/loop', [ 'station' => $station ] );
+			wp_radio_get_template( 'listing/loop', [ 'station' => $station, 'hide_desc' => 'yes' ] );
 		}
 		?>
     </div>

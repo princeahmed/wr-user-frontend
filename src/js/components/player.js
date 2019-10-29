@@ -1,9 +1,15 @@
 (function ($) {
     $(document).ready(function () {
-        $('.add-favourite').on('click', handleFavourite);
+        $('.add-favourite').on('click', addFavourite);
         $('#wp-radio-player').on('setPlayerData', checkFavourite);
 
-        function handleFavourite() {
+        function addFavourite() {
+
+            if ($(this).hasClass('disabled')) {
+                alert('Please, Login to add this station to your favourite list.');
+                return;
+            }
+
             const $this = $(this);
             const type = $(this).hasClass('added') ? 'remove' : 'add';
             const id = $(this).parents('.wp-radio-player').attr('data-stream-id');
@@ -29,6 +35,7 @@
         }
 
         function checkFavourite() {
+
             const favourite = $('.wp-radio-player .add-favourite');
 
             if (favourite.length) {

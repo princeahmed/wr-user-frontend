@@ -14,7 +14,7 @@ $items = array(
     <nav class="wp-radio-my-account-navigation wp-radio-col-3">
         <ul>
 			<?php foreach ( $items as $endpoint => $label ) { ?>
-                <li class="<?php echo $endpoint; ?>" data-target=".content-<?php echo $endpoint; ?>">
+                <li class="to-<?php echo $endpoint; ?>" data-target=".content-<?php echo $endpoint; ?>">
                     <a href="#">
                         <i class="dashicons dashicons-<?php echo $label['icon'] ?>"></i>
 						<?php echo esc_html( $label['label'] ); ?>
@@ -23,7 +23,7 @@ $items = array(
 			<?php } ?>
 
             <li class="logout">
-                <a href="<?php echo wp_logout_url(); ?>">
+                <a href="<?php echo wp_logout_url( get_the_permalink(prince_get_option('account_page', get_option( 'wp_radio_account_page' )))); ?>">
                     <i class="dashicons dashicons-migrate"></i>
                     Logout
                 </a>

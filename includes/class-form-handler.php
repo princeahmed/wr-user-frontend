@@ -5,6 +5,7 @@ defined( 'ABSPATH' ) || exit;
 class WR_User_Frontend_Form_Handler {
 	function __construct() {
 		add_action( 'template_redirect', [ $this, 'save_account_details' ] );
+		//add_action( 'template_redirect', [ $this, 'listener_logout' ] );
 
 		add_action( 'wp_loaded', [ $this, 'process_login' ], 20 );
 		add_action( 'wp_loaded', [ $this, 'process_registration' ], 20 );
@@ -62,7 +63,7 @@ class WR_User_Frontend_Form_Handler {
 						$redirect = get_the_permalink( prince_get_option( 'account_page' ) );
 					}
 
-					wp_redirect( wp_validate_redirect( $redirect, get_the_permalink( prince_get_option( 'account_page' ) ) ) );
+					wp_redirect( wp_validate_redirect( $redirect, get_the_permalink( prince_get_option( 'account_page', get_option( 'wp_radio_account_page' ) ) ) ) );
 					exit;
 				}
 			} catch ( Exception $e ) {
@@ -105,7 +106,7 @@ class WR_User_Frontend_Form_Handler {
 					'last_name'  => $last_name,
 				];
 
-				$new_listener = wp_radio_create_new_listener( sanitize_email( $email ), wc_clean( $username ), $password, $args );
+				$new_listener = wp_radio_create_new_listener( sanitize_email( $email ), $username, $password, $args );
 
 				if ( is_wp_error( $new_listener ) ) {
 					throw new Exception( $new_listener->get_error_message() );
@@ -114,7 +115,8 @@ class WR_User_Frontend_Form_Handler {
 				wp_radio()->add_notice( 'error', __( 'Your account was created successfully. Your login details have been sent to your email address.', 'wp-radio' ) );
 
 				// Only redirect after a forced login - otherwise output a success notice.
-				wr_user_frontend_set_auth_cookie( $new_listener );
+				wp_set_current_user( $new_listener );
+				wp_set_auth_cookie( $new_listener, true );
 
 				if ( ! empty( $_POST['redirect'] ) ) {
 					$redirect = wp_sanitize_redirect( wp_unslash( $_POST['redirect'] ) );
@@ -193,9 +195,9 @@ class WR_User_Frontend_Form_Handler {
 			return;
 		}
 
-		$first_name       = ! empty( $_POST['first_name'] ) ? wc_clean( wp_unslash( $_POST['first_name'] ) ) : '';
-		$last_name        = ! empty( $_POST['last_name'] ) ? wc_clean( wp_unslash( $_POST['last_name'] ) ) : '';
-		$email            = ! empty( $_POST['email'] ) ? wc_clean( wp_unslash( $_POST['email'] ) ) : '';
+		$first_name       = ! empty( $_POST['first_name'] ) ? wp_unslash( $_POST['first_name'] ) : '';
+		$last_name        = ! empty( $_POST['last_name'] ) ? wp_unslash( $_POST['last_name'] ) : '';
+		$email            = ! empty( $_POST['email'] ) ? wp_unslash( $_POST['email'] ) : '';
 		$current_password = ! empty( $_POST['current_password'] ) ? $_POST['current_password'] : '';
 		$new_password     = ! empty( $_POST['new_password'] ) ? $_POST['new_password'] : '';
 		$confirm_password = ! empty( $_POST['confirm_password'] ) ? $_POST['confirm_password'] : '';
@@ -315,6 +317,27 @@ class WR_User_Frontend_Form_Handler {
 		}
 
 		return ! empty( $upload_id ) ? $upload_id : false;
+	}
+
+	function listener_logout(){
+		global $wp;
+
+//		echo '<pre>';
+//		print_r($wp);
+//		echo '</pre>';
+//		die();
+
+		// Logout.
+		if ( isset( $wp->query_vars['customer-logout'] ) && ! empty( $_REQUEST['_wpnonce'] ) && wp_verify_nonce( sanitize_key( $_REQUEST['_wpnonce'] ), 'customer-logout' ) ) { // WPCS: input var ok, CSRF ok.
+			wp_safe_redirect( str_replace( '&amp;', '&', wp_logout_url( wc_get_page_permalink( 'myaccount' ) ) ) );
+			exit;
+		}
+
+		// Redirect to the correct logout endpoint.
+		if ( isset( $wp->query_vars['customer-logout'] ) && 'true' === $wp->query_vars['customer-logout'] ) {
+			wp_safe_redirect( esc_url_raw( wc_get_account_endpoint_url( 'customer-logout' ) ) );
+			exit;
+		}
 	}
 
 }

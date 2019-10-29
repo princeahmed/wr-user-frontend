@@ -2,6 +2,7 @@
   ul {
     list-style: none;
     margin: 0;
+    padding: 0;
 
     li {
       padding: 10px;
@@ -17,6 +18,7 @@
           opacity: .5;
         }
       }
+
       &.active {
         i {
           opacity: 1;
@@ -25,6 +27,11 @@
     }
 
   }
+
+  @media screen and (max-width: 767px) {
+    margin-bottom: 20px;
+  }
+
 }
 
 .wp-radio-my-account-content {
@@ -66,13 +73,14 @@
     .avatar-field {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
 
       label {
         margin-right: 10px;
       }
 
       input {
-        width: auto;
+        max-width: 200px;
       }
 
       img {
@@ -80,6 +88,12 @@
         max-width: 128px;
         max-height: 128px;
         border: 1px solid #ddd;
+
+        @media screen and (max-width: 767px) {
+          margin-top: 8px;
+          margin-left: 0;
+        }
+
       }
 
     }
@@ -98,6 +112,12 @@
 
     &.wp-radio-notices, &.active {
       display: block;
+    }
+
+    .section-title {
+      margin-top: 0;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 13px;
     }
   }
 }

@@ -2,7 +2,8 @@
     $(document).ready(function () {
         initActiveTab();
         $(document).on('click', '.change-password-button', togglePassFields);
-        $(document).on('click', 'li.dashboard, li.favourites, li.edit-account', setActiveTab);
+        $(document).on('click', '.to-dashboard, .to-favourites, .to-edit-account', setActiveTab);
+        $(document).on('click', '#load_more_favourites', loadMoreFavourites);
 
         function togglePassFields() {
             $('.change-password-fields').toggle();
@@ -30,6 +31,26 @@
             } else {
                 $('.content-dashboard').addClass('active');
             }
+        }
+
+        function loadMoreFavourites(e) {
+            e.preventDefault();
+            const $this = $(this);
+            const offset = $(this).attr('data-offset');
+
+            wp.ajax.send('load_more_favourites', {
+                data: {
+                    offset,
+                },
+                success: function (response) {
+                    $('.wp-radio-favourites').append(response.html);
+                    $this.attr('data-offset', offset + 15);
+                },
+                error: function (error) {
+                    $this.text('No More Favourites!');
+                    console.log(error);
+                }
+            });
         }
 
     });

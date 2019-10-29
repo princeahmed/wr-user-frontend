@@ -6,7 +6,7 @@ $user = get_user_by( 'id', get_current_user_id() );
 
 ?>
 
-<h1>Account Details</h1>
+<h3 class="section-title">Account Details</h3>
 
 <form class="wp-radio-form wp-radio-form-edit-account" method="post" enctype="multipart/form-data">
 

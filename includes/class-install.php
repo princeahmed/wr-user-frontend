@@ -9,22 +9,34 @@ class WR_User_Frontend_Install {
 
 	public static function activate() {
 		self::update_option();
-		//self::create_pages();
+		self::create_pages();
 
 	}
 
 	private static function create_pages() {
-		if ( get_page_by_title( 'Radio Stations' ) ) {
-			return;
+
+		if ( ! get_page_by_title( 'My Account' ) ) {
+			$account_page = wp_insert_post( array(
+				'post_type'    => 'page',
+				'post_title'   => esc_html__( 'My Account', 'wp-radio' ),
+				'post_status'  => 'publish',
+				'post_content' => '[wp_radio_my_account]',
+			) );
+
+			update_option( 'wp_radio_account_page', $account_page );
+
 		}
 
-		$id = wp_insert_post( array(
-			'post_type'   => 'page',
-			'post_title'  => esc_html__( 'Radio Stations', 'wp-radio' ),
-			'post_status' => 'publish',
-		) );
+		if ( ! get_page_by_title( 'Submit Station' ) ) {
+			$submit_page = wp_insert_post( array(
+				'post_type'    => 'page',
+				'post_title'   => esc_html__( 'Submit Station', 'wp-radio' ),
+				'post_status'  => 'publish',
+				'post_content' => '[wp_radio_submit_station]',
+			) );
 
-		update_option( 'wp_radio_stations_page', $id );
+			update_option( 'wp_radio_submit_station_page', $submit_page );
+		}
 
 	}
 

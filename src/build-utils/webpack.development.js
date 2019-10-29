@@ -1,4 +1,7 @@
+const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const FileManagerPlugin = require('filemanager-webpack-plugin');
+
 
 module.exports = () => ({
 
@@ -32,5 +35,34 @@ module.exports = () => ({
             }
         ]
     },
+
+    plugins: [
+        new webpack.LoaderOptionsPlugin({
+            minimize: true
+        }),
+
+        new FileManagerPlugin({
+            onStart: {
+                delete: ['./build']
+            },
+
+            onEnd: [
+                {
+                    copy: [
+                        {
+                            source: './src/vendor/select2/select2.min.css',
+                            destination: './assets/css/select2.min.css'
+                        },
+                        {
+                            source: './src/vendor/select2/select2.min.js',
+                            destination: './assets/js/select2.min.js'
+                        },
+                    ]
+                }
+            ]
+        })
+    ]
+
+
 
 });

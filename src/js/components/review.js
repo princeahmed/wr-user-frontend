@@ -20,7 +20,7 @@
         function submitReview(e) {
             e.preventDefault();
 
-            if($(this).hasClass('disabled')){
+            if ($(this).hasClass('disabled')) {
                 alert('Please, Login to submit a review for this radio station.');
                 return;
             }
@@ -38,10 +38,15 @@
                     nonce: wpradio.nonce
                 },
                 success: function (response) {
-                    if(response.update) {
+                    if (response.update) {
                         $('.review-listing>.current-user-review').replaceWith(response.html);
-                    }else{
-                        $('.review-listing>h3').after(response.html);
+                    } else {
+                        const title = $('.review-listing>h3');
+                        if (title.length) {
+                            title.after(response.html);
+                        } else {
+                            $('.review-listing').append(response.html);
+                        }
                     }
                     $('.review-form-notices').addClass('success show').text('Your review have been submitted.');
                 },

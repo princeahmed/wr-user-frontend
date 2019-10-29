@@ -21,13 +21,13 @@
             </p>
 
 
-            <p class="form-row">
+            <p class="wp-radio-form-row">
                 <label class="wp-radio-form__label wp-radio-form__label-for-checkbox wp-radio-form-login__rememberme">
                     <input class="wp-radio-form__input wp-radio-form__input-checkbox" name="rememberme" type="checkbox" id="rememberme" value="forever"/>
                     <span><?php esc_html_e( 'Remember me', 'wp-radio' ); ?></span>
                 </label>
 				<?php wp_nonce_field( 'wp-radio-login', 'wp-radio-login-nonce' ); ?>
-                <button type="submit" class="wp-radio-button button wp-radio-form-login__submit" name="login" value="<?php esc_attr_e( 'Log in', 'wp-radio' ); ?>"><?php esc_html_e( 'Log in', 'wp-radio' ); ?></button>
+                <button type="submit" class="wp-radio-button button wp-radio-form-login__submit button" name="login" value="<?php esc_attr_e( 'Log in', 'wp-radio' ); ?>"><?php esc_html_e( 'Log in', 'wp-radio' ); ?></button>
             </p>
 
             <p class="wp-radio-lost-password">
@@ -79,7 +79,7 @@
 
             <p class="wp-radio-form-row">
 				<?php wp_nonce_field( 'wp-radio-register', 'wp-radio-register-nonce' ); ?>
-                <button type="submit" class="wp-radio-Button button" name="register" value="<?php esc_attr_e( 'Register', 'wp-radio' ); ?>"><?php esc_html_e( 'Register', 'wp-radio' ); ?></button>
+                <button type="submit" class="wp-radio-button button" name="register" value="<?php esc_attr_e( 'Register', 'wp-radio' ); ?>"><?php esc_html_e( 'Register', 'wp-radio' ); ?></button>
             </p>
 
 
