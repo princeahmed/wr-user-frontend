@@ -69,30 +69,17 @@ module.exports = () => ({
                         {source: './includes', destination: './build/includes'},
                         {source: './languages', destination: './build/languages'},
                         {source: './templates', destination: './build/templates'},
-                        {source: './wp-portfolio-showcase.php', destination: './build/wp-portfolio-showcase.php'},
-                        {source: './uninstall.php', destination: './build/uninstall.php'},
+                        {source: './wp-radio-user-frontend.php', destination: './build/wp-radio-user-frontend.php'},
                         {source: './readme.txt', destination: './build/readme.txt'},
                         {
-                            source: './src/vendor/popup/magnific-popup.css',
-                            destination: './assets/css/magnific-popup.css'
+                            source: './src/vendor/select2/select2.min.css',
+                            destination: './assets/css/select2.min.css'
                         },
                         {
-                            source: './src/vendor/popup/jquery.magnific-popup.min.js',
-                            destination: './assets/js/jquery.magnific-popup.min.js'
+                            source: './src/vendor/select2/select2.min.js',
+                            destination: './assets/js/select2.min.js'
                         },
-                        {
-                            source: './src/vendor/responsiveslides/responsiveslides.min.js',
-                            destination: './assets/js/responsiveslides.min.js'
-                        },
-                        {
-                            source: './src/vendor/responsiveslides/responsiveslides.css',
-                            destination: './assets/css/responsiveslides.css'
-                        },
-                        {
-                            source: './src/vendor/isotope.pkgd.min.js',
-                            destination: './assets/js/isotope.pkgd.min.js'
-                        },
-                        {source: './assets', destination: './build/assets'}
+                        {source: './assets', destination: './build/assets'},
                     ]
                 },
                 {

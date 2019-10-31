@@ -5,7 +5,6 @@ defined( 'ABSPATH' ) || exit;
 class WR_User_Frontend_Form_Handler {
 	function __construct() {
 		add_action( 'template_redirect', [ $this, 'save_account_details' ] );
-		//add_action( 'template_redirect', [ $this, 'listener_logout' ] );
 
 		add_action( 'wp_loaded', [ $this, 'process_login' ], 20 );
 		add_action( 'wp_loaded', [ $this, 'process_registration' ], 20 );
@@ -30,11 +29,11 @@ class WR_User_Frontend_Form_Handler {
 				$validation_error = new WP_Error();
 
 				if ( $validation_error->get_error_code() ) {
-					throw new Exception( '<strong>' . __( 'Error:', 'wp-radio' ) . '</strong> ' . $validation_error->get_error_message() );
+					throw new Exception( '<strong>' . __( 'Error:', 'wp-radio-user-frontend' ) . '</strong> ' . $validation_error->get_error_message() );
 				}
 
 				if ( empty( $creds['user_login'] ) ) {
-					throw new Exception( '<strong>' . __( 'Error:', 'wp-radio' ) . '</strong> ' . __( 'Username is required.', 'wp-radio' ) );
+					throw new Exception( '<strong>' . __( 'Error:', 'wp-radio-user-frontend' ) . '</strong> ' . __( 'Username is required.', 'wp-radio-user-frontend' ) );
 				}
 
 				// On multisite, ensure user exists on current site, if not add them before allowing login.
@@ -112,7 +111,7 @@ class WR_User_Frontend_Form_Handler {
 					throw new Exception( $new_listener->get_error_message() );
 				}
 
-				wp_radio()->add_notice( 'error', __( 'Your account was created successfully. Your login details have been sent to your email address.', 'wp-radio' ) );
+				wp_radio()->add_notice( 'error', __( 'Your account was created successfully. Your login details have been sent to your email address.', 'wp-radio-user-frontend' ) );
 
 				// Only redirect after a forced login - otherwise output a success notice.
 				wp_set_current_user( $new_listener );
@@ -131,7 +130,7 @@ class WR_User_Frontend_Form_Handler {
 
 			} catch ( Exception $e ) {
 				if ( $e->getMessage() ) {
-					wp_radio()->add_notice( 'error', '<strong>' . __( 'Error:', 'wp-radio' ) . '</strong> ' . $e->getMessage() );
+					wp_radio()->add_notice( 'error', '<strong>' . __( 'Error:', 'wp-radio-user-frontend' ) . '</strong> ' . $e->getMessage() );
 				}
 			}
 		}
@@ -148,7 +147,7 @@ class WR_User_Frontend_Form_Handler {
 		$args['post_content'] = ! empty( $_REQUEST['content'] ) ? sanitize_textarea_field( $_REQUEST['content'] ) : '';
 
 		$args['tax_input'] = [
-			'radio_country' => ! empty( $_REQUEST['country'] ) ? sanitize_textarea_field( $_REQUEST['country'] ) : '',
+			'radio_country' => ! empty( $_REQUEST['country'] ) ? intval( $_REQUEST['country'] ) : '',
 			'radio_genre'   => ! empty( $_REQUEST['genres'] ) ? array_map( 'intval', $_REQUEST['genres'] ) : '',
 		];
 
@@ -172,9 +171,43 @@ class WR_User_Frontend_Form_Handler {
 
 		$post_id = wp_insert_post( $args );
 
+		if ( is_wp_error( $post_id ) ) {
+			wp_radio()->add_notice( 'error', __( 'Something went wrong please try again later.', 'wp-radio-user-frontend' ) );
+
+			return;
+		} else {
+			wp_radio()->add_notice( 'success', __( 'Your request has been submitted. Now it is waiting for admin confirmation.', 'wp-radio-user-frontend' ) );
+		}
+
 		if ( ! empty( $image_id ) ) {
 			update_post_meta( $post_id, 'logo', wp_get_attachment_url( $image_id ) );
 		}
+
+		//send email notification
+		$subject = esc_html__( 'Request to add a station', 'wp-radio' );
+
+		$to = prince_get_option( 'notification_email', get_option( 'admin_email' ) );
+
+		$template_args = array_filter( [
+			'Station Name'    => $args['post_title'],
+			'Country'         => ! empty( $country_name = get_term( intval( $_REQUEST['country'] ) )->name ) ? $country_name : '',
+			'Contact Address' => $args['meta_input']['contact_address'],
+			'Contact Email'   => $args['meta_input']['contact_email'],
+			'Contact Phone'   => $args['meta_input']['contact_phone'],
+		] );
+
+		ob_start();
+		wp_radio_get_template( 'html-station-submit-email', [
+			'post_id' => $post_id,
+			'args'    => $template_args
+		], '', WR_USER_FRONTEND_TEMPLATES );
+		$email_message = ob_get_clean();
+
+		$headers = array( 'Content-Type: text/html; charset=UTF-8' );
+
+		wp_mail( $to, $subject, $email_message, $headers );
+
+		wp_redirect(get_the_permalink(prince_get_option('submit_station_page', get_option('wp_radio_submit_station_page'))));
 
 	}
 
@@ -214,43 +247,43 @@ class WR_User_Frontend_Form_Handler {
 
 		// Handle required fields.
 		$required_fields = [
-			'first_name' => __( 'First name', 'wp-radio' ),
-			'last_name'  => __( 'Last name', 'wp-radio' ),
-			'email'      => __( 'Email address', 'wp-radio' ),
+			'first_name' => __( 'First name', 'wp-radio-user-frontend' ),
+			'last_name'  => __( 'Last name', 'wp-radio-user-frontend' ),
+			'email'      => __( 'Email address', 'wp-radio-user-frontend' ),
 		];
 
 
 		foreach ( $required_fields as $field_key => $field_name ) {
 			if ( empty( $_POST[ $field_key ] ) ) {
 				/* translators: %s: Field name. */
-				wp_radio()->add_notice( 'error', sprintf( __( '%s is a required field.', 'wp-radio' ), '<strong>' . esc_html( $field_name ) . '</strong>' ) );
+				wp_radio()->add_notice( 'error', sprintf( __( '%s is a required field.', 'wp-radio-user-frontend' ), '<strong>' . esc_html( $field_name ) . '</strong>' ) );
 			}
 		}
 
 		if ( $email ) {
 			$email = sanitize_email( $email );
 			if ( ! is_email( $email ) ) {
-				wp_radio()->add_notice( 'error', __( 'Please provide a valid email address.', 'wp-radio' ) );
+				wp_radio()->add_notice( 'error', __( 'Please provide a valid email address.', 'wp-radio-user-frontend' ) );
 			} elseif ( email_exists( $email ) && $email !== $current_user->user_email ) {
-				wp_radio()->add_notice( 'error', __( 'This email address is already registered.', 'wp-radio' ) );
+				wp_radio()->add_notice( 'error', __( 'This email address is already registered.', 'wp-radio-user-frontend' ) );
 			}
 			$user->user_email = $email;
 		}
 
 		if ( ! empty( $current_password ) && empty( $new_password ) && empty( $confirm_password ) ) {
-			wp_radio()->add_notice( 'error', __( 'Please fill out all password fields.', 'wp-radio' ) );
+			wp_radio()->add_notice( 'error', __( 'Please fill out all password fields.', 'wp-radio-user-frontend' ) );
 			$save_password = false;
 		} elseif ( ! empty( $new_password ) && empty( $current_password ) ) {
-			wp_radio()->add_notice( 'error', __( 'Please enter your current password.', 'wp-radio' ) );
+			wp_radio()->add_notice( 'error', __( 'Please enter your current password.', 'wp-radio-user-frontend' ) );
 			$save_password = false;
 		} elseif ( ! empty( $new_password ) && empty( $confirm_password ) ) {
-			wp_radio()->add_notice( 'error', __( 'Please re-enter your password.', 'wp-radio' ) );
+			wp_radio()->add_notice( 'error', __( 'Please re-enter your password.', 'wp-radio-user-frontend' ) );
 			$save_password = false;
 		} elseif ( ( ! empty( $new_password ) || ! empty( $confirm_password ) ) && $new_password !== $confirm_password ) {
-			wp_radio()->add_notice( 'error', __( 'New passwords do not match.', 'wp-radio' ) );
+			wp_radio()->add_notice( 'error', __( 'New passwords do not match.', 'wp-radio-user-frontend' ) );
 			$save_password = false;
 		} elseif ( ! empty( $new_password ) && ! wp_check_password( $current_password, $current_user->user_pass, $current_user->ID ) ) {
-			wp_radio()->add_notice( 'error', __( 'Your current password is incorrect.', 'wp-radio' ) );
+			wp_radio()->add_notice( 'error', __( 'Your current password is incorrect.', 'wp-radio-user-frontend' ) );
 			$save_password = false;
 		}
 
@@ -265,7 +298,7 @@ class WR_User_Frontend_Form_Handler {
 			if ( in_array( $type['type'], [ 'image/png', 'image/jpg', 'image/jpeg', 'image/gif' ] ) ) {
 				$avatar_img = $this->upload_image( $_FILES['avatar'] );
 			} else {
-				wp_radio()->add_notice( 'error', __( 'Please upload a valid image file.', 'wp-radio' ) );
+				wp_radio()->add_notice( 'error', __( 'Please upload a valid image file.', 'wp-radio-user-frontend' ) );
 			}
 		}
 
@@ -285,7 +318,7 @@ class WR_User_Frontend_Form_Handler {
 				update_user_meta( $user->ID, 'avatar', $avatar_img );
 			}
 
-			wp_radio()->add_notice( 'success', __( 'Account details changed successfully.', 'wp-radio' ) );
+			wp_radio()->add_notice( 'success', __( 'Account details changed successfully.', 'wp-radio-user-frontend' ) );
 
 			wp_safe_redirect( get_the_permalink( prince_get_option( 'account_page' ) ) );
 			exit;
@@ -317,27 +350,6 @@ class WR_User_Frontend_Form_Handler {
 		}
 
 		return ! empty( $upload_id ) ? $upload_id : false;
-	}
-
-	function listener_logout(){
-		global $wp;
-
-//		echo '<pre>';
-//		print_r($wp);
-//		echo '</pre>';
-//		die();
-
-		// Logout.
-		if ( isset( $wp->query_vars['customer-logout'] ) && ! empty( $_REQUEST['_wpnonce'] ) && wp_verify_nonce( sanitize_key( $_REQUEST['_wpnonce'] ), 'customer-logout' ) ) { // WPCS: input var ok, CSRF ok.
-			wp_safe_redirect( str_replace( '&amp;', '&', wp_logout_url( wc_get_page_permalink( 'myaccount' ) ) ) );
-			exit;
-		}
-
-		// Redirect to the correct logout endpoint.
-		if ( isset( $wp->query_vars['customer-logout'] ) && 'true' === $wp->query_vars['customer-logout'] ) {
-			wp_safe_redirect( esc_url_raw( wc_get_account_endpoint_url( 'customer-logout' ) ) );
-			exit;
-		}
 	}
 
 }

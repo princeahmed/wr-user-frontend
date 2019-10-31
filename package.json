@@ -1,7 +1,7 @@
 {
   "name": "wr-user-frontend",
-  "version": "0.0.1",
-  "description": "desc",
+  "version": "1.0.0",
+  "description": "A world wide radio station directory plugin for WordPress",
   "private": true,
   "scripts": {
     "webpack": "webpack",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/princeahmed/wp-portfolio-showcase.git"
+    "url": "git+https://github.com/princeahmed/wp-radio-user-frontend.git"
   },
   "author": "Prince Ahmed",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/princeahmed/wp-portfolio-showcase/issues"
+    "url": "https://github.com/princeahmed/wp-radio-user-frontend/issues"
   },
-  "homepage": "https://github.com/princeahmed/wp-portfolio-showcase#readme",
+  "homepage": "https://github.com/princeahmed/wp-radio-user-frontend#readme",
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.4.5",

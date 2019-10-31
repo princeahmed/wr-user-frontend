@@ -25,7 +25,7 @@ final class WR_User_Frontend {
 
 	private $min_php = '5.6.0';
 
-	private $min_wp_radio = '2.0.4.5';
+	private $min_wp_radio = '2.0.4';
 
 	private $name = 'WP Radio User Frontend';
 
@@ -52,37 +52,62 @@ final class WR_User_Frontend {
 
 	function check_environment() {
 
-		if ( version_compare( PHP_VERSION, $this->min_php, '<=' ) ) {
-			deactivate_plugins( plugin_basename( __FILE__ ) );
+		$return = true;
 
-			wp_die( "Unsupported PHP version Min required PHP Version:{$this->min_php}" );
+		if ( version_compare( PHP_VERSION, $this->min_php, '<=' ) ) {
+			$return = false;
+
+			$notice = sprintf(
+			/* translators: %s: Min PHP version */
+				esc_html__( 'Unsupported PHP version Min required PHP Version: "%s"', 'wp-radio-user-frontend' ),
+				$this->min_php
+			);
 		}
 
-		// Check if Elementor installed and activated
+		// Check if WP Radio installed and activated
 		if ( ! did_action( 'wp_radio_loaded' ) ) {
+			$return = false;
 
-			add_action( 'admin_notices', function () { ?>
+			$notice = sprintf(
+			/* translators: 1: Plugin name 2: Elementor */
+				esc_html__( '"%1$s" requires "%2$s" to be installed and activated.', 'wp-radio-user-frontend' ),
+				'<strong>' . $this->name . '</strong>',
+				'<strong>' . esc_html__( 'WP Radio', 'wp-radio-user-frontend' ) . '</strong>'
+			);
+
+		}
+
+		//check min WP Radio version
+		if ( version_compare( WP_RADIO_VERSION, $this->min_wp_radio, '<=' ) ) {
+			$return = false;
+
+			$notice = sprintf(
+			/* translators: 1: Plugin name 2: WP Radio 3: Required WP Radio version */
+				esc_html__( '"%1$s" requires "%2$s" version %3$s or greater.', 'wp-radio-user-frontend' ),
+				'<strong>' . $this->name . '</strong>',
+				'<strong>' . esc_html__( 'WP Radio', 'wp-radio-user-frontend' ) . '</strong>',
+				$this->min_wp_radio
+			);
+		}
+
+		if ( ! $return ) {
+
+			add_action( 'admin_notices', function () use ( $notice ) { ?>
                 <div class="notice is-dismissible notice-error">
-                    <p>
-						<?php
-						printf(
-						/* translators: 1: Plugin name 2: Elementor */
-							esc_html__( '"%1$s" requires "%2$s" to be installed and activated.', 'elementor-addons-pack' ),
-							'<strong>' . $this->name . '</strong>',
-							'<strong>' . esc_html__( 'WP Radio', 'elementor-addons-pack' ) . '</strong>'
-						);
-						?>
-                    </p>
+                    <p><?php echo $notice; ?></p>
                 </div>
 			<?php } );
 
-			require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+			if(!function_exists('deactivate_plugins')) {
+				require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+			}
 			deactivate_plugins( plugin_basename( __FILE__ ) );
 
-			return false;
+			return $return;
+		} else {
+			return $return;
 		}
 
-		return true;
 	}
 
 	function define_constants() {
@@ -97,6 +122,7 @@ final class WR_User_Frontend {
 
 	function includes() {
 		//core includes
+		include_once WR_USER_FRONTEND_INCLUDES . '/freemius.php';
 		include_once WR_USER_FRONTEND_INCLUDES . '/class-form-handler.php';
 		include_once WR_USER_FRONTEND_INCLUDES . '/class-shortcode.php';
 		include_once WR_USER_FRONTEND_INCLUDES . '/class-hooks.php';
@@ -119,11 +145,11 @@ final class WR_User_Frontend {
 		add_action( 'init', [ $this, 'add_image_sizes' ] );
 
 		//action_links
-		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_action_links' ) );
+		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), [ $this, 'plugin_action_links' ] );
 	}
 
 	function localization_setup() {
-		load_plugin_textdomain( 'wr-user-frontend', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		load_plugin_textdomain( 'wp-radio-user-frontend', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
 
 	function add_image_sizes() {

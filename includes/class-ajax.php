@@ -72,7 +72,7 @@ class WR_User_Frontend_Ajax {
 
 	function submit_review() {
 
-		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'wp-radio' ) ) {
+		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'wp-radio-user-frontend' ) ) {
 			wp_send_json_error();
 		}
 
