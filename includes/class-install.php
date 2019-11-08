@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Class Install
  */
-class WR_User_Frontend_Install {
+class WP_Radio_User_Frontend_Install {
 
 	public static function activate() {
 		self::update_option();
@@ -27,10 +27,10 @@ class WR_User_Frontend_Install {
 
 		}
 
-		if ( ! get_page_by_title( 'Submit Station' ) ) {
+		if ( ! get_page_by_title( 'Submit a Station' ) ) {
 			$submit_page = wp_insert_post( array(
 				'post_type'    => 'page',
-				'post_title'   => esc_html__( 'Submit Station', 'wp-radio-user-frontend' ),
+				'post_title'   => esc_html__( 'Submit a Station', 'wp-radio-user-frontend' ),
 				'post_status'  => 'publish',
 				'post_content' => '[wp_radio_submit_station]',
 			) );

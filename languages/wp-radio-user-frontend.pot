@@ -1,0 +1,337 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Radio User Frontend\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-11-07 09:23+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.3.1; wp-5.2.4"
+
+#. 1: Plugin name 2: WP Radio
+#: wp-radio-user-frontend.php:73
+#, php-format
+msgid "\"%1$s\" requires \"%2$s\" to be installed and activated."
+msgstr ""
+
+#. 1: Plugin name 2: WP Radio 3: Required WP Radio version
+#: wp-radio-user-frontend.php:86
+#, php-format
+msgid "\"%1$s\" requires \"%2$s\" version %3$s or greater."
+msgstr ""
+
+#. %s: Field name.
+#: includes/class-form-handler.php:259
+#, php-format
+msgid "%s is a required field."
+msgstr ""
+
+#: templates/my-account/account.php:8
+msgid "Account details"
+msgstr ""
+
+#: includes/class-form-handler.php:321
+msgid "Account details changed successfully."
+msgstr ""
+
+#: includes/class-hooks.php:23
+msgid "Account Page"
+msgstr ""
+
+#: templates/form-submit-station.php:130
+msgid "Address"
+msgstr ""
+
+#: templates/my-account/edit-account.php:14
+msgid "Avatar Image:"
+msgstr ""
+
+#: templates/my-account/edit-account.php:61
+msgid "Confirm new password"
+msgstr ""
+
+#: templates/form-submit-station.php:38
+msgid "Country"
+msgstr ""
+
+#: templates/my-account/edit-account.php:51
+msgid "Current password (leave blank to leave unchanged)"
+msgstr ""
+
+#: templates/my-account/account.php:6
+msgid "Dashboard"
+msgstr ""
+
+#: templates/form-submit-station.php:24
+msgid "Description"
+msgstr ""
+
+#: templates/form-submit-station.php:138
+msgid "Email"
+msgstr ""
+
+#: templates/my-account/edit-account.php:42
+msgid "Email Address"
+msgstr ""
+
+#: includes/class-form-handler.php:252 templates/my-account/form-login.php:54
+msgid "Email address"
+msgstr ""
+
+#: includes/class-form-handler.php:32 includes/class-form-handler.php:36
+#: includes/class-form-handler.php:133
+msgid "Error:"
+msgstr ""
+
+#: templates/form-submit-station.php:112
+msgid "Facebook"
+msgstr ""
+
+#: templates/my-account/account.php:7
+msgid "Favorites"
+msgstr ""
+
+#: templates/my-account/edit-account.php:27
+#: templates/my-account/form-login.php:68
+msgid "First Name"
+msgstr ""
+
+#: includes/class-form-handler.php:250
+msgid "First name"
+msgstr ""
+
+#: templates/form-submit-station.php:59
+msgid "Genres"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "http://princeboss.com"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://princeboss.com"
+msgstr ""
+
+#: templates/form-submit-station.php:79
+msgid "Language"
+msgstr ""
+
+#: templates/my-account/edit-account.php:34
+#: templates/my-account/form-login.php:74
+msgid "Last Name"
+msgstr ""
+
+#: includes/class-form-handler.php:251
+msgid "Last name"
+msgstr ""
+
+#: templates/reviews.php:11
+msgid "Leave a Review"
+msgstr ""
+
+#. Description of the plugin
+msgid "Let Engage Users to your website."
+msgstr ""
+
+#: includes/class-install.php:44
+msgid "Listener"
+msgstr ""
+
+#: templates/reviews.php:68
+msgid "Load More Reviews"
+msgstr ""
+
+#: templates/my-account/form-login.php:30
+msgid "Log in"
+msgstr ""
+
+#: templates/my-account/form-login.php:7
+msgid "Login"
+msgstr ""
+
+#: templates/my-account/form-login.php:34
+msgid "Lost your password?"
+msgstr ""
+
+#: includes/class-install.php:21
+msgid "My Account"
+msgstr ""
+
+#: templates/my-account/edit-account.php:56
+msgid "New password (leave blank to leave unchanged)"
+msgstr ""
+
+#: includes/class-form-handler.php:283
+msgid "New passwords do not match."
+msgstr ""
+
+#: templates/html-station-submit-email.php:2
+msgid "New request submitted to add a station."
+msgstr ""
+
+#: templates/my-account/form-login.php:18
+#: templates/my-account/form-login.php:60
+msgid "Password"
+msgstr ""
+
+#: templates/form-submit-station.php:144
+msgid "Phone"
+msgstr ""
+
+#: includes/class-form-handler.php:277
+msgid "Please enter your current password."
+msgstr ""
+
+#: includes/class-form-handler.php:274
+msgid "Please fill out all password fields."
+msgstr ""
+
+#: includes/class-form-handler.php:266
+msgid "Please provide a valid email address."
+msgstr ""
+
+#: includes/class-form-handler.php:280
+msgid "Please re-enter your password."
+msgstr ""
+
+#: includes/class-form-handler.php:301
+msgid "Please upload a valid image file."
+msgstr ""
+
+#. Author of the plugin
+msgid "Prince"
+msgstr ""
+
+#: templates/my-account/form-login.php:43
+#: templates/my-account/form-login.php:82
+#: templates/my-account/form-login.php:82
+msgid "Register"
+msgstr ""
+
+#: templates/my-account/form-login.php:27
+msgid "Remember me"
+msgstr ""
+
+#: includes/class-hooks.php:33
+#, php-format
+msgid ""
+"Select the page for station submission, where you place the %s shortcode."
+msgstr ""
+
+#: includes/class-hooks.php:24
+#, php-format
+msgid ""
+"Select the page for the user account page, where you place the %s shortcode."
+msgstr ""
+
+#: templates/reviews.php:15
+msgid "Set your rating:"
+msgstr ""
+
+#: includes/class-form-handler.php:175
+msgid "Something went wrong please try again later."
+msgstr ""
+
+#: templates/html-station-submit-email.php:3
+msgid "Station Details:"
+msgstr ""
+
+#: templates/form-submit-station.php:30
+msgid "Station Image"
+msgstr ""
+
+#: templates/form-submit-station.php:16
+msgid "Station Name"
+msgstr ""
+
+#: includes/class-hooks.php:32
+msgid "Station Submission Page"
+msgstr ""
+
+#: templates/form-submit-station.php:94
+msgid "Stream URL"
+msgstr ""
+
+#: templates/form-submit-station.php:154 templates/reviews.php:40
+msgid "Submit"
+msgstr ""
+
+#: includes/class-install.php:33
+msgid "Submit a Station"
+msgstr ""
+
+#: includes/class-form-handler.php:268
+msgid "This email address is already registered."
+msgstr ""
+
+#: templates/form-submit-station.php:120
+msgid "Twitter"
+msgstr ""
+
+#. %s: Min PHP version
+#: wp-radio-user-frontend.php:62
+#, php-format
+msgid "Unsupported PHP version Min required PHP Version: \"%s\""
+msgstr ""
+
+#: templates/reviews.php:40 templates/my-account/edit-account.php:70
+msgid "Update"
+msgstr ""
+
+#: templates/my-account/form-login.php:48
+msgid "Username"
+msgstr ""
+
+#: includes/class-form-handler.php:36
+msgid "Username is required."
+msgstr ""
+
+#: templates/my-account/form-login.php:12
+msgid "Username or email address"
+msgstr ""
+
+#: templates/html-station-submit-email.php:15
+msgid "View Station"
+msgstr ""
+
+#: templates/form-submit-station.php:104
+msgid "Website"
+msgstr ""
+
+#: templates/reviews.php:57
+msgid "What Others Say about"
+msgstr ""
+
+#: wp-radio-user-frontend.php:75 wp-radio-user-frontend.php:88
+msgid "WP Radio"
+msgstr ""
+
+#. Name of the plugin
+msgid "WP Radio User Frontend"
+msgstr ""
+
+#: includes/class-form-handler.php:114
+msgid ""
+"Your account was created successfully. Your login details have been sent to "
+"your email address."
+msgstr ""
+
+#: includes/class-form-handler.php:286
+msgid "Your current password is incorrect."
+msgstr ""
+
+#: includes/class-form-handler.php:179
+msgid ""
+"Your request has been submitted. Now it is waiting for admin confirmation."
+msgstr ""
+
+#: templates/reviews.php:33
+msgid "Your Review:"
+msgstr ""

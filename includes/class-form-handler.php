@@ -111,7 +111,7 @@ class WR_User_Frontend_Form_Handler {
 					throw new Exception( $new_listener->get_error_message() );
 				}
 
-				wp_radio()->add_notice( 'error', __( 'Your account was created successfully. Your login details have been sent to your email address.', 'wp-radio-user-frontend' ) );
+				wp_radio()->add_notice( 'success', __( 'Your account was created successfully. Your login details have been sent to your email address.', 'wp-radio-user-frontend' ) );
 
 				// Only redirect after a forced login - otherwise output a success notice.
 				wp_set_current_user( $new_listener );
@@ -207,7 +207,7 @@ class WR_User_Frontend_Form_Handler {
 
 		wp_mail( $to, $subject, $email_message, $headers );
 
-		wp_redirect(get_the_permalink(prince_get_option('submit_station_page', get_option('wp_radio_submit_station_page'))));
+		wp_redirect( get_the_permalink( prince_get_option( 'submit_station_page', get_option( 'wp_radio_submit_station_page' ) ) ) );
 
 	}
 

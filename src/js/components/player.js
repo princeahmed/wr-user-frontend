@@ -1,9 +1,9 @@
 (function ($) {
     $(document).ready(function () {
-        $('.add-favourite').on('click', addFavourite);
-        $('#wp-radio-player').on('setPlayerData', checkFavourite);
+        $('.add-favourite').on('click', addFavorite);
+        $('#wp-radio-player').on('setPlayerData', checkFavorite);
 
-        function addFavourite() {
+        function addFavorite() {
 
             if ($(this).hasClass('disabled')) {
                 alert('Please, Login to add this station to your favourite list.');
@@ -34,7 +34,7 @@
             });
         }
 
-        function checkFavourite() {
+        function checkFavorite() {
 
             const favourite = $('.wp-radio-player .add-favourite');
 

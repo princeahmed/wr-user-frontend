@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit();
 
 $items = array(
 	'dashboard'    => [ 'icon' => 'dashboard', 'label' => __( 'Dashboard', 'wp-radio-user-frontend' ), ],
-	'favourites'   => [ 'icon' => 'heart', 'label' => __( 'Favourites', 'wp-radio-user-frontend' ), ],
+	'favourites'   => [ 'icon' => 'heart', 'label' => __( 'Favorites', 'wp-radio-user-frontend' ), ],
 	'edit-account' => [ 'icon' => 'admin-users', 'label' => __( 'Account details', 'wp-radio-user-frontend' ), ],
 );
 

@@ -6,7 +6,7 @@
  * Version:     0.0.1
  * Author:      Prince
  * Author URI:  http://princeboss.com
- * Text Domain: user-frontend
+ * Text Domain: wp-radio-user-frontend
  * Domain Path: /languages/
  */
 
@@ -19,13 +19,13 @@ defined( 'ABSPATH' ) || exit();
  *
  * @since 1.0.0
  */
-final class WR_User_Frontend {
+final class WP_Radio_User_Frontend {
 
 	public $version = '0.0.1';
 
 	private $min_php = '5.6.0';
 
-	private $min_wp_radio = '2.0.4';
+	private $min_wp_radio = '2.0.5';
 
 	private $name = 'WP Radio User Frontend';
 
@@ -38,7 +38,7 @@ final class WR_User_Frontend {
 
 	function install() {
 		include_once dirname( __FILE__ ) . '/includes/class-install.php';
-		call_user_func( [ 'WR_User_Frontend_Install', 'activate' ] );
+		call_user_func( [ 'WP_Radio_User_Frontend_Install', 'activate' ] );
 	}
 
 	function let_the_journey_begin() {
@@ -69,7 +69,7 @@ final class WR_User_Frontend {
 			$return = false;
 
 			$notice = sprintf(
-			/* translators: 1: Plugin name 2: Elementor */
+			/* translators: 1: Plugin name 2: WP Radio */
 				esc_html__( '"%1$s" requires "%2$s" to be installed and activated.', 'wp-radio-user-frontend' ),
 				'<strong>' . $this->name . '</strong>',
 				'<strong>' . esc_html__( 'WP Radio', 'wp-radio-user-frontend' ) . '</strong>'
@@ -78,7 +78,7 @@ final class WR_User_Frontend {
 		}
 
 		//check min WP Radio version
-		if ( version_compare( WP_RADIO_VERSION, $this->min_wp_radio, '<=' ) ) {
+		if ( version_compare( WP_RADIO_VERSION, $this->min_wp_radio, '<' ) ) {
 			$return = false;
 
 			$notice = sprintf(
@@ -98,7 +98,7 @@ final class WR_User_Frontend {
                 </div>
 			<?php } );
 
-			if(!function_exists('deactivate_plugins')) {
+			if ( ! function_exists( 'deactivate_plugins' ) ) {
 				require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 			}
 			deactivate_plugins( plugin_basename( __FILE__ ) );
@@ -122,7 +122,6 @@ final class WR_User_Frontend {
 
 	function includes() {
 		//core includes
-		include_once WR_USER_FRONTEND_INCLUDES . '/freemius.php';
 		include_once WR_USER_FRONTEND_INCLUDES . '/class-form-handler.php';
 		include_once WR_USER_FRONTEND_INCLUDES . '/class-shortcode.php';
 		include_once WR_USER_FRONTEND_INCLUDES . '/class-hooks.php';
@@ -158,7 +157,6 @@ final class WR_User_Frontend {
 	}
 
 	function plugin_action_links( $links ) {
-		$links[] = '<a href="' . admin_url( '' ) . '">' . __( 'Settings', 'wp-portfolio-showcase' ) . '</a>';
 
 		return $links;
 	}
@@ -176,7 +174,7 @@ final class WR_User_Frontend {
 }
 
 function wr_user_frontend() {
-	return WR_User_Frontend::instance();
+	return WP_Radio_User_Frontend::instance();
 }
 
 wr_user_frontend();

@@ -10,7 +10,7 @@ class WR_User_Frontend_Hooks {
 	}
 
 	function favourite_btn( $id = false ) { ?>
-        <span class="add-favourite dashicons dashicons-heart <?php echo is_user_logged_in() ? '' : 'disabled'; ?>" title="Add to Favourite."></span>
+        <span class="add-favourite dashicons dashicons-heart <?php echo is_user_logged_in() ? '' : 'disabled'; ?>" title="Add to Favorite."></span>
 	<?php }
 
 	function review( $post_id ) {

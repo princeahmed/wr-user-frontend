@@ -3,7 +3,7 @@
         initActiveTab();
         $(document).on('click', '.change-password-button', togglePassFields);
         $(document).on('click', '.to-dashboard, .to-favourites, .to-edit-account', setActiveTab);
-        $(document).on('click', '#load_more_favourites', loadMoreFavourites);
+        $(document).on('click', '#load_more_favourites', loadMoreFavorites);
 
         function togglePassFields() {
             $('.change-password-fields').toggle();
@@ -28,12 +28,14 @@
 
             if (target) {
                 $(target).addClass('active');
+                $(`li[data-target="${target}"]`).addClass('active');
             } else {
                 $('.content-dashboard').addClass('active');
+                $(`li[data-target=".content-dashbord"]`).addClass('active');
             }
         }
 
-        function loadMoreFavourites(e) {
+        function loadMoreFavorites(e) {
             e.preventDefault();
             const $this = $(this);
             const offset = $(this).attr('data-offset');
@@ -47,7 +49,7 @@
                     $this.attr('data-offset', offset + 15);
                 },
                 error: function (error) {
-                    $this.text('No More Favourites!');
+                    $this.text('No More Favorites!');
                     console.log(error);
                 }
             });

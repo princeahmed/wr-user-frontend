@@ -27,7 +27,6 @@ $curr_user_rating = ! empty( $exits ) ? get_post_meta( $exits->ID, 'rating', 1 )
             <input type="hidden" name="rating" id="rating" value="<?php echo $curr_user_rating; ?>"/>
             <input type="hidden" name="user_id" id="user_id" value="<?php echo get_current_user_id(); ?>"/>
             <input type="hidden" name="object_id" id="object_id" value="<?php echo $post_id; ?>"/>
-            <input type="hidden" name="update" id="update" value="<?php echo ! empty( $exits ) ? $exits->ID : false; ?>"/>
         </p>
 
         <p class="wp-radio-form-row wp-radio-form-row--wide">

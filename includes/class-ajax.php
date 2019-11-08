@@ -72,10 +72,9 @@ class WR_User_Frontend_Ajax {
 
 	function submit_review() {
 
-		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'wp-radio-user-frontend' ) ) {
+		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'wp-radio' ) ) {
 			wp_send_json_error();
 		}
-
 
 		$data = [];
 		parse_str( $_REQUEST['formData'], $data );
@@ -90,9 +89,11 @@ class WR_User_Frontend_Ajax {
 			'rating'    => intval( $data['rating'] ),
 		];
 
-		if ( ! empty( $data['update'] ) ) {
+		$exits = get_page_by_title( md5( $data['object_id'] . $data['user_id'] ), OBJECT, 'radio_review' );
+
+		if ( ! empty( $exits ) ) {
 			$review_id = wp_update_post( [
-				'ID'           => intval( $data['update'] ),
+				'ID'           => $exits->ID,
 				'post_content' => sanitize_textarea_field( $data['review'] ),
 				'meta_input'   => $meta_input
 			] );
@@ -115,7 +116,7 @@ class WR_User_Frontend_Ajax {
 		wp_radio_get_template( 'review-loop', [ 'review_id' => $review_id ], '', WR_USER_FRONTEND_TEMPLATES );
 		$html = ob_get_clean();
 
-		wp_send_json_success( [ 'html' => $html, 'update' => ! empty( $data['update'] ) ? 1 : 0 ] );
+		wp_send_json_success( [ 'html' => $html, 'update' => ! empty( $exits ) ? 1 : 0 ] );
 
 	}
 
@@ -137,7 +138,7 @@ class WR_User_Frontend_Ajax {
 
 			wp_send_json_success( [ 'html' => $html ] );
 		} else {
-			wp_send_json_error('No More Reviews!');
+			wp_send_json_error( 'No More Reviews!' );
 		}
 	}
 

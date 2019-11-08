@@ -1,6 +1,5 @@
 (function ($) {
     $(document).ready(function () {
-        //$(document).on('hover', '.set-review-stars>.star', setReview);
         $(document).on('click', '.set-review-stars>.star', setReview);
         $(document).on('click', '#review_submit', submitReview);
         $(document).on('click', '.load-more-review', loadMoreReviews);
@@ -38,7 +37,7 @@
                     nonce: wpradio.nonce
                 },
                 success: function (response) {
-                    if (response.update) {
+                    if (response.update || $('.review-listing>.current-user-review').length) {
                         $('.review-listing>.current-user-review').replaceWith(response.html);
                     } else {
                         const title = $('.review-listing>h3');
