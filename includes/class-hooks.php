@@ -7,17 +7,24 @@ class WR_User_Frontend_Hooks {
 		add_action( 'wp_radio_player_controls_tools_start', [ $this, 'favourite_btn' ] );
 		add_action( 'wp_radio_before_you_may_like', [ $this, 'review' ] );
 		add_filter( 'wp_radio_settings', [ $this, 'settings' ] );
+		add_action( 'wp_footer', [ $this, 'player_templates' ], 99 );
+		add_action( 'wp_radio_player_controls_tools_end', [$this, 'player_controls_tools'] );
+		add_action( 'wp_radio_single_info', 'wp_radio_report_btn', 10, 2 );
 	}
 
-	function favourite_btn( $id = false ) { ?>
-        <span class="add-favourite dashicons dashicons-heart <?php echo is_user_logged_in() ? '' : 'disabled'; ?>" title="Add to Favorite."></span>
-	<?php }
+	public function favourite_btn( $id = false ) {
+		printf(
+			'<span class="add-favourite dashicons dashicons-heart %1$s" title="%2$s"></span>',
+			is_user_logged_in() ? '' : 'disabled',
+			__( 'Add to Favorite.', 'wp-radio-user-frontend' )
+		);
+	}
 
-	function review( $post_id ) {
+	public function review( $post_id ) {
 		wp_radio_get_template( 'reviews', [ 'post_id' => $post_id ], '', WR_USER_FRONTEND_TEMPLATES );
 	}
 
-	function settings( $settings ) {
+	public function settings( $settings ) {
 		$settings[] = [
 			'id'      => 'account_page',
 			'label'   => __( 'Account Page', 'wp-radio-user-frontend' ),
@@ -38,6 +45,26 @@ class WR_User_Frontend_Hooks {
 
 		return $settings;
 
+	}
+
+	public function player_templates() {
+
+		//load report form if not popup window
+		if ( empty( $_GET['player'] ) || 'popup' != $_GET['player'] ) {
+			wp_radio_get_template( 'html-report-form', [], '', WR_USER_FRONTEND_TEMPLATES );
+		}
+
+	}
+
+	public function player_controls_tools( $player_type ) {
+
+		$post_id =  0;
+
+		if('popup' == $player_type){
+			$post_id =  intval( $_GET['station_id'] );
+		}
+
+		wp_radio_report_btn( false, $post_id, $player_type );
 	}
 
 }

@@ -1,10 +1,13 @@
+1.0.1
+* Add Report Form
+* Fix Add to favourite check
+
 DONE
 ----------
-1. Add to Favorites
-2. My Account Page
-3. Submit Station
-4. Station Reviews
+
 
 
 TODO
 ----------
+* Fix: Station Submit Mail
+* New: Station Sharing

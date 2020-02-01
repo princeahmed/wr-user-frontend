@@ -17,6 +17,14 @@ class WR_User_Frontend_Enqueue {
 			'select2',
 			'wp-util'
 		], wr_user_frontend()->version, true );
+
+		$localize_array = [
+			'i18n' => [
+				'loginAlert' => __('Please, Login to add this station to your favourite list.', 'wp-radio-user-frontend')
+			]
+		];
+		wp_localize_script('wp-radio-user-frontend', 'WRUF', $localize_array );
+
 	}
 
 }

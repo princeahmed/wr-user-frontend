@@ -19,6 +19,9 @@ class WR_User_Frontend_Ajax {
 		add_action( 'wp_ajax_load_more_reviews', [ $this, 'load_more_reviews' ] );
 		add_action( 'wp_ajax_nopriv_load_more_reviews', [ $this, 'load_more_reviews' ] );
 
+		add_action( 'wp_ajax_send_report', array( $this, 'send_report' ) );
+		add_action( 'wp_ajax_nopriv_send_report', array( $this, 'send_report' ) );
+
 	}
 
 	function handle_favourites() {
@@ -140,6 +143,55 @@ class WR_User_Frontend_Ajax {
 		} else {
 			wp_send_json_error( 'No More Reviews!' );
 		}
+	}
+
+	/**
+	 * Send Report
+	 *
+	 * @since 1.0.1
+	 *
+	 * @return void
+	 */
+	function send_report() {
+
+		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'wp-radio' ) ) {
+			wp_send_json_error( __( 'No Cheating, Hmm -_-', 'wp-radio' ) );
+		}
+
+		$data = [];
+		parse_str( $_REQUEST['data'], $data );
+
+		$email      = ! empty( $data['email'] ) ? sanitize_email( $data['email'] ) : '';
+		$message    = ! empty( $data['message'] ) ? sanitize_textarea_field( $data['message'] ) : '';
+		$station_id = ! empty( $data['id'] ) ? intval( $data['id'] ) : '';
+
+		if ( empty( $email ) || empty( $message ) || empty( $station_id ) ) {
+			wp_send_json_error( [
+				'type' => 'empty',
+			] );
+		}
+
+		$subject = sprintf( esc_html__( 'New Report submitted for %s Station', 'wp-radio' ), get_the_title( $station_id ) );
+
+		$to = prince_get_option( 'notification_email', get_option( 'admin_email' ) );
+
+		ob_start();
+
+		wp_radio_get_template( 'html-report-email', [
+			'email'      => $email,
+			'message'    => $message,
+			'station_id' => $station_id,
+		], WR_USER_FRONTEND_TEMPLATES );
+
+		$email_message = ob_get_clean();
+
+		$headers = array( 'Content-Type: text/html; charset=UTF-8' );
+
+		wp_mail( $to, $subject, $email_message, $headers );
+
+		wp_send_json_success( true );
+
+		exit();
 	}
 
 }

@@ -184,7 +184,7 @@ class WR_User_Frontend_Form_Handler {
 		}
 
 		//send email notification
-		$subject = esc_html__( 'Request to add a station', 'wp-radio' );
+		$subject = esc_html__( 'New Request to add a station', 'wp-radio' );
 
 		$to = prince_get_option( 'notification_email', get_option( 'admin_email' ) );
 

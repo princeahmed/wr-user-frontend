@@ -1,6 +1,6 @@
 === WP Radio User Frontend ===
 Contributors: princeahmed
-Tags: wp radio user frontend, wp radio, post submission,
+Tags: wp radio user frontend, wp radio, post submission, radio, station, radio station
 Requires at least: 4.4
 Tested up to: 5.2.4
 Requires PHP: 5.6
@@ -14,12 +14,14 @@ such as adding review for a station, add stations to favourite list and request 
 == Description ==
 WP Radio User Fronted is an extension plugin for the **WP Radio** plugin. This plugin adds powerful features for users.
 Such as:
+* Let the users login, registration and customize their profile
 * Let the users to add rating and review for a station
 * Let the users to create their own favourite list of the station and add station to the favourite list
 * Let the users to request to add their radio station to your website
-* Let the users login, registration and customize their profile
 
 == HOW DOES IT WORK / FUNCTIONALITY EXPLAINED: ==
+
+> **NB:** You must need to have installed the WP Radio 2.0.5 or greater for using WP Radio User Frontend plugin.
 
 After activating the plugin two page will be created. Those are:
 1. **My Account** - That will be used for the user account page. Where users can view their recent favourite stations, and edit your password and account details.
@@ -49,5 +51,5 @@ This page contains **[wp_radio_submit_station]** shortcode. You can use this sho
 5. Add to Favorite Button
 
 == Changelog ==
-= 0.0.1 (7 November, 2019) =
+= 1.0.0 (7 November, 2019) =
 * Initial release

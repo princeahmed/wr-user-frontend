@@ -61,3 +61,26 @@ function wr_user_frontend_get_favourites( $offset = 0 ) {
 
 	return ! empty( $favourites ) ? $favourites : false;
 }
+
+function wp_radio_report_btn( $label = 0, $post_id = 0, $player_type = false ) {
+
+	if ( 'on' != prince_get_option( 'enable_report', 'on' ) ) {
+		return;
+	}
+
+	$data_attr = $post_id ? sprintf( 'data-name="%1$s" data-id="%2$s"', get_the_title( $post_id ), $post_id ) : '';
+
+	$popup_class = '';
+	if ( 'popup' == $player_type ) {
+		$popup_class = 'open-in-parent';
+		$data_attr   .= sprintf( 'data-url="%1$s"', add_query_arg( 'report_station_id', $post_id, get_the_permalink( $post_id ) ) );
+	}
+
+	?>
+
+    <div class="report-btn open-popup <?php echo $popup_class; ?>" <?php echo $data_attr; ?>>
+        <i class="dashicons dashicons-warning" title="<?php _e( 'Not working? Report a problem.', 'wp-radio' ); ?>"> </i>
+		<?php echo $label ? __( 'Report a Problem', 'wp-radio' ) : ''; ?>
+    </div>
+	<?php
+}

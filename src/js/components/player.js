@@ -3,10 +3,13 @@
         $('.add-favourite').on('click', addFavorite);
         $('#wp-radio-player').on('setPlayerData', checkFavorite);
 
+        /**
+         * Add selected station to favourites list
+         */
         function addFavorite() {
 
             if ($(this).hasClass('disabled')) {
-                alert('Please, Login to add this station to your favourite list.');
+                alert(WRUF.i18n.loginAlert);
                 return;
             }
 
@@ -34,28 +37,36 @@
             });
         }
 
+
+        /**
+         * Check if the selected station is in favourite list or not
+         */
         function checkFavorite() {
 
             const favourite = $('.wp-radio-player .add-favourite');
 
             if (favourite.length) {
-                const id = favourite.parents('.wp-radio-player').attr('data-stream-id');
+                favourite.each(function () {
+                    const $this = $(this);
+                    const id = $this.parents('.wp-radio-player').attr('data-stream-id');
 
-                wp.ajax.send('check_favourite', {
-                    data: {
-                        id,
-                    },
-                    success: function (response) {
-                        if (response.added) {
-                            favourite.addClass('added');
-                        } else {
-                            favourite.removeClass('added');
+                    wp.ajax.send('check_favourite', {
+                        data: {
+                            id,
+                        },
+                        success: function (response) {
+                            if (response.added) {
+                                $this.addClass('added');
+                            } else {
+                                $this.removeClass('added');
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error);
                         }
-                    },
-                    error: function (error) {
-                        console.log(error);
-                    }
+                    });
                 });
+
             }
         }
     });

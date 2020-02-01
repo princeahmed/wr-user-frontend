@@ -1,16 +1,16 @@
 <?php
+
 /**
  * Plugin Name: WP Radio User Frontend
  * Plugin URI:  https://princeboss.com
  * Description: Let Engage Users to your website.
- * Version:     0.0.1
+ * Version:     1.0.0
  * Author:      Prince
  * Author URI:  http://princeboss.com
  * Text Domain: wp-radio-user-frontend
  * Domain Path: /languages/
  */
 
-// don't call the file directly
 defined( 'ABSPATH' ) || exit();
 
 
@@ -46,7 +46,7 @@ final class WP_Radio_User_Frontend {
 			$this->define_constants();
 			$this->includes();
 			$this->init_hooks();
-			do_action( 'wr_user_frontend_loaded' );
+			do_action( 'wp_radio_user_frontend_loaded' );
 		}
 	}
 
@@ -101,6 +101,7 @@ final class WP_Radio_User_Frontend {
 			if ( ! function_exists( 'deactivate_plugins' ) ) {
 				require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 			}
+
 			deactivate_plugins( plugin_basename( __FILE__ ) );
 
 			return $return;
@@ -121,6 +122,9 @@ final class WP_Radio_User_Frontend {
 	}
 
 	function includes() {
+	    //Freemius
+		include_once WR_USER_FRONTEND_INCLUDES . '/freemius.php';
+
 		//core includes
 		include_once WR_USER_FRONTEND_INCLUDES . '/class-form-handler.php';
 		include_once WR_USER_FRONTEND_INCLUDES . '/class-shortcode.php';
