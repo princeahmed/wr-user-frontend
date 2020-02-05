@@ -3,6 +3,7 @@
 defined( 'ABSPATH' ) || exit();
 
 class WR_User_Frontend_Ajax {
+
 	function __construct() {
 		add_action( 'wp_ajax_add_favourites', [ $this, 'handle_favourites' ] );
 		add_action( 'wp_ajax_nopriv_add_favourites', [ $this, 'handle_favourites' ] );
@@ -83,7 +84,7 @@ class WR_User_Frontend_Ajax {
 		parse_str( $_REQUEST['formData'], $data );
 
 		if ( empty( $data['rating'] ) || empty( $data['review'] ) || empty( $data['user_id'] ) || empty( $data['object_id'] ) ) {
-			wp_send_json_error( 'Missing Require Field(s)' );
+			wp_send_json_error( __('Missing Require Field(s)', 'wp-radio-user-frontend') );
 		}
 
 		$meta_input = [
@@ -123,6 +124,9 @@ class WR_User_Frontend_Ajax {
 
 	}
 
+	/**
+	 * Load more reviews
+	 */
 	function load_more_reviews() {
 		$offset = ! empty( $_REQUEST['offset'] ) ? intval( $_REQUEST['offset'] ) : '';
 
@@ -141,7 +145,7 @@ class WR_User_Frontend_Ajax {
 
 			wp_send_json_success( [ 'html' => $html ] );
 		} else {
-			wp_send_json_error( 'No More Reviews!' );
+			wp_send_json_error( __('No More Reviews!', 'wp-radio-user-frontend') );
 		}
 	}
 
@@ -171,7 +175,7 @@ class WR_User_Frontend_Ajax {
 			] );
 		}
 
-		$subject = sprintf( esc_html__( 'New Report submitted for %s Station', 'wp-radio' ), get_the_title( $station_id ) );
+		$subject = sprintf( esc_html__( 'New Report submitted for %s Station', 'wp-radio-user-frontend' ), get_the_title( $station_id ) );
 
 		$to = prince_get_option( 'notification_email', get_option( 'admin_email' ) );
 

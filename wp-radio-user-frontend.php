@@ -4,7 +4,7 @@
  * Plugin Name: WP Radio User Frontend
  * Plugin URI:  https://princeboss.com
  * Description: Let Engage Users to your website.
- * Version:     1.0.0
+ * Version:     1.0.1
  * Author:      Prince
  * Author URI:  http://princeboss.com
  * Text Domain: wp-radio-user-frontend
@@ -21,13 +21,13 @@ defined( 'ABSPATH' ) || exit();
  */
 final class WP_Radio_User_Frontend {
 
-	public $version = '0.0.1';
+	public $version = '1.0.1';
 
-	private $min_php = '5.6.0';
+	public $min_php = '5.6.0';
 
-	private $min_wp_radio = '2.0.5';
+	public $min_wp_radio = '2.0.8';
 
-	private $name = 'WP Radio User Frontend';
+	public $name = 'WP Radio User Frontend';
 
 	protected static $instance = null;
 

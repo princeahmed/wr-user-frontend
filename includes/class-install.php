@@ -41,6 +41,8 @@ class WP_Radio_User_Frontend_Install {
 	}
 
 	private static function update_option() {
+		$key = sanitize_key( wr_user_frontend()->name );
+		update_option( $key . '_version', wr_user_frontend()->version );
 		add_role( 'listener', __( 'Listener', 'wp-radio-user-frontend' ), [ 'read' => true ] );
 	}
 
