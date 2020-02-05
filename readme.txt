@@ -16,9 +16,9 @@ WP Radio User Fronted is an extension plugin for the **WP Radio** plugin. This p
 Such as:
 
 * (User Account Page) Let the users to login, registration and customize their profile
-* (Rating and Reviews) Let the users to add rating and review for a station
-* (Favourite Stations) Let the users to create their own favourite list of the station and add station to the favourite list
-* (Station Submission) Let the users to request to add their radio station to your website.
+* (Rating and Reviews) Let the users add rating and review for a station
+* (Favourite Stations) Let the users create their own favorite list of the station and add a station to the favorite list
+* (Station Submission) Let the users request to add their radio station to your website.
 * (Report Submission) Let user report if any station doesn't work.
 
 == HOW DOES IT WORK / FUNCTIONALITY EXPLAINED: ==
