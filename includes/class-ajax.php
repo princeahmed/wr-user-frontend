@@ -32,7 +32,7 @@ class WR_User_Frontend_Ajax {
 		$type    = ! empty( $_REQUEST['type'] ) ? wp_unslash( $_REQUEST['type'] ) : '';
 
 		$favourites = get_user_meta( $user_id, 'favourite_stations', true );
-		$favourites = ! empty( $favourites ) ? $favourites : [];
+		$favourites = ! empty( $favourites ) ? array_unique($favourites) : [];
 
 		if ( 'add' == $type ) {
 			$favourites = array_merge( $favourites, [ $post_id ] );
@@ -41,6 +41,7 @@ class WR_User_Frontend_Ajax {
 				unset( $favourites[ $key ] );
 			}
 		}
+
 		update_user_meta( $user_id, 'favourite_stations', $favourites );
 		wp_send_json_success( true );
 	}

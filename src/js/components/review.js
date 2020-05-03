@@ -31,27 +31,28 @@
 
             const formData = $('#review-form').serialize();
 
-            wp.ajax.send('submit_review', {
+            $.ajax({
+                url: wpradio.ajaxUrl,
+
                 data: {
+                    action: 'submit_review',
                     formData,
                     nonce: wpradio.nonce
                 },
-                success: function (response) {
-                    if (response.update || $('.review-listing>.current-user-review').length) {
-                        $('.review-listing>.current-user-review').replaceWith(response.html);
+                success: ({data}) => {
+                    if (data.update || $('.review-listing>.current-user-review').length) {
+                        $('.review-listing>.current-user-review').replaceWith(data.html);
                     } else {
                         const title = $('.review-listing>h3');
                         if (title.length) {
-                            title.after(response.html);
+                            title.after(data.html);
                         } else {
-                            $('.review-listing').append(response.html);
+                            $('.review-listing').append(data.html);
                         }
                     }
                     $('.review-form-notices').addClass('success show').text('Your review have been submitted.');
                 },
-                error: function (error) {
-                    console.log(error);
-                },
+                error: (error) => console.log(error),
             });
         }
 
@@ -60,15 +61,18 @@
             const $this = $(this);
             const offset = $(this).attr('data-offset');
 
-            wp.ajax.send('load_more_reviews', {
+            $.ajax({
+                url: wpradio.ajaxUrl,
+
                 data: {
+                    action: 'load_more_reviews',
                     offset,
                 },
-                success: function (response) {
-                    $('.review-listing').append(response.html);
+                success: ({data}) => {
+                    $('.review-listing').append(data.html);
                     $this.attr('data-offset', offset + 10);
                 },
-                error: function (error) {
+                error: error => {
                     $this.text('No More Reviews!');
                     console.log(error);
                 }
