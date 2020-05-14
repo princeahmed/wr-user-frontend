@@ -32,7 +32,7 @@ class WR_User_Frontend_Ajax {
 		$type    = ! empty( $_REQUEST['type'] ) ? wp_unslash( $_REQUEST['type'] ) : '';
 
 		$favourites = get_user_meta( $user_id, 'favourite_stations', true );
-		$favourites = ! empty( $favourites ) ? array_unique($favourites) : [];
+		$favourites = ! empty( $favourites ) ? array_unique( $favourites ) : [];
 
 		if ( 'add' == $type ) {
 			$favourites = array_merge( $favourites, [ $post_id ] );
@@ -85,7 +85,7 @@ class WR_User_Frontend_Ajax {
 		parse_str( $_REQUEST['formData'], $data );
 
 		if ( empty( $data['rating'] ) || empty( $data['review'] ) || empty( $data['user_id'] ) || empty( $data['object_id'] ) ) {
-			wp_send_json_error( __('Missing Require Field(s)', 'wp-radio-user-frontend') );
+			wp_send_json_error( __( 'Missing Require Field(s)', 'wp-radio-user-frontend' ) );
 		}
 
 		$meta_input = [
@@ -146,16 +146,16 @@ class WR_User_Frontend_Ajax {
 
 			wp_send_json_success( [ 'html' => $html ] );
 		} else {
-			wp_send_json_error( __('No More Reviews!', 'wp-radio-user-frontend') );
+			wp_send_json_error( __( 'No More Reviews!', 'wp-radio-user-frontend' ) );
 		}
 	}
 
 	/**
 	 * Send Report
 	 *
+	 * @return void
 	 * @since 1.0.1
 	 *
-	 * @return void
 	 */
 	function send_report() {
 
@@ -186,7 +186,7 @@ class WR_User_Frontend_Ajax {
 			'email'      => $email,
 			'message'    => $message,
 			'station_id' => $station_id,
-		], WR_USER_FRONTEND_TEMPLATES );
+		], '', WR_USER_FRONTEND_TEMPLATES );
 
 		$email_message = ob_get_clean();
 

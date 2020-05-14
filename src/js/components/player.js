@@ -17,14 +17,18 @@
 
             const $this = $(this);
             const type = $(this).hasClass('added') ? 'remove' : 'add';
-            const id = $(this).parents('.wp-radio-player').attr('data-stream-id');
+            const stream = $(this).siblings('.wp-radio-player-play-pause').attr('data-stream');
+
+            if (!stream) return;
+
+            const streamId = JSON.parse(stream).streamId;
 
             $.ajax({
                 url: wpradio.ajaxUrl,
                 data: {
                     action: 'add_favourites',
                     type,
-                    id,
+                    id: streamId,
                 },
                 success: ({data}) => {
                     if (data) {
