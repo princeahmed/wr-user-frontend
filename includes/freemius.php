@@ -14,34 +14,43 @@ if ( ! function_exists( 'wr_user_frontend_fs' ) ) {
 			}
 
 			// Include Freemius SDK.
-			if ( file_exists(WP_RADIO_FREEMIUS_FILE)  ) {
-				require_once WP_RADIO_FREEMIUS_FILE;
+			if ( file_exists( dirname( dirname( __FILE__ ) ) . '/wp-radio/freemius/start.php' ) ) {
+				// Try to load SDK from parent plugin folder.
+				require_once dirname( dirname( __FILE__ ) ) . '/wp-radio/freemius/start.php';
+			} else if ( file_exists( dirname( dirname( __FILE__ ) ) . '/wp-radio-premium/freemius/start.php' ) ) {
+				// Try to load SDK from premium parent plugin folder.
+				require_once dirname( dirname( __FILE__ ) ) . '/wp-radio-premium/freemius/start.php';
+			} else {
+				require_once dirname(__FILE__) . '/freemius/start.php';
 			}
 
-
 			$wr_user_frontend_fs = fs_dynamic_init( array(
-				'id'                  => '4907',
-				'slug'                => 'wp-radio-user-frontend',
-				'type'                => 'plugin',
-				'public_key'          => 'pk_bef0527f73d6c3a11a9bd4f5cd644',
-				'is_premium'          => true,
-				'is_premium_only'     => true,
-				'has_paid_plans'      => true,
-				'is_org_compliant'    => false,
-				'parent'              => array(
-					'id'         => '4227',
-					'slug'       => 'wp-radio',
-					'public_key' => 'pk_6acab182f004d200ec631d063d6c4',
-					'name'       => 'WP Radio - Worldwide Radio Station Directory',
-				),
-				'menu'                => array(
-					'first-path'     => 'plugins.php',
-					'support'        => false,
-				),
-				// Set the SDK to work in a sandbox mode (for development & testing).
-				// IMPORTANT: MAKE SURE TO REMOVE SECRET KEY BEFORE DEPLOYMENT.
-				'secret_key'          => 'sk_3pm3@)ftAf:N3?*MMgsScO@VQXB+.',
-			) );
+				                                        'id'                  => '4907',
+				                                        'slug'                => 'wp-radio-user-frontend',
+				                                        'type'                => 'plugin',
+				                                        'public_key'          => 'pk_bef0527f73d6c3a11a9bd4f5cd644',
+				                                        'is_premium'          => true,
+				                                        'is_premium_only'     => true,
+				                                        'has_paid_plans'      => true,
+				                                        'is_org_compliant'    => false,
+				                                        'trial'               => array(
+					                                        'days'               => 7,
+					                                        'is_require_payment' => false,
+				                                        ),
+				                                        'parent'              => array(
+					                                        'id'         => '4227',
+					                                        'slug'       => 'wp-radio',
+					                                        'public_key' => 'pk_6acab182f004d200ec631d063d6c4',
+					                                        'name'       => 'WP Radio - Worldwide Radio Station Directory',
+				                                        ),
+				                                        'menu'                => array(
+					                                        'first-path'     => 'plugins.php',
+					                                        'support'        => false,
+				                                        ),
+				                                        // Set the SDK to work in a sandbox mode (for development & testing).
+				                                        // IMPORTANT: MAKE SURE TO REMOVE SECRET KEY BEFORE DEPLOYMENT.
+				                                        'secret_key'          => 'sk_3pm3@)ftAf:N3?*MMgsScO@VQXB+.',
+			                                        ) );
 		}
 
 		return $wr_user_frontend_fs;

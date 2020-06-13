@@ -185,7 +185,7 @@ class WR_User_Frontend_Ajax {
 			'email'      => $email,
 			'message'    => $message,
 			'station_id' => $station_id,
-		], WR_USER_FRONTEND_TEMPLATES );
+		], '', WR_USER_FRONTEND_TEMPLATES );
 
 		$email_message = ob_get_clean();
 
