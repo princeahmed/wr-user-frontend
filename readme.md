@@ -1,5 +1,4 @@
 1.0.1
-* Add Report Form
 * Fix Add to favourite check
 
 DONE
@@ -9,5 +8,6 @@ DONE
 
 TODO
 ----------
+* Add: [user_favorites] shortcode
 * Fix: Station Submit Mail
 * New: Station Sharing

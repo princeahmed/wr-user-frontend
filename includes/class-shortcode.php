@@ -35,6 +35,7 @@ class WR_User_Frontend_Shortcode {
 		return ob_get_clean();
 	}
 
+
 }
 
 new WR_User_Frontend_Shortcode();

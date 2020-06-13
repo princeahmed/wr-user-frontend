@@ -6,7 +6,7 @@ class WR_User_Frontend_Hooks {
 	function __construct() {
 		add_action( 'wp_radio_player_controls_tools_start', [ $this, 'favourite_btn' ] );
 		add_action( 'wp_radio_before_you_may_like', [ $this, 'review' ] );
-		add_filter( 'wp_radio_settings', [ $this, 'settings' ] );
+		add_filter( 'wp_radio_options', [ $this, 'settings' ] );
 		add_action( 'wp_footer', [ $this, 'player_templates' ], 99 );
 		add_action( 'wp_radio_player_controls_tools_end', [$this, 'player_controls_tools'] );
 		add_action( 'wp_radio_single_info', 'wp_radio_report_btn', 10, 2 );
@@ -31,7 +31,8 @@ class WR_User_Frontend_Hooks {
 			'desc'    => sprintf( __( 'Select the page for the user account page, where you place the %s shortcode.', 'wp-radio-user-frontend' ), '<strong>[wp_radio_my_account]</strong>' ),
 			'std'     => get_option( 'wp_radio_account_page' ),
 			'type'    => 'page-select',
-			'section' => 'page'
+			'section' => 'page',
+			'block' => true,
 		];
 
 		$settings[] = [
@@ -40,7 +41,8 @@ class WR_User_Frontend_Hooks {
 			'desc'    => sprintf( __( 'Select the page for station submission, where you place the %s shortcode.', 'wp-radio-user-frontend' ), '<strong>[wp_radio_submit_station]</strong>' ),
 			'std'     => get_option( 'wp_radio_submit_station_page' ),
 			'type'    => 'page-select',
-			'section' => 'page'
+			'section' => 'page',
+			'block' => true,
 		];
 
 		return $settings;

@@ -40,15 +40,17 @@
             const $this = $(this);
             const offset = $(this).attr('data-offset');
 
-            wp.ajax.send('load_more_favourites', {
+            $.ajax({
+                url: wpradio.ajaxUrl,
                 data: {
+                    action: 'load_more_favourites',
                     offset,
                 },
-                success: function (response) {
-                    $('.wp-radio-favourites').append(response.html);
+                success: ({data}) => {
+                    $('.wp-radio-favourites').append(data.html);
                     $this.attr('data-offset', offset + 15);
                 },
-                error: function (error) {
+                error: error => {
                     $this.text('No More Favorites!');
                     console.log(error);
                 }

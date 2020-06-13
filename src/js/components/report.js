@@ -43,8 +43,11 @@
 
             const data = $('.report-form').serialize();
 
-            wp.ajax.send('send_report', {
+            $.ajax({
+                url: wpradio.ajaxUrl,
+
                 data: {
+                    action: 'send_report',
                     data,
                     nonce: wpradio.nonce
                 },
@@ -58,7 +61,7 @@
                         }, 3000);
                 },
 
-                error: (error) => console.log(error)
+                error: error => console.log(error)
             });
         }
 

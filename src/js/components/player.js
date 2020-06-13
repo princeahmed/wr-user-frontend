@@ -1,7 +1,9 @@
 (function ($) {
     $(document).ready(function () {
+        checkFavorite();
+
         $('.add-favourite').on('click', addFavorite);
-        $('#wp-radio-player').on('setPlayerData', checkFavorite);
+        $(window).on('setPlayerData', checkFavorite);
 
         /**
          * Add selected station to favourites list
@@ -15,15 +17,21 @@
 
             const $this = $(this);
             const type = $(this).hasClass('added') ? 'remove' : 'add';
-            const id = $(this).parents('.wp-radio-player').attr('data-stream-id');
+            const stream = $(this).siblings('.wp-radio-player-play-pause').attr('data-stream');
 
-            wp.ajax.send('add_favourites', {
+            if (!stream) return;
+
+            const streamId = JSON.parse(stream).streamId;
+
+            $.ajax({
+                url: wpradio.ajaxUrl,
                 data: {
+                    action: 'add_favourites',
                     type,
-                    id,
+                    id: streamId,
                 },
-                success: function (response) {
-                    if (response) {
+                success: ({data}) => {
+                    if (data) {
                         if ('add' === type) {
                             $this.addClass('added');
                         } else {
@@ -31,9 +39,9 @@
                         }
                     }
                 },
-                error: function (error) {
-                    console.log(error);
-                }
+
+                error: error => console.log(error),
+
             });
         }
 
@@ -48,22 +56,27 @@
             if (favourite.length) {
                 favourite.each(function () {
                     const $this = $(this);
-                    const id = $this.parents('.wp-radio-player').attr('data-stream-id');
 
-                    wp.ajax.send('check_favourite', {
+                    let stream = $('.wp-radio-player-play-pause', $this.parents('.wp-radio-player')).attr('data-stream');
+
+                    if (!stream) return;
+
+                    const id = JSON.parse(stream).streamId;
+
+                    $.ajax({
+                        url: wpradio.ajaxUrl,
                         data: {
+                            action: 'check_favourite',
                             id,
                         },
-                        success: function (response) {
-                            if (response.added) {
+                        success: ({data}) => {
+                            if (data.added) {
                                 $this.addClass('added');
                             } else {
                                 $this.removeClass('added');
                             }
                         },
-                        error: function (error) {
-                            console.log(error);
-                        }
+                        error: error => console.log(error)
                     });
                 });
 

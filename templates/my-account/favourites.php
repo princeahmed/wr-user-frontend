@@ -12,7 +12,7 @@ $favourites = wr_user_frontend_get_favourites();
 		<?php
 		foreach ( $favourites as $post_id ) {
 			$station = get_post( $post_id );
-			wp_radio_get_template( 'listing/loop', [ 'station' => $station, 'hide_desc' => 'yes' ] );
+			wp_radio_get_template( 'listing/loop', [ 'station' => $station, 'hide_desc' => 'yes', 'col' => 3 ] );
 		}
 		?>
     </div>

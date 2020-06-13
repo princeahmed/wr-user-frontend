@@ -311,7 +311,7 @@ class WR_User_Frontend_Form_Handler {
 			}
 		}
 
-		if ( 0 === count( get_option( 'wp_radio_notification', 0 ) ) ) {
+		if ( 0 === count( get_option( 'wp_radio_notification', [] ) ) ) {
 			wp_update_user( $user );
 
 			if ( ! empty( $avatar_img ) ) {
