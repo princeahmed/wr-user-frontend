@@ -8,7 +8,7 @@ $user_login = wp_get_current_user()->data->user_login;
 ?>
 
 <p>Hello <strong><?php echo $user_login; ?></strong> (not <strong><?php echo $user_login; ?></strong>?
-    <a href="<?php echo wp_logout_url( get_the_permalink( prince_get_option( 'account_page', get_option( 'wp_radio_account_page' ) ) ) ); ?>">Log
+    <a href="<?php echo wp_logout_url( get_the_permalink( wp_radio_get_settings( 'account_page', get_option( 'wp_radio_account_page' ) ) ) ); ?>">Log
         out</a>)</p>
 
 <p>From your account dashboard you can view your recent

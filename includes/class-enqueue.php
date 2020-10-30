@@ -3,11 +3,13 @@
 defined( 'ABSPATH' ) || exit();
 
 class WR_User_Frontend_Enqueue {
+	private static $instance = null;
+
 	public function __construct() {
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 	}
 
-	function enqueue_scripts() {
+	public function enqueue_scripts() {
 		wp_enqueue_style( 'select2', WR_USER_FRONTEND_ASSETS . '/css/select2.min.css', [], '4.0.11' );
 		wp_enqueue_style( 'wp-radio-user-frontend', WR_USER_FRONTEND_ASSETS . '/css/frontend.min.css', [], wr_user_frontend()->version );
 
@@ -27,6 +29,14 @@ class WR_User_Frontend_Enqueue {
 
 	}
 
+	public static function instance(){
+		if(is_null(self::$instance)){
+			self::$instance = new self();
+		}
+
+		return self::$instance;
+	}
+
 }
 
-new WR_User_Frontend_Enqueue();
+WR_User_Frontend_Enqueue::instance();

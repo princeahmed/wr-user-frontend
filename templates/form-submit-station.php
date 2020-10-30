@@ -157,7 +157,7 @@ defined( 'ABSPATH' ) || exit();
             </form>
 		<?php } else { ?>
             <p>Please,
-                <a href="<?php echo get_the_permalink( prince_get_option( 'account_page', get_option( 'wp_radio_account_page' ) ) ); ?>">Login</a>
+                <a href="<?php echo get_the_permalink( wp_radio_get_settings( 'account_page', get_option( 'wp_radio_account_page' ) ) ); ?>">Login</a>
                 to submit a station.</p>
 		<?php } ?>
     </div>

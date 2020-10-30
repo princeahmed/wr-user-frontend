@@ -2,7 +2,7 @@
 
 defined( 'ABSPATH' ) || exit();
 
-$is_grid = 'grid' == prince_get_option( 'listing_view' );
+$is_grid = 'grid' == wp_radio_get_settings( 'listing_view', '', 'wp_radio_display_settings' );
 
 $favourites = wr_user_frontend_get_favourites();
 ?>

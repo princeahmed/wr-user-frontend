@@ -3,7 +3,7 @@
 /**
  * Plugin Name: WP Radio User Frontend
  * Plugin URI:  https://princeboss.com
- * Description: Engage Your Visitors to your website.
+ * Description: Engage Your Radio Listeners to your website.
  * Version:     1.0.8
  * Author:      Prince
  * Author URI:  http://princeboss.com
@@ -97,12 +97,6 @@ final class WP_Radio_User_Frontend {
                     <p><?php echo $notice; ?></p>
                 </div>
 			<?php } );
-
-			if ( ! function_exists( 'deactivate_plugins' ) ) {
-				require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-			}
-
-			deactivate_plugins( plugin_basename( __FILE__ ) );
 
 			return $return;
 		} else {
