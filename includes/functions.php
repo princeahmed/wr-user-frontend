@@ -54,12 +54,18 @@ if ( ! function_exists( 'wp_radio_create_new_listener' ) ) {
 	}
 }
 
-function wr_user_frontend_get_favourites( $offset = 0, $count = 15 ) {
+function wr_user_frontend_get_favourites( $offset = 0, $limit = 15, $count = false ) {
 	$favourites = get_user_meta( get_current_user_id(), 'favourite_stations', true );
 
-	if(empty($favourites)) return false;
+	if ( $count ) {
+		return count( $favourites );
+	}
 
-	$favourites = array_slice( $favourites, $offset, $offset + $count );
+	if ( empty( $favourites ) ) {
+		return false;
+	}
+
+	$favourites = array_slice( $favourites, $offset, $offset + $limit );
 
 	return ! empty( $favourites ) ? $favourites : false;
 }

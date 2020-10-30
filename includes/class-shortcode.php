@@ -8,6 +8,7 @@ class WR_User_Frontend_Shortcode {
 		$shortcodes = [
 			'wp_radio_my_account'     => [ $this, 'my_account' ],
 			'wp_radio_submit_station' => [ $this, 'submit_station' ],
+			'wp_radio_user_favorites' => [ $this, 'user_favorites' ],
 		];
 
 		foreach ( $shortcodes as $tag => $function ) {
@@ -31,6 +32,14 @@ class WR_User_Frontend_Shortcode {
 
 		ob_start();
 		wp_radio_get_template( 'form-submit-station', [ 'atts' => $atts ], '', WR_USER_FRONTEND_TEMPLATES );
+
+		return ob_get_clean();
+	}
+
+	function user_favorites( $atts ) {
+
+		ob_start();
+		wp_radio_get_template( 'user-favorites', [ 'atts' => $atts ], '', WR_USER_FRONTEND_TEMPLATES );
 
 		return ob_get_clean();
 	}

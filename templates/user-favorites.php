@@ -6,9 +6,8 @@ $is_grid = 'grid' == prince_get_option( 'listing_view' );
 
 $favourites = wr_user_frontend_get_favourites();
 
-
 ?>
-    <h3 class="section-title">Favorite Stations</h3>
+
 <?php if ( ! empty( $favourites ) ) { ?>
     <div class="wp-radio-favourites wp-radio-listings <?php echo $is_grid ? 'wp-radio-listing-grid' : ''; ?>">
 		<?php
