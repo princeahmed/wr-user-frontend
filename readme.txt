@@ -53,6 +53,10 @@ This page contains **[wp_radio_submit_station]** shortcode. You can use this sho
 5. Report Submission
 
 == Changelog ==
+
+= 1.0.2 (22 March, 2020) =
+* Fix: Report Submission Email Notification
+
 = 1.0.1 (6 January, 2020) =
 * Add Report Form
 

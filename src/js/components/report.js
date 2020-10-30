@@ -39,7 +39,7 @@
                 return;
             }
 
-            $(this).val(wpradio.i18n.sending);
+            $(this).text(wpradio.i18n.sending);
 
             const data = $('.report-form').serialize();
 
