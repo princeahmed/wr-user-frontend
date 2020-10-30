@@ -37,6 +37,9 @@
 
         function loadMoreFavorites(e) {
             e.preventDefault();
+
+            $('img', $(this)).show();
+
             const $this = $(this);
             const offset = $(this).attr('data-offset');
 
@@ -47,12 +50,20 @@
                     offset,
                 },
                 success: ({data}) => {
-                    $('.wp-radio-favourites').append(data.html);
-                    $this.attr('data-offset', offset + 15);
+                    if (data && data.html) {
+                        $('.wp-radio-favourites').append(data.html);
+                        $this.attr('data-offset', offset + 15);
+                    } else {
+                        $this.text('No More Favorites!');
+                    }
                 },
                 error: error => {
                     $this.text('No More Favorites!');
                     console.log(error);
+                },
+                
+                complete: () => {
+                    $('img', $(this)).hide();
                 }
             });
         }

@@ -2,14 +2,15 @@
 
 defined( 'ABSPATH' ) || exit();
 
-if(!class_exists('WR_User_Frontend_Shortcode')) {
+if ( ! class_exists( 'WR_User_Frontend_Shortcode' ) ) {
 	class WR_User_Frontend_Shortcode {
 		private static $instance = null;
 
-		public function __construct() {
+		function __construct() {
 			$shortcodes = [
 				'wp_radio_my_account'     => [ $this, 'my_account' ],
 				'wp_radio_submit_station' => [ $this, 'submit_station' ],
+				'wp_radio_user_favorites' => [ $this, 'user_favorites' ],
 			];
 
 			foreach ( $shortcodes as $tag => $function ) {
@@ -30,20 +31,29 @@ if(!class_exists('WR_User_Frontend_Shortcode')) {
 		}
 
 		public function submit_station( $atts ) {
-
 			ob_start();
 			wp_radio_get_template( 'form-submit-station', [ 'atts' => $atts ], '', WR_USER_FRONTEND_TEMPLATES );
 
 			return ob_get_clean();
 		}
 
-		public static function instance(){
-			if(is_null(self::$instance)){
+
+		public static function instance() {
+			if ( is_null( self::$instance ) ) {
 				self::$instance = new self();
 			}
 
 			return self::$instance;
 		}
+
+		public function user_favorites( $atts ) {
+			ob_start();
+			wp_radio_get_template( 'user-favorites', [ 'atts' => $atts ], '', WR_USER_FRONTEND_TEMPLATES );
+
+			return ob_get_clean();
+		}
+
+
 	}
 }
 

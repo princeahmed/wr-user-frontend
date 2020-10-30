@@ -1,5 +1,7 @@
-1.0.1
+1.0.7
 * Fix Add to favourite check
+* Fix My Account Favorites
+* Add: [user_favorites] shortcode
 
 DONE
 ----------
@@ -8,6 +10,5 @@ DONE
 
 TODO
 ----------
-* Add: [user_favorites] shortcode
 * Fix: Station Submit Mail
 * New: Station Sharing

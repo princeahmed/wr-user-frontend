@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit();
  * @since 1.0.0
  */
 final class WP_Radio_User_Frontend {
-
+	
 	public $version = '1.0.8';
 
 	public $min_php = '5.6.0';

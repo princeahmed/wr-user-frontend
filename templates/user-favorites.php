@@ -2,13 +2,12 @@
 
 defined( 'ABSPATH' ) || exit();
 
-$is_grid = 'grid' == wp_radio_get_settings( 'listing_view', '', 'wp_radio_display_settings' );
+$is_grid = 'grid' == prince_get_option( 'listing_view' );
 
 $favourites = wr_user_frontend_get_favourites();
 
-
 ?>
-    <h3 class="section-title">Favorite Stations</h3>
+
 <?php if ( ! empty( $favourites ) ) { ?>
     <div class="wp-radio-favourites wp-radio-listings <?php echo $is_grid ? 'wp-radio-listing-grid' : ''; ?>">
 		<?php

@@ -62,10 +62,6 @@
       }
     }
 
-    .load-more {
-      margin: 20px 0;
-      text-align: right;
-    }
   }
 
   .content-edit-account {
@@ -118,6 +114,22 @@
       margin-top: 0;
       border-bottom: 1px solid #ddd;
       padding-bottom: 13px;
+    }
+  }
+}
+
+.load-more {
+  margin: 20px 0;
+  text-align: center;
+
+  button {
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+
+    img {
+      display: none;
+      margin-right: 5px;
     }
   }
 }
