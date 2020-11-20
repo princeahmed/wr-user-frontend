@@ -71,7 +71,7 @@ if(!function_exists('wr_user_frontend_get_favourites')) {
 	}
 }
 
-if ( ! function_exists( 'wr_user_frontend_get_favourites' ) ) {
+if ( ! function_exists( 'wp_radio_report_btn' ) ) {
 	function wp_radio_report_btn( $label = 0, $post_id = 0, $player_type = false ) {
 
 		if ( 'on' != wp_radio_get_settings( 'enable_report', 'on' ) ) {
