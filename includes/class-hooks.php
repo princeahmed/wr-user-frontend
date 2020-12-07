@@ -16,6 +16,22 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 			add_action( 'wp_radio_single_info', 'wp_radio_report_btn', 10, 2 );
 
 			add_filter( 'wp_radio_general_settings_field', [ $this, 'general_settings_field' ] );
+
+			add_filter( 'comments_open', [ $this, 'enable_comment' ], 10, 2 );
+		}
+
+		public function enable_comment( $open, $post_id ) {
+			if ( ! is_singular( 'wp_radio' ) ) {
+				return $open;
+			}
+
+			$enable_comment = 'on' == wp_radio_get_settings( 'enable_comment', 'off' );
+			if ( $enable_comment ) {
+				$open = 'open';
+			}
+
+			return $open;
+
 		}
 
 		public function favourite_btn( $id = false ) {
@@ -52,6 +68,14 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 				'desc'    => sprintf( __( 'Select the page for station submission, where you place the %s shortcode.', 'wp-radio-user-frontend' ), '<strong>[wp_radio_submit_station]</strong>' ),
 				'default'     => get_option( 'wp_radio_submit_station_page' ),
 				'type'    => 'pages',
+			];
+
+			$settings[] = [
+				'name'    => 'enable_comment',
+				'label'   => __( 'Enable Comment :', 'wp-radio' ),
+				'desc'    => __( 'Display comment form on the station page.', 'wp-multimedia-player' ),
+				'type'    => 'switch',
+				'default' => 'off',
 			];
 
 			$settings[] = [
