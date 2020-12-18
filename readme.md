@@ -1,8 +1,3 @@
-1.0.7
-* Fix Add to favourite check
-* Fix My Account Favorites
-* Add: [user_favorites] shortcode
-
 DONE
 ----------
 
@@ -10,5 +5,6 @@ DONE
 
 TODO
 ----------
+* Make station submission country field required
 * Fix: Station Submit Mail
 * New: Station Sharing
