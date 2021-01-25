@@ -22,10 +22,14 @@
 
             selector.addClass('active');
 
-            const $stream = JSON.parse(sessionStorage.getItem('stream'));
+            const player = $(this).parents('.wp-radio-player');
+            let stream = $('.wp-radio-player-play-pause', player).attr('data-stream');
+            if (stream) {
+                stream = JSON.parse(stream);
+            }
 
-            const title = $(this).attr('data-name') !== undefined ? $(this).attr('data-name') : $stream.title,
-                id = $(this).attr('data-id') !== undefined ? $(this).attr('data-id') : $stream.streamId;
+            const title = typeof $(this).attr('data-name') !== 'undefined' ? $(this).attr('data-name') : stream.title,
+                id = typeof $(this).attr('data-id') !== 'undefined' ? $(this).attr('data-id') : stream.streamId;
 
             $('#report-radio').text(title);
             $('#report-radio-id').val(id);

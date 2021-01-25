@@ -4,7 +4,7 @@
  * Plugin Name: WP Radio User Frontend
  * Plugin URI:  https://princeboss.com
  * Description: Engage Your Radio Listeners to your website.
- * Version:     1.0.9
+ * Version:     2.2.7
  * Author:      Prince
  * Author URI:  http://princeboss.com
  * Text Domain: wp-radio-user-frontend

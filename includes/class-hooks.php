@@ -10,6 +10,8 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 
 		public function __construct() {
 			add_action( 'wp_radio_player_controls_tools_start', [ $this, 'favourite_btn' ] );
+			add_action( 'wp_radio/before_play_btn', [ $this, 'favourite_btn' ] );
+
 			add_action( 'wp_radio_before_you_may_like', [ $this, 'review' ] );
 			add_action( 'wp_footer', [ $this, 'player_templates' ], 99 );
 			add_action( 'wp_radio_player_controls_tools_end', [ $this, 'player_controls_tools' ] );

@@ -20,12 +20,12 @@ if ( ! empty( $_GET['report_station_id'] ) ) {
         <i class="dashicons dashicons-dismiss report-close"></i>
 
         <div class="report-before">
-            <h3 class="form-message"><?php esc_html_e( 'Report a Problem with Station:', 'wp-radio' ); ?></h3>
+            <h3 class="form-title"><?php esc_html_e( 'Report a Problem with Station:', 'wp-radio' ); ?></h3>
 
             <p id="report-validation" class="report-validation"><?php esc_html_e( 'Please, Fill out all the fields.', 'wp-radio' ); ?></p>
 
             <p class="wp-radio-form-row report-email-field">
-                <label for="report-email"><?php esc_html_e( 'Email:', 'wp-radio' ); ?></label>
+                <label for="report-email"><?php esc_html_e( 'Your Email:', 'wp-radio' ); ?></label>
                 <input type="email" name="email" id="report-email" required>
             </p>
 

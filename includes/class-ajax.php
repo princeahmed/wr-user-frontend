@@ -11,6 +11,7 @@ if(!class_exists('WR_User_Frontend_Ajax')) {
 			add_action( 'wp_ajax_add_favourites', [ $this, 'handle_favourites' ] );
 			add_action( 'wp_ajax_nopriv_add_favourites', [ $this, 'handle_favourites' ] );
 
+			//check if a station is added to favorite
 			add_action( 'wp_ajax_check_favourite', [ $this, 'check_favourite' ] );
 			add_action( 'wp_ajax_nopriv_check_favourite', [ $this, 'check_favourite' ] );
 
@@ -35,7 +36,7 @@ if(!class_exists('WR_User_Frontend_Ajax')) {
 			$type    = ! empty( $_REQUEST['type'] ) ? wp_unslash( $_REQUEST['type'] ) : '';
 
 			$favourites = get_user_meta( $user_id, 'favourite_stations', true );
-			$favourites = ! empty( $favourites ) ? array_unique( $favourites ) : [];
+			$favourites = ! empty( $favourites ) ? $favourites : [];
 
 			if ( 'add' == $type ) {
 				$favourites = array_merge( $favourites, [ $post_id ] );
@@ -45,8 +46,10 @@ if(!class_exists('WR_User_Frontend_Ajax')) {
 				}
 			}
 
+			$favourites = array_unique( $favourites );
+
 			update_user_meta( $user_id, 'favourite_stations', $favourites );
-			wp_send_json_success( true );
+			wp_send_json_success( [ 'success' => true, 'favorites' => $favourites ] );
 		}
 
 		public function check_favourite() {

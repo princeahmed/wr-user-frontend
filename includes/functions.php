@@ -67,7 +67,7 @@ if(!function_exists('wr_user_frontend_get_favourites')) {
 
 		$favourites = array_slice( $favourites, $offset, $offset + $limit );
 
-		return ! empty( $favourites ) ? $favourites : false;
+		return ! empty( $favourites ) ? array_unique( $favourites ) : false;
 	}
 }
 
