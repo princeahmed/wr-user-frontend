@@ -6,7 +6,6 @@ $is_grid = 'grid' == wp_radio_get_settings( 'listing_view', '', 'wp_radio_displa
 
 $favourites = wr_user_frontend_get_favourites();
 
-
 ?>
     <h3 class="section-title">Favorite Stations</h3>
 <?php if ( ! empty( $favourites ) ) { ?>
@@ -14,6 +13,11 @@ $favourites = wr_user_frontend_get_favourites();
 		<?php
 		foreach ( $favourites as $post_id ) {
 			$station = get_post( $post_id );
+
+			if(!$station){
+			    continue;
+            }
+
 			wp_radio_get_template( 'listing/loop', [ 'station' => $station, 'hide_desc' => 'yes', 'col' => 3 ] );
 		}
 		?>

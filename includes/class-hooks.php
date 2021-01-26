@@ -14,7 +14,7 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 
 			add_action( 'wp_radio_before_you_may_like', [ $this, 'review' ] );
 			add_action( 'wp_footer', [ $this, 'player_templates' ], 99 );
-			add_action( 'wp_radio_player_controls_tools_end', [ $this, 'player_controls_tools' ] );
+			//add_action( 'wp_radio_player_controls_tools_end', [ $this, 'player_controls_tools' ] );
 			add_action( 'wp_radio_single_info', 'wp_radio_report_btn', 10, 2 );
 
 			add_filter( 'wp_radio_general_settings_field', [ $this, 'general_settings_field' ] );
@@ -27,7 +27,8 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 				return $open;
 			}
 
-			$enable_comment = 'on' == wp_radio_get_settings( 'enable_comment', 'off' );
+
+			$enable_comment = 'on' == wp_radio_get_settings( 'enable_comment', 'on' );
 			if ( $enable_comment ) {
 				$open = 'open';
 			}
@@ -77,7 +78,7 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 				'label'   => __( 'Enable Comment :', 'wp-radio' ),
 				'desc'    => __( 'Display comment form on the station page.', 'wp-multimedia-player' ),
 				'type'    => 'switch',
-				'default' => 'off',
+				'default' => 'on',
 			];
 
 			$settings[] = [
@@ -85,7 +86,7 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 				'label'   => __( 'Enable Report Submission :', 'wp-radio' ),
 				'desc'    => __( 'Whether display the report button for user to report if any station doesn\'t work.', 'wp-multimedia-player' ),
 				'type'    => 'switch',
-				'default' => 'off',
+				'default' => 'on',
 			];
 
 			return $settings;

@@ -7,8 +7,7 @@ DONE
 TODO
 ----------
 * check station comment form
-* Add backward compability for favorite check 
-set loaclastorage item of the favorite statuions
+* Add backward compability for favorite check set loaclastorage item of the favorite statuions
 
 * Make station submission country field required
 * Fix: Station Submit Mail
