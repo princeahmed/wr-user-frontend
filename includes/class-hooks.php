@@ -14,12 +14,29 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 
 			add_action( 'wp_radio_before_you_may_like', [ $this, 'review' ] );
 			add_action( 'wp_footer', [ $this, 'player_templates' ], 99 );
-			//add_action( 'wp_radio_player_controls_tools_end', [ $this, 'player_controls_tools' ] );
 			add_action( 'wp_radio_single_info', 'wp_radio_report_btn', 10, 2 );
+			add_filter( 'comments_open', [ $this, 'enable_comment' ], 10, 2 );
 
+			//todo v-3.0.0 add user_frontend section
+			//add_filter( 'wp_radio/settings_sections', [ $this, 'settings_sections' ] );
+
+			//add general field settings
 			add_filter( 'wp_radio_general_settings_field', [ $this, 'general_settings_field' ] );
 
-			add_filter( 'comments_open', [ $this, 'enable_comment' ], 10, 2 );
+
+			//add report button to player
+			//add_action( 'wp_radio_player_controls_tools_end', [ $this, 'player_controls_tools' ] );
+		}
+
+		public function settings_sections( $sections ) {
+			$inserted[] = array(
+				'id'    => 'wp_radio_user_frontend_settings',
+				'title' => sprintf( __( '%s User Frontend Settings', 'wp-radio-user-frontend' ), '<i class="dashicons dashicons-buddicons-buddypress-logo"></i>' ),
+			);
+
+			array_splice( $sections, 1, 0, $inserted );
+
+			return $sections;
 		}
 
 		public function enable_comment( $open, $post_id ) {
@@ -53,13 +70,13 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 
 			$settings[] = [
 				'name'    => 'user_frontend_heading',
-				'default'   => __( 'User Frontend Settings', 'wp-radio' ),
+				'default'   => __( 'User Frontend Settings', 'wp-radio-user-frontend' ),
 				'type'    => 'heading',
 			];
 
 			$settings[] = [
 				'name'    => 'account_page',
-				'label'   => __( 'User Account Page :', 'wp-radio' ),
+				'label'   => __( 'User Account Page :', 'wp-radio-user-frontend' ),
 				'desc'    => sprintf( __( 'Select the page for the user account page, where you place the %s shortcode.', 'wp-radio-user-frontend' ), '<strong>[wp_radio_my_account]</strong>' ),
 				'default' => get_option( 'wp_radio_account_page' ),
 				'type'    => 'pages',
@@ -75,16 +92,16 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 
 			$settings[] = [
 				'name'    => 'enable_comment',
-				'label'   => __( 'Enable Comment :', 'wp-radio' ),
-				'desc'    => __( 'Display comment form on the station page.', 'wp-multimedia-player' ),
+				'label'   => __( 'Enable Comment :', 'wp-radio-user-frontend' ),
+				'desc'    => __( 'Display comment form on the station page.', 'wp-radio-user-frontend' ),
 				'type'    => 'switch',
 				'default' => 'on',
 			];
 
 			$settings[] = [
 				'name'    => 'enable_report',
-				'label'   => __( 'Enable Report Submission :', 'wp-radio' ),
-				'desc'    => __( 'Whether display the report button for user to report if any station doesn\'t work.', 'wp-multimedia-player' ),
+				'label'   => __( 'Enable Report Submission :', 'wp-radio-user-frontend' ),
+				'desc'    => __( 'Whether display the report button for user to report if any station doesn\'t work.', 'wp-radio-user-frontend' ),
 				'type'    => 'switch',
 				'default' => 'on',
 			];

@@ -1,8 +1,8 @@
-# Copyright (C) 2021 wp-radio-user-frontend
-# This file is distributed under the same license as the wp-radio-user-frontend package.
+# Copyright (C) 2021 wp-radio
+# This file is distributed under the same license as the wp-radio package.
 msgid ""
 msgstr ""
-"Project-Id-Version: wp-radio-user-frontend\n"
+"Project-Id-Version: wp-radio\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,20 +12,6 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#. translators: 1: Plugin name 2: WP Radio
-#: includes/base.php:32
-msgid "\"%1$s\" requires \"%2$s\" to be installed and activated."
-msgstr ""
-
-#: includes/base.php:33, includes/base.php:45
-msgid "WP Radio"
-msgstr ""
-
-#. translators: 1: Plugin name 2: WP Radio 3: Required WP Radio version
-#: includes/base.php:43
-msgid "\"%1$s\" requires \"%2$s\" version %3$s or greater."
-msgstr ""
 
 #: includes/class-ajax.php:94
 msgid "Missing Require Field(s)"
@@ -47,80 +33,80 @@ msgstr ""
 msgid "Please, Login to add this station to your favourite list."
 msgstr ""
 
-#: includes/class-form-handler.php:39, includes/class-form-handler.php:43, includes/class-form-handler.php:143
+#: includes/class-form-handler.php:36, includes/class-form-handler.php:40, includes/class-form-handler.php:137
 msgid "Error:"
 msgstr ""
 
-#: includes/class-form-handler.php:43
+#: includes/class-form-handler.php:40
 msgid "Username is required."
 msgstr ""
 
-#: includes/class-form-handler.php:124
+#: includes/class-form-handler.php:118
 msgid "Your account was created successfully. Your login details have been sent to your email address."
 msgstr ""
 
-#: includes/class-form-handler.php:199
+#: includes/class-form-handler.php:183
 msgid "Your request has been submitted. Now it is waiting for admin confirmation."
 msgstr ""
 
-#: includes/class-form-handler.php:180
+#: includes/class-form-handler.php:179
 msgid "Something went wrong please try again later."
 msgstr ""
 
-#: includes/class-form-handler.php:207
+#: includes/class-form-handler.php:191
 msgid "New Request to add a station"
 msgstr ""
 
-#: includes/class-form-handler.php:271
+#: includes/class-form-handler.php:254
 msgid "First name"
 msgstr ""
 
-#: includes/class-form-handler.php:272
+#: includes/class-form-handler.php:255
 msgid "Last name"
 msgstr ""
 
-#: includes/class-form-handler.php:273, templates/my-account/form-login.php:54
+#: includes/class-form-handler.php:256, templates/my-account/form-login.php:54
 msgid "Email address"
 msgstr ""
 
 #. translators: %s: Field name.
-#: includes/class-form-handler.php:280
+#: includes/class-form-handler.php:263
 msgid "%s is a required field."
 msgstr ""
 
-#: includes/class-form-handler.php:289
+#: includes/class-form-handler.php:272
 msgid "This email address is already registered."
 msgstr ""
 
-#: includes/class-form-handler.php:287, includes/functions.php:8
+#: includes/class-form-handler.php:270, includes/functions.php:8
 msgid "Please provide a valid email address."
 msgstr ""
 
-#: includes/class-form-handler.php:307
+#: includes/class-form-handler.php:290
 msgid "Your current password is incorrect."
 msgstr ""
 
-#: includes/class-form-handler.php:304
+#: includes/class-form-handler.php:287
 msgid "New passwords do not match."
 msgstr ""
 
-#: includes/class-form-handler.php:301
+#: includes/class-form-handler.php:284
 msgid "Please re-enter your password."
 msgstr ""
 
-#: includes/class-form-handler.php:298
+#: includes/class-form-handler.php:281
 msgid "Please enter your current password."
 msgstr ""
 
-#: includes/class-form-handler.php:295
+#: includes/class-form-handler.php:278
 msgid "Please fill out all password fields."
 msgstr ""
 
-#: includes/class-form-handler.php:322
+#: includes/class-form-handler.php:305
 msgid "Please upload a valid image file."
 msgstr ""
 
-#: includes/class-form-handler.php:342
+#: includes/class-form-handler.php:325
 msgid "Account details changed successfully."
 msgstr ""
 
@@ -168,15 +154,15 @@ msgstr ""
 msgid "Whether display the report button for user to report if any station doesn't work."
 msgstr ""
 
-#: includes/class-install.php:25
+#: includes/class-install.php:23
 msgid "My Account"
 msgstr ""
 
-#: includes/class-install.php:37
+#: includes/class-install.php:35
 msgid "Submit a Station"
 msgstr ""
 
-#: includes/class-install.php:50
+#: includes/class-install.php:48
 msgid "Listener"
 msgstr ""
 
@@ -220,43 +206,43 @@ msgstr ""
 msgid "Country"
 msgstr ""
 
-#: templates/form-submit-station.php:60
+#: templates/form-submit-station.php:59
 msgid "Genres"
 msgstr ""
 
-#: templates/form-submit-station.php:81
+#: templates/form-submit-station.php:79
 msgid "Language"
 msgstr ""
 
-#: templates/form-submit-station.php:96
+#: templates/form-submit-station.php:94
 msgid "Stream URL"
 msgstr ""
 
-#: templates/form-submit-station.php:106
+#: templates/form-submit-station.php:104
 msgid "Website"
 msgstr ""
 
-#: templates/form-submit-station.php:114
+#: templates/form-submit-station.php:112
 msgid "Facebook"
 msgstr ""
 
-#: templates/form-submit-station.php:122
+#: templates/form-submit-station.php:120
 msgid "Twitter"
 msgstr ""
 
-#: templates/form-submit-station.php:132
+#: templates/form-submit-station.php:130
 msgid "Address"
 msgstr ""
 
-#: templates/form-submit-station.php:140
+#: templates/form-submit-station.php:138
 msgid "Email"
 msgstr ""
 
-#: templates/form-submit-station.php:146
+#: templates/form-submit-station.php:144
 msgid "Phone"
 msgstr ""
 
-#: templates/form-submit-station.php:156, templates/reviews.php:40
+#: templates/form-submit-station.php:154, templates/reviews.php:40
 msgid "Submit"
 msgstr ""
 
@@ -411,4 +397,23 @@ msgstr ""
 
 #: templates/reviews.php:68
 msgid "Load More Reviews"
+msgstr ""
+
+#. translators: %s: Min PHP version
+#: wp-radio-user-frontend.php:62
+msgid "Unsupported PHP version Min required PHP Version: \"%s\""
+msgstr ""
+
+#. translators: 1: Plugin name 2: WP Radio
+#: wp-radio-user-frontend.php:73
+msgid "\"%1$s\" requires \"%2$s\" to be installed and activated."
+msgstr ""
+
+#: wp-radio-user-frontend.php:75, wp-radio-user-frontend.php:88
+msgid "WP Radio"
+msgstr ""
+
+#. translators: 1: Plugin name 2: WP Radio 3: Required WP Radio version
+#: wp-radio-user-frontend.php:86
+msgid "\"%1$s\" requires \"%2$s\" version %3$s or greater."
 msgstr ""

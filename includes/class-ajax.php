@@ -166,7 +166,7 @@ if(!class_exists('WR_User_Frontend_Ajax')) {
 		public function send_report() {
 
 			if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'wp-radio' ) ) {
-				wp_send_json_error( __( 'No Cheating, Hmm -_-', 'wp-radio' ) );
+				wp_send_json_error( __( 'No Cheating, Hmm -_-', 'wp-radio-user-frontend' ) );
 			}
 
 			$data = [];

@@ -1,6 +1,6 @@
 {
-  "name": "wp-radio",
-  "version": "2.2.7",
+  "name": "wp-radio-user-frontend",
+  "version": "1.1.0",
   "description": "Completed:\r ---\r 1.",
   "main": "index.js",
   "repository": {

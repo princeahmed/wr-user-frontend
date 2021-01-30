@@ -54,6 +54,7 @@ defined( 'ABSPATH' ) || exit();
                         </p>
                     </div>
 
+                    <!--station genres -->
                     <div class="wp-radio-col-4">
                         <p class="wp-radio-form-row wp-radio-form-row--wide">
                             <label for="genres"><?php esc_html_e( 'Genres', 'wp-radio-user-frontend' ); ?></label>
@@ -74,6 +75,7 @@ defined( 'ABSPATH' ) || exit();
                         </p>
                     </div>
 
+                    <!-- station language -->
                     <div class="wp-radio-col-4">
                         <p class="wp-radio-form-row wp-radio-form-row--wide">
                             <label for="language"><?php esc_html_e( 'Language', 'wp-radio-user-frontend' ); ?></label>
@@ -102,24 +104,24 @@ defined( 'ABSPATH' ) || exit();
                     <div class="wp-radio-col-4">
                         <p class="wp-radio-form-row wp-radio-form-row--wide">
                             <label for="website"><?php esc_html_e( 'Website', 'wp-radio-user-frontend' ); ?></label>
-                            <input type="text" name="social-links[0][href]" id="website" placeholder="Website URL">
-                            <input type="hidden" name="social-links[0][name]" value="Website">
+                            <input type="text" name="website" id="website" placeholder="Website URL">
+                            <input type="hidden" name="website" value="Website">
                         </p>
                     </div>
 
                     <div class="wp-radio-col-4">
                         <p class="wp-radio-form-row wp-radio-form-row--wide">
                             <label for="facebook"><?php esc_html_e( 'Facebook', 'wp-radio-user-frontend' ); ?></label>
-                            <input type="text" name="social-links[1][href]" id="facebook" placeholder="Facebook URL">
-                            <input type="hidden" name="social-links[1][name]" value="Facebook">
+                            <input type="text" name="facebook" id="facebook" placeholder="Facebook URL">
+                            <input type="hidden" name="facebook" value="Facebook">
                         </p>
                     </div>
 
                     <div class="wp-radio-col-4">
                         <p class="wp-radio-form-row wp-radio-form-row--wide">
                             <label for="twitter"><?php esc_html_e( 'Twitter', 'wp-radio-user-frontend' ); ?></label>
-                            <input type="text" name="social-links[2][href]" id="twitter" placeholder="Twitter URL">
-                            <input type="hidden" name="social-links[2][name]" value="Twitter">
+                            <input type="text" name="twitter" id="twitter" placeholder="Twitter URL">
+                            <input type="hidden" name="twitter" value="Twitter">
                         </p>
                     </div>
 
@@ -127,22 +129,22 @@ defined( 'ABSPATH' ) || exit();
 
                 <!--Address-->
                 <p class="wp-radio-form-row wp-radio-form-row--wide">
-                    <label for="contact_address"><?php esc_html_e( 'Address', 'wp-radio-user-frontend' ); ?></label>
-                    <textarea name="contact_address" id="contact_address" placeholder="Station Address" rows="5"></textarea>
+                    <label for="address"><?php esc_html_e( 'Address', 'wp-radio-user-frontend' ); ?></label>
+                    <textarea name="address" id="address" placeholder="Station Address" rows="5"></textarea>
                 </p>
 
                 <!--Email, Phone-->
                 <div class="wp-radio-flex">
                     <div class="wp-radio-col-6">
                         <p class="wp-radio-form-row wp-radio-form-row--wide">
-                            <label for="contact_email"><?php esc_html_e( 'Email', 'wp-radio-user-frontend' ); ?></label>
-                            <input type="email" name="contact_email" id="contact_email" placeholder="Contact Email">
+                            <label for="email"><?php esc_html_e( 'Email', 'wp-radio-user-frontend' ); ?></label>
+                            <input type="email" name="email" id="email" placeholder="Contact Email">
                         </p>
                     </div>
                     <div class="wp-radio-col-6">
                         <p class="wp-radio-form-row wp-radio-form-row--wide">
-                            <label for="contact_phone"><?php esc_html_e( 'Phone', 'wp-radio-user-frontend' ); ?></label>
-                            <input type="text" name="contact_phone" id="contact_phone" placeholder="Contact Phone">
+                            <label for="phone"><?php esc_html_e( 'Phone', 'wp-radio-user-frontend' ); ?></label>
+                            <input type="text" name="phone" id="phone" placeholder="Contact Phone">
                         </p>
                     </div>
                 </div>
@@ -156,9 +158,8 @@ defined( 'ABSPATH' ) || exit();
 
             </form>
 		<?php } else { ?>
-            <p>Please,
-                <a href="<?php echo get_the_permalink( wp_radio_get_settings( 'account_page', get_option( 'wp_radio_account_page' ) ) ); ?>">Login</a>
-                to submit a station.</p>
+            <p>Please, <a href="<?php echo get_the_permalink( wp_radio_get_settings( 'account_page',
+					get_option( 'wp_radio_account_page' ) ) ); ?>">Login</a>to submit a station.</p>
 		<?php } ?>
     </div>
 

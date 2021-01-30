@@ -17,6 +17,9 @@ if(!class_exists('WR_User_Frontend_Form_Handler')) {
 			add_action( 'admin_post_nopriv_submit_station', [ $this, 'process_submit_station' ], 20 );
 		}
 
+		/**
+		 * handle user login
+		 */
 		public function process_login() {
 
 			$nonce_value = wp_radio_get_var( $_REQUEST['wp-radio-login-nonce'], wp_radio_get_var( $_REQUEST['_wpnonce'], '' ) );
@@ -75,6 +78,9 @@ if(!class_exists('WR_User_Frontend_Form_Handler')) {
 			}
 		}
 
+		/**
+		 * handle user registration
+		 */
 		public function process_registration() {
 			$nonce_value = isset( $_POST['_wpnonce'] ) ? wp_unslash( $_POST['_wpnonce'] ) : '';
 			$nonce_value = isset( $_POST['wp-radio-register-nonce'] ) ? wp_unslash( $_POST['wp-radio-register-nonce'] ) : $nonce_value;
@@ -140,6 +146,9 @@ if(!class_exists('WR_User_Frontend_Form_Handler')) {
 			}
 		}
 
+		/**
+		 * handle station submission
+		 */
 		public function process_submit_station() {
 
 			$args = [
@@ -155,14 +164,6 @@ if(!class_exists('WR_User_Frontend_Form_Handler')) {
 				'radio_genre'   => ! empty( $_REQUEST['genres'] ) ? array_map( 'intval', $_REQUEST['genres'] ) : '',
 			];
 
-			$args['meta_input'] = [
-				'language'        => ! empty( $_REQUEST['language'] ) ? sanitize_text_field( $_REQUEST['language'] ) : '',
-				'stream_url'      => ! empty( $_REQUEST['stream_url'] ) ? esc_url( $_REQUEST['stream_url'] ) : '',
-				'social_links'    => ! empty( $_REQUEST['social-links'] ) ? $_REQUEST['social-links'] : '',
-				'contact_address' => ! empty( $_REQUEST['contact_address'] ) ? sanitize_textarea_field( $_REQUEST['contact_address'] ) : '',
-				'contact_email'   => ! empty( $_REQUEST['contact_email'] ) ? sanitize_email( $_REQUEST['contact_email'] ) : '',
-				'contact_phone'   => ! empty( $_REQUEST['contact_phone'] ) ? sanitize_text_field( $_REQUEST['contact_phone'] ) : '',
-			];
 
 			if ( ! empty( $_FILES['thumbnail'] ) && empty( $_FILES['thumbnail']['error'] ) ) {
 
@@ -180,6 +181,21 @@ if(!class_exists('WR_User_Frontend_Form_Handler')) {
 
 				return;
 			} else {
+				$metas = [
+					'language'   => ! empty( $_REQUEST['language'] ) ? sanitize_text_field( $_REQUEST['language'] ) : '',
+					'stream_url' => ! empty( $_REQUEST['stream_url'] ) ? esc_url( $_REQUEST['stream_url'] ) : '',
+					'website'    => ! empty( $_REQUEST['website'] ) ? esc_url( $_REQUEST['website'] ) : '',
+					'facebook'   => ! empty( $_REQUEST['facebook'] ) ? esc_url( $_REQUEST['facebook'] ) : '',
+					'twitter'    => ! empty( $_REQUEST['twitter'] ) ? esc_url( $_REQUEST['twitter'] ) : '',
+					'address'    => ! empty( $_REQUEST['address'] ) ? sanitize_textarea_field( $_REQUEST['address'] ) : '',
+					'email'      => ! empty( $_REQUEST['email'] ) ? sanitize_email( $_REQUEST['email'] ) : '',
+					'phone'      => ! empty( $_REQUEST['phone'] ) ? sanitize_text_field( $_REQUEST['phone'] ) : '',
+				];
+
+				foreach ( $metas as $key => $meta ) {
+					update_post_meta( $post_id, $key, $meta );
+				}
+
 				wp_radio()->add_notice( 'success', __( 'Your request has been submitted. Now it is waiting for admin confirmation.', 'wp-radio-user-frontend' ) );
 			}
 
@@ -188,7 +204,7 @@ if(!class_exists('WR_User_Frontend_Form_Handler')) {
 			}
 
 			//send email notification
-			$subject = esc_html__( 'New Request to add a station', 'wp-radio' );
+			$subject = esc_html__( 'New Request to add a station', 'wp-radio-user-frontend' );
 
 			$to = wp_radio_get_settings( 'notification_email', get_option( 'admin_email' ) );
 
@@ -211,6 +227,7 @@ if(!class_exists('WR_User_Frontend_Form_Handler')) {
 
 			wp_mail( $to, $subject, $email_message, $headers );
 
+			//redirect back to the submission page
 			wp_redirect( get_the_permalink( wp_radio_get_settings( 'submit_station_page', get_option( 'wp_radio_submit_station_page' ) ) ) );
 
 		}

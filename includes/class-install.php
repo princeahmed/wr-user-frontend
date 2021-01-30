@@ -9,7 +9,9 @@ defined( 'ABSPATH' ) || exit;
 if(!class_exists('WP_Radio_User_Frontend_Install')) {
 	class WP_Radio_User_Frontend_Install {
 
-		public static function activate() {
+		private static $instance = null;
+
+		public function __construct() {
 			self::update_option();
 			self::create_pages();
 
@@ -44,9 +46,20 @@ if(!class_exists('WP_Radio_User_Frontend_Install')) {
 
 		private static function update_option() {
 			$key = sanitize_key( wr_user_frontend()->name );
-			update_option( $key . '_version', wr_user_frontend()->version );
+			update_option( $key . '_version', WR_USER_FRONTEND_VERSION );
 			add_role( 'listener', __( 'Listener', 'wp-radio-user-frontend' ), [ 'read' => true ] );
+		}
+
+		public static function instance() {
+			if ( is_null( self::$instance ) ) {
+				self::$instance = new self();
+			}
+
+			return self::$instance;
 		}
 
 	}
 }
+
+WP_Radio_User_Frontend_Install::instance();
+
