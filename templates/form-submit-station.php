@@ -41,7 +41,7 @@ defined( 'ABSPATH' ) || exit();
                             <select class="wp-radio-input wp-radio-select2" name="country" id="country" required>
                                 <option value="">Select Country</option>
 								<?php
-								$countries = get_terms( [ 'taxonomy' => 'radio_country', 'hide_empty' => false ] );
+								$countries = get_terms( [ 'taxonomy' => 'radio_country', 'parent' => 0, 'hide_empty' => false ] );
 
 								if ( ! empty( $countries ) ) {
 									$countries = wp_list_pluck( $countries, 'name', 'term_id' );

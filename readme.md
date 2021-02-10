@@ -1,9 +1,7 @@
 DONE
 ----------
-* New: Added Add to Favorite button to station listing and single page
-* Fix: Fix Add to Favorite Button
-* Fix: Station Submission Fields
-
+* Fix: Fixed Station Submission 
+* New: Added Station Submission Approved Confirmed Email
 
 TODO
 ----------

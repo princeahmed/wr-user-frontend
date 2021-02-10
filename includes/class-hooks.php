@@ -25,7 +25,60 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 
 
 			//add report button to player
-			//add_action( 'wp_radio_player_controls_tools_end', [ $this, 'player_controls_tools' ] );
+			add_action( 'wp_radio_player_controls_tools_end', [ $this, 'player_controls_tools' ] );
+
+			add_action( 'admin_action_view_station_submission', [ $this, 'view_station_submission' ] );
+			add_action( 'pending_to_publish', [ $this, 'handle_station_approve' ] );
+		}
+
+		public function handle_station_approve( $post ) {
+			if ( 'wp_radio' != get_post_type( $post ) ) {
+				return;
+			}
+
+			$post_id = $post->ID;
+
+			$user_id = wp_radio_get_meta( $post_id, 'submitted_by' );
+
+			if ( empty( $user_id ) ) {
+				return;
+			}
+
+			$user_email = get_userdata( $user_id )->user_email;
+
+			//send email notification
+			$subject = esc_html__( 'Station submission has been confirmed:', 'wp-radio-user-frontend' );
+
+			ob_start();
+			wp_radio_get_template( 'html-station-approve-email', [
+				'post_id' => $post_id,
+			], '', WR_USER_FRONTEND_TEMPLATES );
+			$email_message = ob_get_clean();
+
+			$headers = array( 'Content-Type: text/html; charset=UTF-8' );
+
+			wp_mail( $user_email, $subject, $email_message, $headers );
+
+		}
+
+		public function view_station_submission() {
+			if ( empty( $_REQUEST['id'] ) ) {
+				return;
+			}
+
+			$post_id = intval( $_REQUEST['id'] );
+
+			$type = ! empty( $_REQUEST['type'] ) ? $_REQUEST['type'] : '';
+
+			if ( 'approve' == $type ) {
+				wp_redirect(admin_url("post.php?post=$post_id&action=edit"));
+				die;
+			}
+
+			wp_redirect( get_permalink( $post_id ) );
+			die;
+
+
 		}
 
 		public function settings_sections( $sections ) {

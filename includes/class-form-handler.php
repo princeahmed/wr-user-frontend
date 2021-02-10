@@ -182,14 +182,15 @@ if(!class_exists('WR_User_Frontend_Form_Handler')) {
 				return;
 			} else {
 				$metas = [
-					'language'   => ! empty( $_REQUEST['language'] ) ? sanitize_text_field( $_REQUEST['language'] ) : '',
-					'stream_url' => ! empty( $_REQUEST['stream_url'] ) ? esc_url( $_REQUEST['stream_url'] ) : '',
-					'website'    => ! empty( $_REQUEST['website'] ) ? esc_url( $_REQUEST['website'] ) : '',
-					'facebook'   => ! empty( $_REQUEST['facebook'] ) ? esc_url( $_REQUEST['facebook'] ) : '',
-					'twitter'    => ! empty( $_REQUEST['twitter'] ) ? esc_url( $_REQUEST['twitter'] ) : '',
-					'address'    => ! empty( $_REQUEST['address'] ) ? sanitize_textarea_field( $_REQUEST['address'] ) : '',
-					'email'      => ! empty( $_REQUEST['email'] ) ? sanitize_email( $_REQUEST['email'] ) : '',
-					'phone'      => ! empty( $_REQUEST['phone'] ) ? sanitize_text_field( $_REQUEST['phone'] ) : '',
+					'language'     => ! empty( $_REQUEST['language'] ) ? sanitize_text_field( $_REQUEST['language'] ) : '',
+					'stream_url'   => ! empty( $_REQUEST['stream_url'] ) ? esc_url( $_REQUEST['stream_url'] ) : '',
+					'website'      => ! empty( $_REQUEST['website'] ) ? esc_url( $_REQUEST['website'] ) : '',
+					'facebook'     => ! empty( $_REQUEST['facebook'] ) ? esc_url( $_REQUEST['facebook'] ) : '',
+					'twitter'      => ! empty( $_REQUEST['twitter'] ) ? esc_url( $_REQUEST['twitter'] ) : '',
+					'address'      => ! empty( $_REQUEST['address'] ) ? sanitize_textarea_field( $_REQUEST['address'] ) : '',
+					'email'        => ! empty( $_REQUEST['email'] ) ? sanitize_email( $_REQUEST['email'] ) : '',
+					'phone'        => ! empty( $_REQUEST['phone'] ) ? sanitize_text_field( $_REQUEST['phone'] ) : '',
+					'submitted_by' => get_current_user_id(),
 				];
 
 				foreach ( $metas as $key => $meta ) {
@@ -211,9 +212,9 @@ if(!class_exists('WR_User_Frontend_Form_Handler')) {
 			$template_args = array_filter( [
 				'Station Name'    => $args['post_title'],
 				'Country'         => ! empty( $country_name = get_term( intval( $_REQUEST['country'] ) )->name ) ? $country_name : '',
-				'Contact Address' => $args['meta_input']['contact_address'],
-				'Contact Email'   => $args['meta_input']['contact_email'],
-				'Contact Phone'   => $args['meta_input']['contact_phone'],
+				'Contact Address' => wp_radio_get_meta( $post_id, 'address' ),
+				'Contact Email'   => wp_radio_get_meta( $post_id, 'email' ),
+				'Contact Phone'   => wp_radio_get_meta( $post_id, 'phone' ),
 			] );
 
 			ob_start();
