@@ -63,6 +63,8 @@ final class WP_Radio_User_Frontend {
 	}
 
 	function includes() {
+
+
 		//Freemius
 		include_once WR_USER_FRONTEND_INCLUDES . '/freemius.php';
 

@@ -12,30 +12,43 @@ defined( 'ABSPATH' ) || exit();
             <form class="wp-radio-form wp-radio-form-submit-station" method="post" action="<?php echo admin_url( 'admin-post.php' ); ?>" enctype="multipart/form-data">
 
                 <!--Station Title-->
-                <p class="wp-radio-form-row wp-radio-form-row--wide">
-                    <label for="title"><?php esc_html_e( 'Station Name', 'wp-radio-user-frontend' ); ?>
+                <div class="wp-radio-form-row wp-radio-form-row--wide">
+                    <label for="title"><?php esc_html_e( 'Station Title:', 'wp-radio-user-frontend' ); ?>
                         &nbsp;<span class="required">*</span>
                     </label>
                     <input type="text" class="wp-radio-input wp-radio-input--text" name="title" id="title" placeholder="Title" autocomplete="off"/>
-                </p>
+                    <p class="description">Enter the name of the station.</p>
+                </div>
+
+                <!--Stream URL-->
+                <div class="wp-radio-form-row wp-radio-form-row--wide">
+                    <label for="stream_url"><?php esc_html_e( 'Stream URL:', 'wp-radio-user-frontend' ); ?>
+                        &nbsp;<span class="required">*</span>
+                    </label>
+                    <input type="url" class="wp-radio-input wp-radio-input--text" name="stream_url" id="stream_url" placeholder="Stream URL" required/>
+                    <p class="description">The streaming link of the radio station.</p>
+                </div>
 
                 <!--Station Description-->
-                <p class="wp-radio-form-row wp-radio-form-row--wide">
-                    <label for="content"><?php esc_html_e( 'Description', 'wp-radio-user-frontend' ); ?></label>
-                    <textarea name="content" id="content" placeholder="Description" rows="5"></textarea>
-                </p>
+                <div class="wp-radio-form-row wp-radio-form-row--wide">
+                    <label for="content"><?php esc_html_e( 'Station Description:', 'wp-radio-user-frontend' ); ?>
+                        &nbsp;<span class="required">*</span>
+                    </label>
+                    <textarea name="content" id="content" placeholder="Description" rows="4" required></textarea>
+                </div>
 
                 <!--Station Image-->
-                <p class="wp-radio-form-row wp-radio-form-row--wide">
-                    <label for="thumbnail"><?php esc_html_e( 'Station Image', 'wp-radio-user-frontend' ); ?></label>
+                <div class="wp-radio-form-row wp-radio-form-row--wide">
+                    <label for="thumbnail"><?php esc_html_e( 'Station Image:', 'wp-radio-user-frontend' ); ?></label>
                     <input type="file" class="wp-radio-input wp-radio-input--text" name="thumbnail" id="thumbnail"/>
-                </p>
+                    <p class="description">The logo of the station.</p>
+                </div>
 
                 <!--Station Country, Genres, Language-->
                 <div class="wp-radio-flex">
-                    <div class="wp-radio-col-4">
-                        <p class="wp-radio-form-row wp-radio-form-row--wide">
-                            <label for="country"><?php esc_html_e( 'Country', 'wp-radio-user-frontend' ); ?>
+                    <div class="wp-radio-col-6">
+                        <div class="wp-radio-form-row wp-radio-form-row--wide">
+                            <label for="country"><?php esc_html_e( 'Station Country', 'wp-radio-user-frontend' ); ?>
                                 &nbsp;<span class="required">*</span>
                             </label>
                             <select class="wp-radio-input wp-radio-select2" name="country" id="country" required>
@@ -51,13 +64,14 @@ defined( 'ABSPATH' ) || exit();
 								}
 								?>
                             </select>
-                        </p>
+                            <p class="description">Select the station country</p>
+                        </div>
                     </div>
 
                     <!--station genres -->
-                    <div class="wp-radio-col-4">
+                    <div class="wp-radio-col-6">
                         <p class="wp-radio-form-row wp-radio-form-row--wide">
-                            <label for="genres"><?php esc_html_e( 'Genres', 'wp-radio-user-frontend' ); ?></label>
+                            <label for="genres"><?php esc_html_e( 'Station Genres:', 'wp-radio-user-frontend' ); ?></label>
                             <select class="wp-radio-input wp-radio-select2" name="genres[]" id="genres" multiple>
                                 <option value="">Select Genres</option>
 								<?php
@@ -75,29 +89,7 @@ defined( 'ABSPATH' ) || exit();
                         </p>
                     </div>
 
-                    <!-- station language -->
-                    <div class="wp-radio-col-4">
-                        <p class="wp-radio-form-row wp-radio-form-row--wide">
-                            <label for="language"><?php esc_html_e( 'Language', 'wp-radio-user-frontend' ); ?></label>
-                            <select class="wp-radio-input wp-radio-select2" name="language" id="language">
-                                <option value="">Select Language</option>
-								<?php
-								foreach ( wp_radio_get_language() as $key => $label ) {
-									printf( '<option value="%1$s">%2$s</option>', $key, $label );
-								}
-								?>
-                            </select>
-                        </p>
-                    </div>
                 </div>
-
-                <!--Stream URL-->
-                <p class="wp-radio-form-row wp-radio-form-row--wide">
-                    <label for="stream_url"><?php esc_html_e( 'Stream URL', 'wp-radio-user-frontend' ); ?>
-                        &nbsp;<span class="required">*</span>
-                    </label>
-                    <input type="url" class="wp-radio-input wp-radio-input--text" name="stream_url" id="stream_url" placeholder="Stream URL" required/>
-                </p>
 
                 <!--Social Links-->
                 <div class="wp-radio-flex">
@@ -155,6 +147,8 @@ defined( 'ABSPATH' ) || exit();
                     <input type="hidden" name="action" value="submit_station">
                     <button type="submit" class="wp-radio-button button" name="submit"><?php esc_attr_e( 'Submit', 'wp-radio-user-frontend' ); ?></button>
                 </p>
+
+	            <?php wp_nonce_field(); ?>
 
             </form>
 		<?php } else { ?>

@@ -151,6 +151,10 @@ if(!class_exists('WR_User_Frontend_Form_Handler')) {
 		 */
 		public function process_submit_station() {
 
+			if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'] ) ) {
+				return;
+			}
+
 			$args = [
 				'post_status' => 'pending',
 				'post_type'   => 'wp_radio',

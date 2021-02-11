@@ -18,7 +18,7 @@ if ( ! function_exists( 'wr_user_frontend_fs' ) ) {
 				// Try to load SDK from parent plugin folder.
 				require_once WP_RADIO_INCLUDES . '/freemius/start.php';
 			} else {
-				require_once dirname(__FILE__) . '/freemius/start.php';
+				return;
 			}
 
 			$wr_user_frontend_fs = fs_dynamic_init( array(
@@ -43,7 +43,7 @@ if ( ! function_exists( 'wr_user_frontend_fs' ) ) {
 				),
 				// Set the SDK to work in a sandbox mode (for development & testing).
 				// IMPORTANT: MAKE SURE TO REMOVE SECRET KEY BEFORE DEPLOYMENT.
-				'secret_key'          => 'sk_3pm3@)ftAf:N3?*MMgsScO@VQXB+.',
+				//'secret_key'          => 'sk_3pm3@)ftAf:N3?*MMgsScO@VQXB+.',
 			) );
 		}
 
