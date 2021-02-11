@@ -184,7 +184,7 @@ if(!class_exists('WR_User_Frontend_Ajax')) {
 
 			$subject = sprintf( esc_html__( 'New Report submitted for %s Station', 'wp-radio-user-frontend' ), get_the_title( $station_id ) );
 
-			$to = wp_radio_get_settings( 'notification_email', get_option( 'admin_email' ) );
+			$to = wp_radio_get_settings( 'notification_email', get_option( 'admin_email' ), 'wp_radio_user_frontend_settings' );
 
 			ob_start();
 

@@ -97,7 +97,7 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 			}
 
 
-			$enable_comment = 'on' == wp_radio_get_settings( 'enable_comment', 'on' );
+			$enable_comment = 'on' == wp_radio_get_settings( 'enable_comment', 'on', 'wp_radio_user_frontend_settings' );
 			if ( $enable_comment ) {
 				$open = 'open';
 			}

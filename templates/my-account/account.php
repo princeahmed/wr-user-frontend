@@ -23,7 +23,7 @@ $items = array(
 			<?php } ?>
 
             <li class="logout">
-                <a href="<?php echo wp_logout_url( get_the_permalink(wp_radio_get_settings('account_page', get_option( 'wp_radio_account_page' )))); ?>">
+                <a href="<?php echo wp_logout_url( get_the_permalink(wp_radio_get_settings('account_page', get_option( 'wp_radio_account_page' ), 'wp_radio_user_frontend_settings'))); ?>">
                     <i class="dashicons dashicons-migrate"></i>
                     Logout
                 </a>

@@ -1,6 +1,6 @@
 <div class="email-wrap">
 
-    <h3><?php esc_html_e( 'Station submission has been confirmed:', 'wp-radio-user-frontend' ); ?></h3>
+    <h3><?php esc_html_e( 'Your submission to add a radio station has been confirmed:', 'wp-radio-user-frontend' ); ?></h3>
 
     <table border="0">
         <tbody>
