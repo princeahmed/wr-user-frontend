@@ -22,27 +22,41 @@ if ( ! empty( $_GET['report_station_id'] ) ) {
         <div class="report-before">
             <h3 class="form-title"><?php esc_html_e( 'Report a Problem with Station:', 'wp-radio-user-frontend' ); ?></h3>
 
-            <p id="report-validation" class="report-validation"><?php esc_html_e( 'Please, Fill out all the fields.', 'wp-radio-user-frontend' ); ?></p>
+            <div id="report-validation" class="report-validation"><?php esc_html_e( 'Please, Fill out all the fields.',
+			        'wp-radio-user-frontend' ); ?></div>
 
-            <p class="wp-radio-form-row report-email-field">
+            <div class="wp-radio-form-row report-email-field">
                 <label for="report-email"><?php esc_html_e( 'Your Email:', 'wp-radio-user-frontend' ); ?></label>
                 <input type="email" name="email" id="report-email" required>
-            </p>
+            </div>
 
-            <p class="wp-radio-form-row report-message-field">
+            <!-- select issue -->
+            <div class="wp-radio-form-row issue-field">
+                <label for="issue"><?php esc_html_e( 'Select issue:', 'wp-radio-user-frontend' ); ?></label>
+                <select name="issue" id="issue" required>
+                    <option value="">Select the issue</option>
+                    <option>The page is not working</option>
+                    <option>Playback is not working</option>
+                    <option>Address or radio data is incorrect</option>
+                    <option>The site is using an incorrect stream link</option>
+                </select>
+            </div>
+
+            <!-- report message -->
+            <div class="wp-radio-form-row report-message-field">
                 <label for="report-message"><?php esc_html_e( 'Your Message:', 'wp-radio-user-frontend' ); ?></label>
-                <textarea name="message" id="report-message" cols="30" rows="5" required></textarea>
-            </p>
+                <textarea name="message" id="report-message" cols="30" rows="3"></textarea>
+            </div>
 
-            <p class="wp-radio-form-row report-radio-field">
+            <div class="wp-radio-form-row report-radio-field">
                 <span><?php esc_html_e( 'Radio Station:', 'wp-radio-user-frontend' ); ?></span>
                 <a href="#" class="report-radio" id="report-radio"><?php echo $title; ?></a>
                 <input type="hidden" name="id" id="report-radio-id" value="<?php echo $id; ?>">
-            </p>
+            </div>
 
-            <p class="wp-radio-form-row report-submit-field">
+            <div class="wp-radio-form-row report-submit-field">
                 <button type="submit" id="report-submit" class="button report-submit"><?php esc_html_e( 'Send Message', 'wp-radio-user-frontend' ); ?></button>
-            </p>
+            </div>
 
         </div>
 

@@ -38,7 +38,7 @@
         function ajaxSend(e) {
             e.preventDefault();
 
-            if($('#report-email').val() === '' || $('#report-message').val() === ''){
+            if ($('#report-email').val() === '' || $('#issue').val() === '') {
                 $('#report-validation').fadeIn();
                 return;
             }
@@ -46,6 +46,7 @@
             $(this).text(wpradio.i18n.sending);
 
             const data = $('.report-form').serialize();
+
 
             $.ajax({
                 url: wpradio.ajaxUrl,
@@ -58,6 +59,7 @@
 
                 success: () => {
                     $('.report-form').addClass('submitted');
+
                     setTimeout(() => {
                         selector.removeClass('active');
                         $('.report-form').removeClass('submitted');

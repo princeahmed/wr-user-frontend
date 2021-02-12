@@ -16,8 +16,15 @@ defined( 'ABSPATH' ) || exit();
                     <label for="title"><?php esc_html_e( 'Station Title:', 'wp-radio-user-frontend' ); ?>
                         &nbsp;<span class="required">*</span>
                     </label>
-                    <input type="text" class="wp-radio-input wp-radio-input--text" name="title" id="title" placeholder="Title" autocomplete="off"/>
+                    <input type="text" required class="wp-radio-input wp-radio-input--text" name="title" id="title" placeholder="Title" autocomplete="off"/>
                     <p class="description">Enter the name of the station.</p>
+                </div>
+
+                <!--Station Slogan-->
+                <div class="wp-radio-form-row wp-radio-form-row--wide">
+                    <label for="slogan"><?php esc_html_e( 'Station Slogan:', 'wp-radio-user-frontend' ); ?></label>
+                    <input type="text" class="wp-radio-input wp-radio-input--text" name="slogan" id="slogan" placeholder="Slogan" />
+                    <p class="description">Enter the slogan of the station.</p>
                 </div>
 
                 <!--Stream URL-->

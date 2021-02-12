@@ -24,6 +24,7 @@ if(!class_exists('WR_User_Frontend_Ajax')) {
 			add_action( 'wp_ajax_load_more_reviews', [ $this, 'load_more_reviews' ] );
 			add_action( 'wp_ajax_nopriv_load_more_reviews', [ $this, 'load_more_reviews' ] );
 
+			//handle report submission
 			add_action( 'wp_ajax_send_report', array( $this, 'send_report' ) );
 			add_action( 'wp_ajax_nopriv_send_report', array( $this, 'send_report' ) );
 
@@ -172,11 +173,13 @@ if(!class_exists('WR_User_Frontend_Ajax')) {
 			$data = [];
 			parse_str( $_REQUEST['data'], $data );
 
+
 			$email      = ! empty( $data['email'] ) ? sanitize_email( $data['email'] ) : '';
+			$issue      = ! empty( $data['issue'] ) ? sanitize_text_field( $data['issue'] ) : '';
 			$message    = ! empty( $data['message'] ) ? sanitize_textarea_field( $data['message'] ) : '';
 			$station_id = ! empty( $data['id'] ) ? intval( $data['id'] ) : '';
 
-			if ( empty( $email ) || empty( $message ) || empty( $station_id ) ) {
+			if ( empty( $email ) || empty( $issue ) ) {
 				wp_send_json_error( [
 					'type' => 'empty',
 				] );
@@ -190,6 +193,7 @@ if(!class_exists('WR_User_Frontend_Ajax')) {
 
 			wp_radio_get_template( 'html-report-email', [
 				'email'      => $email,
+				'issue'      => $issue,
 				'message'    => $message,
 				'station_id' => $station_id,
 			], '', WR_USER_FRONTEND_TEMPLATES );

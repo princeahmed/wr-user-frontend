@@ -27,6 +27,12 @@
 
   .form-title{
     color: #fff;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+
+  .wp-radio-form-row {
+    margin-bottom: 10px;
   }
 
   .report-close {
@@ -86,6 +92,9 @@
 
   .report-after, .report-validation {
     display: none;
+    margin-bottom: 10px;
+    color: orangered;
+    font-weight: bold;
 
     h3{
       color: #fff;

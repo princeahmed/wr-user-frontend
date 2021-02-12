@@ -186,7 +186,8 @@ if(!class_exists('WR_User_Frontend_Form_Handler')) {
 				return;
 			} else {
 				$metas = [
-					'language'     => ! empty( $_REQUEST['language'] ) ? sanitize_text_field( $_REQUEST['language'] ) : '',
+					//'language'     => ! empty( $_REQUEST['language'] ) ? sanitize_text_field( $_REQUEST['language'] ) : '',
+					'slogan'     => ! empty( $_REQUEST['slogan'] ) ? sanitize_text_field( $_REQUEST['slogan'] ) : '',
 					'stream_url'   => ! empty( $_REQUEST['stream_url'] ) ? esc_url( $_REQUEST['stream_url'] ) : '',
 					'website'      => ! empty( $_REQUEST['website'] ) ? esc_url( $_REQUEST['website'] ) : '',
 					'facebook'     => ! empty( $_REQUEST['facebook'] ) ? esc_url( $_REQUEST['facebook'] ) : '',
