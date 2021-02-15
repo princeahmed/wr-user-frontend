@@ -1,10 +1,10 @@
 === WP Radio User Frontend ===
 Contributors: princeahmed
 Tags: wp radio user frontend, wp radio, post submission, radio, station, radio station
-Requires at least: 4.4
-Tested up to: 5.6
+Requires at least: 5.0
+Tested up to: 5.6.1
 Requires PHP: 5.6
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +53,11 @@ This page contains **[wp_radio_submit_station]** shortcode. You can use this sho
 5. Report Submission
 
 == Changelog ==
+
+= 1.1.1 =
+* New: Added Station Submission Approved Confirmed Email
+* New: Add issue selection field to the report form
+* Fix: Fixed Station Submission
 
 = 1.0.2 (22 March, 2020) =
 * Fix: Report Submission Email Notification

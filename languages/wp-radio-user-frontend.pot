@@ -27,19 +27,19 @@ msgstr ""
 msgid "\"%1$s\" requires \"%2$s\" version %3$s or greater."
 msgstr ""
 
-#: includes/class-ajax.php:94
+#: includes/class-ajax.php:95
 msgid "Missing Require Field(s)"
 msgstr ""
 
-#: includes/class-ajax.php:155
+#: includes/class-ajax.php:156
 msgid "No More Reviews!"
 msgstr ""
 
-#: includes/class-ajax.php:169
+#: includes/class-ajax.php:170
 msgid "No Cheating, Hmm -_-"
 msgstr ""
 
-#: includes/class-ajax.php:185
+#: includes/class-ajax.php:188
 msgid "New Report submitted for %s Station"
 msgstr ""
 
@@ -59,112 +59,112 @@ msgstr ""
 msgid "Your account was created successfully. Your login details have been sent to your email address."
 msgstr ""
 
-#: includes/class-form-handler.php:199
+#: includes/class-form-handler.php:205
 msgid "Your request has been submitted. Now it is waiting for admin confirmation."
 msgstr ""
 
-#: includes/class-form-handler.php:180
+#: includes/class-form-handler.php:184
 msgid "Something went wrong please try again later."
 msgstr ""
 
-#: includes/class-form-handler.php:207
+#: includes/class-form-handler.php:213
 msgid "New Request to add a station"
 msgstr ""
 
-#: includes/class-form-handler.php:271
+#: includes/class-form-handler.php:277
 msgid "First name"
 msgstr ""
 
-#: includes/class-form-handler.php:272
+#: includes/class-form-handler.php:278
 msgid "Last name"
 msgstr ""
 
-#: includes/class-form-handler.php:273, templates/my-account/form-login.php:54
+#: includes/class-form-handler.php:279, templates/my-account/form-login.php:54
 msgid "Email address"
 msgstr ""
 
 #. translators: %s: Field name.
-#: includes/class-form-handler.php:280
+#: includes/class-form-handler.php:286
 msgid "%s is a required field."
 msgstr ""
 
-#: includes/class-form-handler.php:289
+#: includes/class-form-handler.php:295
 msgid "This email address is already registered."
 msgstr ""
 
-#: includes/class-form-handler.php:287, includes/functions.php:8
+#: includes/class-form-handler.php:293, includes/functions.php:8
 msgid "Please provide a valid email address."
 msgstr ""
 
-#: includes/class-form-handler.php:307
+#: includes/class-form-handler.php:313
 msgid "Your current password is incorrect."
 msgstr ""
 
-#: includes/class-form-handler.php:304
+#: includes/class-form-handler.php:310
 msgid "New passwords do not match."
 msgstr ""
 
-#: includes/class-form-handler.php:301
+#: includes/class-form-handler.php:307
 msgid "Please re-enter your password."
 msgstr ""
 
-#: includes/class-form-handler.php:298
+#: includes/class-form-handler.php:304
 msgid "Please enter your current password."
 msgstr ""
 
-#: includes/class-form-handler.php:295
+#: includes/class-form-handler.php:301
 msgid "Please fill out all password fields."
 msgstr ""
 
-#: includes/class-form-handler.php:322
+#: includes/class-form-handler.php:328
 msgid "Please upload a valid image file."
 msgstr ""
 
-#: includes/class-form-handler.php:342
+#: includes/class-form-handler.php:348
 msgid "Account details changed successfully."
 msgstr ""
 
-#: includes/class-hooks.php:34
+#: includes/class-hooks.php:49
+msgid "Station submission has been confirmed:"
+msgstr ""
+
+#: includes/class-hooks.php:86
 msgid "%s User Frontend Settings"
 msgstr ""
 
-#: includes/class-hooks.php:61
+#: includes/class-hooks.php:113
 msgid "Add to Favorite."
 msgstr ""
 
-#: includes/class-hooks.php:73
-msgid "User Frontend Settings"
-msgstr ""
-
-#: includes/class-hooks.php:79
+#: includes/class-hooks.php:125
 msgid "User Account Page :"
 msgstr ""
 
-#: includes/class-hooks.php:80
+#: includes/class-hooks.php:126
 msgid "Select the page for the user account page, where you place the %s shortcode."
 msgstr ""
 
-#: includes/class-hooks.php:87
+#: includes/class-hooks.php:133
 msgid "Station Submission Page"
 msgstr ""
 
-#: includes/class-hooks.php:88
+#: includes/class-hooks.php:134
 msgid "Select the page for station submission, where you place the %s shortcode."
 msgstr ""
 
-#: includes/class-hooks.php:95
+#: includes/class-hooks.php:141
 msgid "Enable Comment :"
 msgstr ""
 
-#: includes/class-hooks.php:96
+#: includes/class-hooks.php:142
 msgid "Display comment form on the station page."
 msgstr ""
 
-#: includes/class-hooks.php:103
+#: includes/class-hooks.php:149
 msgid "Enable Report Submission :"
 msgstr ""
 
-#: includes/class-hooks.php:104
+#: includes/class-hooks.php:150
 msgid "Whether display the report button for user to report if any station doesn't work."
 msgstr ""
 
@@ -205,58 +205,58 @@ msgid "Report a Problem"
 msgstr ""
 
 #: templates/form-submit-station.php:16
-msgid "Station Name"
+msgid "Station Title:"
 msgstr ""
 
-#: templates/form-submit-station.php:24
-msgid "Description"
+#: templates/form-submit-station.php:25
+msgid "Station Slogan:"
 msgstr ""
 
-#: templates/form-submit-station.php:30
-msgid "Station Image"
+#: templates/form-submit-station.php:32
+msgid "Stream URL:"
 msgstr ""
 
-#: templates/form-submit-station.php:38
-msgid "Country"
+#: templates/form-submit-station.php:41
+msgid "Station Description:"
 msgstr ""
 
-#: templates/form-submit-station.php:60
-msgid "Genres"
+#: templates/form-submit-station.php:49
+msgid "Station Image:"
+msgstr ""
+
+#: templates/form-submit-station.php:58
+msgid "Station Country"
 msgstr ""
 
 #: templates/form-submit-station.php:81
-msgid "Language"
+msgid "Station Genres:"
 msgstr ""
 
-#: templates/form-submit-station.php:96
-msgid "Stream URL"
-msgstr ""
-
-#: templates/form-submit-station.php:106
+#: templates/form-submit-station.php:105
 msgid "Website"
 msgstr ""
 
-#: templates/form-submit-station.php:114
+#: templates/form-submit-station.php:113
 msgid "Facebook"
 msgstr ""
 
-#: templates/form-submit-station.php:122
+#: templates/form-submit-station.php:121
 msgid "Twitter"
 msgstr ""
 
-#: templates/form-submit-station.php:132
+#: templates/form-submit-station.php:131
 msgid "Address"
 msgstr ""
 
-#: templates/form-submit-station.php:140
+#: templates/form-submit-station.php:139
 msgid "Email"
 msgstr ""
 
-#: templates/form-submit-station.php:146
+#: templates/form-submit-station.php:145
 msgid "Phone"
 msgstr ""
 
-#: templates/form-submit-station.php:156, templates/reviews.php:40
+#: templates/form-submit-station.php:155, templates/reviews.php:40
 msgid "Submit"
 msgstr ""
 
@@ -265,15 +265,19 @@ msgstr ""
 msgid "New report submitted for: %s"
 msgstr ""
 
-#: templates/html-report-email.php:11
+#: templates/html-report-email.php:12
 msgid "Report Details"
 msgstr ""
 
-#: templates/html-report-email.php:16
+#: templates/html-report-email.php:20
 msgid "Sender Email:"
 msgstr ""
 
-#: templates/html-report-email.php:24
+#: templates/html-report-email.php:30
+msgid "Issue:"
+msgstr ""
+
+#: templates/html-report-email.php:40
 msgid "Message:"
 msgstr ""
 
@@ -285,36 +289,48 @@ msgstr ""
 msgid "Please, Fill out all the fields."
 msgstr ""
 
-#: templates/html-report-form.php:28
+#: templates/html-report-form.php:29
 msgid "Your Email:"
 msgstr ""
 
-#: templates/html-report-form.php:33
+#: templates/html-report-form.php:35
+msgid "Select issue:"
+msgstr ""
+
+#: templates/html-report-form.php:47
 msgid "Your Message:"
 msgstr ""
 
-#: templates/html-report-form.php:38
+#: templates/html-report-form.php:52
 msgid "Radio Station:"
 msgstr ""
 
-#: templates/html-report-form.php:44
+#: templates/html-report-form.php:58
 msgid "Send Message"
 msgstr ""
 
-#: templates/html-report-form.php:50
+#: templates/html-report-form.php:64
 msgid "Your message has been sent. Thanks %s"
 msgstr ""
 
-#: templates/html-station-submit-email.php:2
-msgid "New request submitted to add a station."
+#: templates/html-station-approve-email.php:3
+msgid "Your submission to add a radio station has been confirmed:"
+msgstr ""
+
+#: templates/html-station-approve-email.php:18, templates/html-station-submit-email.php:21
+msgid "View Station"
 msgstr ""
 
 #: templates/html-station-submit-email.php:3
+msgid "New station submission is waiting for your confirmation:"
+msgstr ""
+
+#: templates/html-station-submit-email.php:4
 msgid "Station Details:"
 msgstr ""
 
-#: templates/html-station-submit-email.php:15
-msgid "View Station"
+#: templates/html-station-submit-email.php:25
+msgid "Approve Station"
 msgstr ""
 
 #: templates/my-account/account.php:6
