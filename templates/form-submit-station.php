@@ -104,7 +104,6 @@ defined( 'ABSPATH' ) || exit();
                         <p class="wp-radio-form-row wp-radio-form-row--wide">
                             <label for="website"><?php esc_html_e( 'Website', 'wp-radio-user-frontend' ); ?></label>
                             <input type="text" name="website" id="website" placeholder="Website URL">
-                            <input type="hidden" name="website" value="Website">
                         </p>
                     </div>
 
@@ -112,7 +111,6 @@ defined( 'ABSPATH' ) || exit();
                         <p class="wp-radio-form-row wp-radio-form-row--wide">
                             <label for="facebook"><?php esc_html_e( 'Facebook', 'wp-radio-user-frontend' ); ?></label>
                             <input type="text" name="facebook" id="facebook" placeholder="Facebook URL">
-                            <input type="hidden" name="facebook" value="Facebook">
                         </p>
                     </div>
 
@@ -120,7 +118,6 @@ defined( 'ABSPATH' ) || exit();
                         <p class="wp-radio-form-row wp-radio-form-row--wide">
                             <label for="twitter"><?php esc_html_e( 'Twitter', 'wp-radio-user-frontend' ); ?></label>
                             <input type="text" name="twitter" id="twitter" placeholder="Twitter URL">
-                            <input type="hidden" name="twitter" value="Twitter">
                         </p>
                     </div>
 
