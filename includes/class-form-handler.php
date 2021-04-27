@@ -210,7 +210,7 @@ if(!class_exists('WR_User_Frontend_Form_Handler')) {
 			}
 
 			//send email notification
-			$subject = esc_html__( 'New Request to add a station', 'wp-radio-user-frontend' );
+			$subject = esc_html__( 'New Radio Station Submission', 'wp-radio-user-frontend' );
 
 			$to = wp_radio_get_settings( 'notification_email', get_option( 'admin_email' ), 'wp_radio_user_frontend_settings' );
 
@@ -222,10 +222,14 @@ if(!class_exists('WR_User_Frontend_Form_Handler')) {
 				'Contact Phone'   => wp_radio_get_meta( $post_id, 'phone' ),
 			] );
 
+
+			$user = get_user_by( 'email', $to );
+
 			ob_start();
 			wp_radio_get_template( 'html-station-submit-email', [
-				'post_id' => $post_id,
-				'args'    => $template_args
+				'post_id'   => $post_id,
+				'args'      => $template_args,
+				'user_name' => $user->data->display_name,
 			], '', WR_USER_FRONTEND_TEMPLATES );
 			$email_message = ob_get_clean();
 
