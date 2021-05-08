@@ -202,7 +202,7 @@ if(!class_exists('WR_User_Frontend_Form_Handler')) {
 					update_post_meta( $post_id, $key, $meta );
 				}
 
-				wp_radio()->add_notice( 'success', __( 'Your request has been submitted. Now it is waiting for admin confirmation.', 'wp-radio-user-frontend' ) );
+				wp_radio()->add_notice( 'success', __( 'Your station submission has been submitted. Now it is waiting for admin confirmation.', 'wp-radio-user-frontend' ) );
 			}
 
 			if ( ! empty( $image_id ) ) {

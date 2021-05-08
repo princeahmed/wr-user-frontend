@@ -31,6 +31,7 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 		}
 
 		public function handle_station_approve( $post ) {
+
 			if ( 'wp_radio' != get_post_type( $post ) ) {
 				return;
 			}
@@ -43,14 +44,27 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 				return;
 			}
 
-			$user_email = get_userdata( $user_id )->user_email;
+			$user = get_userdata( $user_id );
+
+			$user_email = $user->user_email;
 
 			//send email notification
-			$subject = esc_html__( 'Station submission has been confirmed:', 'wp-radio-user-frontend' );
+			$subject = esc_html__( 'Station submission has been approved:', 'wp-radio-user-frontend' );
+
+			$template_args = array_filter( [
+				'Station Name'    => get_the_title( $post_id ),
+				'Country'         => ! empty( $country_name = get_term( intval( $_REQUEST['country'] ) )->name ) ? $country_name : '',
+				'Contact Address' => wp_radio_get_meta( $post_id, 'address' ),
+				'Contact Email'   => wp_radio_get_meta( $post_id, 'email' ),
+				'Contact Phone'   => wp_radio_get_meta( $post_id, 'phone' ),
+			] );
+
 
 			ob_start();
 			wp_radio_get_template( 'html-station-approve-email', [
-				'post_id' => $post_id,
+				'post_id'   => $post_id,
+				'args'      => $template_args,
+				'user_name' => $user->display_name,
 			], '', WR_USER_FRONTEND_TEMPLATES );
 			$email_message = ob_get_clean();
 

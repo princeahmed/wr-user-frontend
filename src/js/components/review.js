@@ -50,7 +50,7 @@
                             $('.review-listing').append(data.html);
                         }
                     }
-                    $('.review-form-notices').addClass('success show').text('Your review have been submitted.');
+                    $('.review-form-notices').addClass('success show').text('Your review has been submitted.');
                 },
                 error: (error) => console.log(error),
             });

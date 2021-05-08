@@ -4,70 +4,14 @@ defined('ABSPATH') || exit();
 
 final class WP_Radio_User_Frontend {
 
-
-	public $min_wp_radio = '2.0.8';
-
-	public $name = 'WP Radio User Frontend';
-
 	protected static $instance = null;
 
 	public function __construct() {
-
-		if ( $this->check_environment() ) {
 			$this->includes();
 			$this->init_hooks();
-			do_action( 'wp_radio_user_frontend_loaded' );
-		}
-	}
-
-	function check_environment() {
-
-		$return = true;
-
-		// Check if WP Radio installed and activated
-		if ( ! did_action( 'wp_radio_loaded' ) ) {
-			$return = false;
-
-			$notice = sprintf(
-			/* translators: 1: Plugin name 2: WP Radio */ esc_html__( '"%1$s" requires "%2$s" to be installed and activated.', 'wp-radio-user-frontend' ),
-				'<strong>' . $this->name . '</strong>', '<strong>' . esc_html__( 'WP Radio', 'wp-radio-user-frontend' ) . '</strong>'
-			);
-
-		}
-
-		//check min WP Radio version
-		if ( defined('WP_RADIO_VERSION') && version_compare( WP_RADIO_VERSION, $this->min_wp_radio, '<' ) ) {
-			$return = false;
-
-			$notice = sprintf(
-			/* translators: 1: Plugin name 2: WP Radio 3: Required WP Radio version */ esc_html__( '"%1$s" requires "%2$s" version %3$s or greater.',
-				'wp-radio-user-frontend' ),
-				'<strong>' . $this->name . '</strong>', '<strong>' . esc_html__( 'WP Radio', 'wp-radio-user-frontend' ) . '</strong>',
-				$this->min_wp_radio
-			);
-		}
-
-		if ( ! $return ) {
-
-			add_action( 'admin_notices', function () use ( $notice ) { ?>
-				<div class="notice is-dismissible notice-error">
-					<p><?php echo $notice; ?></p>
-				</div>
-			<?php } );
-
-			return $return;
-		} else {
-			return $return;
-		}
-
 	}
 
 	function includes() {
-
-
-		//Freemius
-		include_once WR_USER_FRONTEND_INCLUDES . '/freemius.php';
-
 		//core includes
 		include_once WR_USER_FRONTEND_INCLUDES . '/class-form-handler.php';
 		include_once WR_USER_FRONTEND_INCLUDES . '/class-shortcode.php';
@@ -124,4 +68,4 @@ function wr_user_frontend() {
 	return WP_Radio_User_Frontend::instance();
 }
 
-add_action('plugins_loaded', 'wr_user_frontend', 11);
+wr_user_frontend();
