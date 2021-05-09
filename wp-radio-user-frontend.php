@@ -44,6 +44,10 @@ if ( ! function_exists( 'wr_user_frontend_fs' ) ) {
 				'is_premium_only'  => true,
 				'has_paid_plans'   => true,
 				'is_org_compliant' => false,
+				'trial'            => array(
+					'days'               => 3,
+					'is_require_payment' => true,
+				),
 				'parent'           => array(
 					'id'         => '4227',
 					'slug'       => 'wp-radio',
@@ -101,9 +105,7 @@ function wr_user_frontend_fs_init() {
 	define( 'WR_USER_FRONTEND_URL', plugins_url( '', WR_USER_FRONTEND_FILE ) );
 	define( 'WR_USER_FRONTEND_ASSETS', WR_USER_FRONTEND_URL . '/assets' );
 	define( 'WR_USER_FRONTEND_TEMPLATES', WR_USER_FRONTEND_PATH . '/templates' );
-	\
-
-		define( 'WR_USER_FRONTEND_NAME', 'WP Radio User Frontend' );
+	define( 'WR_USER_FRONTEND_NAME', 'WP Radio User Frontend' );
 	define( 'WR_USER_FRONTEND_MIN_WP_RADIO', '2.0.8' );
 
 	if ( wr_user_frontend_fs_is_parent_active_and_loaded() ) {

@@ -396,14 +396,14 @@ msgid "Load More Reviews"
 msgstr ""
 
 #. translators: 1: Plugin name 2: WP Radio
-#: wp-radio-user-frontend.php:149
+#: wp-radio-user-frontend.php:151
 msgid "\"%1$s\" requires \"%2$s\" to be installed and activated."
 msgstr ""
 
-#: wp-radio-user-frontend.php:151
+#: wp-radio-user-frontend.php:153
 msgid "WP Radio"
 msgstr ""
 
-#: wp-radio-user-frontend.php:126
+#: wp-radio-user-frontend.php:128
 msgid "\"%1$s\" requires \"%2$s\" version %3$s or greater."
 msgstr ""
