@@ -7,7 +7,7 @@ $is_grid = 'grid' == wp_radio_get_settings( 'listing_view', '', 'wp_radio_displa
 $favourites = wr_user_frontend_get_favourites();
 
 ?>
-    <h3 class="section-title">Favorite Stations</h3>
+    <h3 class="section-title"><?php _e('Favorite Stations', 'wp-radio-user-frontend'); ?></h3>
 <?php if ( ! empty( $favourites ) ) { ?>
     <div class="wp-radio-favourites wp-radio-listings <?php echo $is_grid ? 'wp-radio-listing-grid' : ''; ?>">
 		<?php
@@ -38,6 +38,6 @@ $favourites = wr_user_frontend_get_favourites();
 
 <?php } else { ?>
 
-    <p>You didn't add any station to your favourites.</p>
+    <p><?php _e('You didn\'t add any station to your favourites.', 'wp-radio-user-frontend'); ?></p>
 	<?php
 }

@@ -4,7 +4,7 @@ Tags: wp radio user frontend, wp radio, post submission, radio, station, radio s
 Requires at least: 5.0
 Tested up to: 5.8
 Requires PHP: 5.6
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +53,10 @@ This page contains **[wp_radio_submit_station]** shortcode. You can use this sho
 5. Report Submission
 
 == Changelog ==
+
+= 1.1.3 =
+* Improvement: Teak css update
+* Fix: Fixed user favorite shortcode.
 
 = 1.0.2 =
 * Improvement: Update station submission email template
