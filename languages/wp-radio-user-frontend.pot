@@ -242,7 +242,7 @@ msgstr ""
 msgid "Phone"
 msgstr ""
 
-#: templates/form-submit-station.php:152, templates/reviews.php:40
+#: templates/form-submit-station.php:152, templates/html-report-form.php:58, templates/html-report-form.php:58, templates/reviews.php:40
 msgid "Submit"
 msgstr ""
 
@@ -341,6 +341,14 @@ msgstr ""
 
 #: templates/my-account/edit-account.php:70, templates/reviews.php:40
 msgid "Update"
+msgstr ""
+
+#: templates/my-account/favourites.php:10
+msgid "Favorite Stations"
+msgstr ""
+
+#: templates/my-account/favourites.php:41
+msgid "You didn't add any station to your favourites."
 msgstr ""
 
 #: templates/my-account/form-login.php:7

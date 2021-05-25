@@ -55,7 +55,7 @@ if ( ! empty( $_GET['report_station_id'] ) ) {
             </div>
 
             <div class="wp-radio-form-row report-submit-field">
-                <button type="submit" id="report-submit" aria-label="<?php _e('Submit', 'wp-radio'); ?>" title="<?php _e('Submit', 'wp-radio'); ?>" class="button report-submit"><?php esc_html_e( 'Send Message', 'wp-radio-user-frontend' ); ?></button>
+                <button type="submit" id="report-submit" aria-label="<?php _e('Submit', 'wp-radio-user-frontend'); ?>" title="<?php _e('Submit', 'wp-radio-user-frontend'); ?>" class="button report-submit"><?php esc_html_e( 'Send Message', 'wp-radio-user-frontend' ); ?></button>
             </div>
 
         </div>
