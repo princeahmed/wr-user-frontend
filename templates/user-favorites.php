@@ -12,6 +12,11 @@ $favourites = wr_user_frontend_get_favourites();
     <div class="wp-radio-favourites wp-radio-listings <?php echo $is_grid ? 'wp-radio-listing-grid' : ''; ?>">
 		<?php
 		foreach ( $favourites as $post_id ) {
+
+			if ( 'wp_radio' != get_post_type($post_id ) ) {
+				continue;
+			}
+
 			$station = get_post( $post_id );
 			wp_radio_get_template( 'listing/loop', [ 'station' => $station, 'hide_desc' => 'yes', 'col' => 3 ] );
 		}

@@ -20,7 +20,7 @@ if ( ! empty( $_GET['report_station_id'] ) ) {
         <i class="dashicons dashicons-dismiss report-close"></i>
 
         <div class="report-before">
-            <h3 class="form-title"><?php esc_html_e( 'Report a Problem with Station:', 'wp-radio-user-frontend' ); ?></h3>
+            <h4 class="form-title"><?php esc_html_e( 'Report a Problem with Station:', 'wp-radio-user-frontend' ); ?></h4>
 
             <div id="report-validation" class="report-validation"><?php esc_html_e( 'Please, Fill out all the fields.',
 			        'wp-radio-user-frontend' ); ?></div>
@@ -55,7 +55,7 @@ if ( ! empty( $_GET['report_station_id'] ) ) {
             </div>
 
             <div class="wp-radio-form-row report-submit-field">
-                <button type="submit" id="report-submit" class="button report-submit"><?php esc_html_e( 'Send Message', 'wp-radio-user-frontend' ); ?></button>
+                <button type="submit" id="report-submit" aria-label="<?php _e('Submit', 'wp-radio'); ?>" title="<?php _e('Submit', 'wp-radio'); ?>" class="button report-submit"><?php esc_html_e( 'Send Message', 'wp-radio-user-frontend' ); ?></button>
             </div>
 
         </div>

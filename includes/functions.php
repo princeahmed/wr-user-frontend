@@ -88,11 +88,11 @@ if ( ! function_exists( 'wp_radio_report_btn' ) ) {
 
 		?>
 
-        <div class="report-btn open-popup <?php echo $popup_class; ?>" <?php echo $data_attr; ?>>
-            <i class="dashicons dashicons-warning"
-               title="<?php _e( 'Not working? Report a problem.', 'wp-radio-user-frontend' ); ?>"> </i>
+        <button type="button" title="<?php _e( 'Report', 'wp-radio-user-frontend' ); ?>" aria-label="<?php _e( 'Report',
+			'wp-radio-user-frontend' ); ?>" class="report-btn open-popup <?php echo $popup_class; ?>" <?php echo $data_attr; ?>>
+            <i class="dashicons dashicons-warning"> </i>
 			<?php echo $label ? __( 'Report a Problem', 'wp-radio-user-frontend' ) : ''; ?>
-        </div>
+        </button>
 		<?php
 	}
 }

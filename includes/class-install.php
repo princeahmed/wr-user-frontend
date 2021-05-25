@@ -27,7 +27,10 @@ if(!class_exists('WP_Radio_User_Frontend_Install')) {
 					'post_content' => '[wp_radio_my_account]',
 				) );
 
-				update_option( 'wp_radio_account_page', $account_page );
+				$settings                 = (array) get_option( 'wp_radio_user_frontend_settings' );
+				$settings['account_page'] = $account_page;
+
+				update_option( 'wp_radio_user_frontend_settings', $account_page );
 
 			}
 
@@ -39,7 +42,10 @@ if(!class_exists('WP_Radio_User_Frontend_Install')) {
 					'post_content' => '[wp_radio_submit_station]',
 				) );
 
-				update_option( 'wp_radio_submit_station_page', $submit_page );
+				$settings                        = (array) get_option( 'wp_radio_user_frontend_settings' );
+				$settings['submit_station_page'] = $submit_page;
+
+				update_option( 'wp_radio_user_frontend_settings', $submit_page );
 			}
 
 		}

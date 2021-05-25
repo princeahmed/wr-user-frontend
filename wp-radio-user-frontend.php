@@ -56,7 +56,7 @@ if ( ! function_exists( 'wr_user_frontend_fs' ) ) {
 				),
 				'menu'             => array(
 					'slug'       => 'edit.php?post_type=wp_radio',
-					'first-path' => 'edit.php?post_type=wp_radio&page=get-started',
+					'first-path' => 'edit.php?post_type=wp_radio&page=get-started&tab=user_frontend',
 					'support'    => false,
 				),
 				// Set the SDK to work in a sandbox mode (for development & testing).

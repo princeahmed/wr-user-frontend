@@ -118,39 +118,39 @@ msgstr ""
 msgid "%s User Frontend Settings"
 msgstr ""
 
-#: includes/class-hooks.php:127
+#: includes/class-hooks.php:126
 msgid "Add to Favorite."
 msgstr ""
 
-#: includes/class-hooks.php:139
+#: includes/class-hooks.php:138
 msgid "User Account Page :"
 msgstr ""
 
-#: includes/class-hooks.php:140
+#: includes/class-hooks.php:139
 msgid "Select the page for the user account page, where you place the %s shortcode."
 msgstr ""
 
-#: includes/class-hooks.php:147
+#: includes/class-hooks.php:145
 msgid "Station Submission Page"
 msgstr ""
 
-#: includes/class-hooks.php:148
+#: includes/class-hooks.php:146
 msgid "Select the page for station submission, where you place the %s shortcode."
 msgstr ""
 
-#: includes/class-hooks.php:155
+#: includes/class-hooks.php:152
 msgid "Enable Comment :"
 msgstr ""
 
-#: includes/class-hooks.php:156
+#: includes/class-hooks.php:153
 msgid "Display comment form on the station page."
 msgstr ""
 
-#: includes/class-hooks.php:163
+#: includes/class-hooks.php:160
 msgid "Enable Report Submission :"
 msgstr ""
 
-#: includes/class-hooks.php:164
+#: includes/class-hooks.php:161
 msgid "Whether display the report button for user to report if any station doesn't work."
 msgstr ""
 
@@ -158,11 +158,11 @@ msgstr ""
 msgid "My Account"
 msgstr ""
 
-#: includes/class-install.php:37
+#: includes/class-install.php:40
 msgid "Submit a Station"
 msgstr ""
 
-#: includes/class-install.php:50
+#: includes/class-install.php:56
 msgid "Listener"
 msgstr ""
 
@@ -182,8 +182,8 @@ msgstr ""
 msgid "Please enter an account password."
 msgstr ""
 
-#: includes/functions.php:93
-msgid "Not working? Report a problem."
+#: includes/functions.php:91, includes/functions.php:91
+msgid "Report"
 msgstr ""
 
 #: includes/functions.php:94

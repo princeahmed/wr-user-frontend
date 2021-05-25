@@ -53,6 +53,12 @@
 
   }
 
+  .issue-field {
+    select {
+      padding: 0 0 0 10px;
+    }
+  }
+
   .report-email-field {
     display: flex;
     flex-flow: column;
@@ -61,6 +67,8 @@
     input {
       flex: 1;
       border-radius: 5px;
+      padding: 0;
+      min-height: 30px;
     }
   }
 
@@ -78,6 +86,7 @@
   .report-radio-field {
     display: flex;
     align-items: center;
+    justify-content: center;
 
     a {
       font-size: 18px;
@@ -88,6 +97,12 @@
 
   .report-submit-field{
     text-align: center;
+
+    button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 
   .report-after, .report-validation {
