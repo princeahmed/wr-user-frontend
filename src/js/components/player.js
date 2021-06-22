@@ -87,7 +87,11 @@
                     let stream = $('.wp-radio-player-play-pause', parent).attr('data-stream');
 
                     if (!stream) return;
-                    stream = JSON.parse(stream);
+                    try {
+                        stream = JSON.parse(stream);
+                    } catch (e) {
+                        return;
+                    }
 
                     const id = parseInt(stream.streamId);
 
