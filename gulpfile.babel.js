@@ -25,17 +25,14 @@ const server = browserSync.create();
 
 const paths = {
     css: {
-        src: ['src/css/frontend.scss'],
+        src: ['assets/scss/frontend.scss'],
         dest: 'assets/css/'
     },
     js: {
-        src: ['src/js/frontend.js'],
+        src: ['assets/js/frontend.js'],
         dest: 'assets/js/'
     },
-    images: {
-        src: 'src/images/**/*.{jpg,jpeg,png,gif,svg}',
-        dest: 'assets/images'
-    },
+
     php: {
         src: [
             '**/*.php',
@@ -48,10 +45,8 @@ const paths = {
         ],
         dest: './'
     },
-    other: {
-        src: ['src/**/*', '!src/{css,js,images}', '!src/{css,js,images}/**/*'],
-        dest: 'assets'
-    },
+
+
     build: {
         src: [
             '**/*',
@@ -97,7 +92,7 @@ const paths = {
     }
 };
 
-export const clean = () => del(['assets', 'build']);
+export const clean = () => del(['build']);
 
 export const css = () => {
 
@@ -117,19 +112,33 @@ export const js = () => {
         .pipe(named())
         .pipe(webpack({
             mode: PRODUCTION ? 'production' : 'development',
+            externals: {
+                "react": "React",
+                "react-dom": "ReactDOM"
+            },
             module: {
                 rules: [
                     {
+                        test: /\.scss$/i,
+                        use: [
+                            "style-loader",
+                            "css-loader",
+                            "sass-loader",
+                        ],
+                    },
+                    {
                         test: /\.js$/,
+                        exclude: /(node_modules|bower_components)/,
                         use: [
                             {
                                 loader: 'babel-loader',
                                 options: {
-                                    presets: ['@babel/preset-env']
+                                    presets: ['@babel/preset-react'],
+                                    plugins: ['@babel/plugin-proposal-class-properties'],
                                 }
                             }
                         ]
-                    }
+                    },
                 ]
             },
             plugins: [
@@ -165,16 +174,7 @@ export const js = () => {
         .pipe(gulp.dest(paths.js.dest));
 };
 
-export const images = () => {
-    return gulp.src(paths.images.src)
-        .pipe(gulpif(PRODUCTION, imagemin()))
-        .pipe(gulp.dest(paths.images.dest));
-};
 
-export const copy = () => {
-    return gulp.src(paths.other.src)
-        .pipe(gulp.dest(paths.other.dest));
-};
 
 export const serve = done => {
     server.init({
@@ -190,11 +190,9 @@ export const reload = done => {
 };
 
 export const watch = () => {
-    gulp.watch('src/css/**/*.scss', css);
-    gulp.watch('src/js/**/*.js', gulp.series(js, reload));
+    gulp.watch('assets/scss/**/*.scss', css);
+    gulp.watch(['assets/js/**/*.js', '!assets/js/*.min.js',], gulp.series(js, reload));
     gulp.watch('**/*.php', reload);
-    gulp.watch(paths.images.src, gulp.series(images, reload));
-    gulp.watch(paths.other.src, gulp.series(copy, reload));
 };
 
 export const compress = () => {
@@ -238,7 +236,7 @@ export const makepot = () => {
         .pipe(gulp.dest(`languages/${pkg.name}.pot`))
 };
 
-export const dev = gulp.series(clean, gulp.parallel(css, js, images, copy), serve, watch);
-export const build = gulp.series(clean, gulp.parallel(css, js, images, copy), checkdomain, makepot, compress);
+export const dev = gulp.series(clean, gulp.parallel(css, js), serve, watch);
+export const build = gulp.series(clean, gulp.parallel(css, js), checkdomain, makepot, compress);
 
 export default dev;

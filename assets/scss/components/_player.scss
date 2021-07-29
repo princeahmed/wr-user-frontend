@@ -1,0 +1,33 @@
+.play-btn {
+  .favorite-btn-wrap {
+    margin-right: 15px;
+  }
+}
+
+.favorite-btn-wrap {
+  display: inline-flex;
+
+  &.added {
+    color: #f6931f !important;
+  }
+}
+
+.wp-radio-info {
+  .report-btn-wrap {
+    margin-left: auto;
+
+    button {
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;;
+      border: 1px solid #ddd;
+      padding: 7px 10px;
+      border-radius: 3px;
+      line-height: 1;
+
+      svg {
+        margin-right: 5px;
+      }
+    }
+  }
+}
