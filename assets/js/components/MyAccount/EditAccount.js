@@ -1,31 +1,29 @@
-const {TextControl, FormFileUpload} = wp.components;
+const {TextControl} = wp.components;
 
 const {useState} = wp.element;
 
-export default function EditAccount() {
-    const avatar = '';
+export default function EditAccount({user}) {
+
+
     const [changePass, setChangePass] = useState(false);
+    const [formData, setFormData] = useState(user);
+
+    function handleSubmit(e) {
+        e.preventDefault();
+
+        wp.apiFetch({
+            method: 'POST',
+            path: `wp-radio/v1/update-account`,
+            data: formData
+        }).then((res) => console.log(res));
+
+    }
 
     return (
         <>
             <h3 className="section-title">Account Details</h3>
 
-            <form className="wp-radio-form wp-radio-form-edit-account" method="post" encType="multipart/form-data">
-
-                <p className="wp-radio-form-row wp-radio-form-row--wide avatar-field">
-                    <label htmlFor="avatar">Avatar Image:</label>
-
-                    <FormFileUpload
-                        accept="image/*"
-                        onChange={(e) => console.log('new image', e)}
-                        render={({openFileDialog}) => (
-                            <button type="button" onClick={openFileDialog}>Upload image</button>
-                        )}
-                    />
-
-                    <img src={avatar} alt="user-avatar"/>
-                </p>
-
+            <form className="wp-radio-form wp-radio-form-edit-account" onSubmit={handleSubmit}>
 
                 <div className="wp-radio-flex">
                     <div className="wp-radio-col-6">
@@ -33,8 +31,8 @@ export default function EditAccount() {
                             <TextControl
                                 label="First Name:"
                                 placeholder="First Name"
-                                value={"myemail@emails.com"}
-                                onChange={e => console.log(e)}
+                                value={formData.firstName}
+                                onChange={firstName => setFormData({...formData, firstName})}
                                 help="Enter your first name"
                             />
                         </p>
@@ -44,8 +42,8 @@ export default function EditAccount() {
                             <TextControl
                                 label="Last Name:"
                                 placeholder="Last Name"
-                                value={"myemail@emails.com"}
-                                onChange={e => console.log(e)}
+                                value={formData.lastName}
+                                onChange={lastName => setFormData(...formData, lastName)}
                                 help="Enter your last name"
                             />
                         </p>
@@ -56,8 +54,8 @@ export default function EditAccount() {
                     <TextControl
                         label="Email Address:"
                         placeholder="Email Address"
-                        value={"myemail@emails.com"}
-                        onChange={e => console.log(e)}
+                        value={formData.email}
+                        onChange={email => setFormData(...formData, email)}
                         type="email"
                         help="Enter your email address"
                     />
@@ -74,8 +72,8 @@ export default function EditAccount() {
                             <TextControl
                                 label="Current password (leave blank to leave unchanged)"
                                 placeholder="Current password"
-                                value={"myemail@emails.com"}
-                                onChange={e => console.log(e)}
+                                value={formData.currentPass}
+                                onChange={currentPass => setFormData({...formData, currentPass})}
                                 type="password"
                                 help="Enter your current password"
                             />
@@ -85,8 +83,8 @@ export default function EditAccount() {
                             <TextControl
                                 label="New password (leave blank to leave unchanged)"
                                 placeholder="New password"
-                                value={"myemail@emails.com"}
-                                onChange={e => console.log(e)}
+                                value={formData.newPass}
+                                onChange={newPass => setFormData({...formData, newPass})}
                                 type="password"
                                 help="Enter your new password"
                             />
@@ -96,8 +94,8 @@ export default function EditAccount() {
                             <TextControl
                                 label="Confirm new password"
                                 placeholder="Confirm new password"
-                                value={"myemail@emails.com"}
-                                onChange={e => console.log(e)}
+                                value={formData.confirmNewPass}
+                                onChange={confirmNewPass => setFormData({...formData, confirmNewPass})}
                                 type="password"
                                 help="Enter the new password again to confirm"
                             />
@@ -106,6 +104,12 @@ export default function EditAccount() {
                     }
 
                 </div>
+
+                <p className="wp-radio-form-row wp-radio-form-row--wide">
+                    <button type="submit" className="wp-radio-btn">
+                        Update
+                    </button>
+                </p>
 
             </form>
         </>

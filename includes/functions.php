@@ -53,7 +53,7 @@ if ( ! function_exists( 'wp_radio_create_new_listener' ) ) {
 	}
 }
 
-if(!function_exists('wr_user_frontend_get_favourites')) {
+if ( ! function_exists( 'wr_user_frontend_get_favourites' ) ) {
 	function wr_user_frontend_get_favourites( $offset = 0, $limit = 15, $count = false ) {
 		$favourites = get_user_meta( get_current_user_id(), 'favourite_stations', true );
 
@@ -89,10 +89,33 @@ if ( ! function_exists( 'wp_radio_report_btn' ) ) {
 		?>
 
         <button type="button" title="<?php _e( 'Report', 'wp-radio-user-frontend' ); ?>" aria-label="<?php _e( 'Report',
-			'wp-radio-user-frontend' ); ?>" class="report-btn open-popup <?php echo $popup_class; ?>" <?php echo $data_attr; ?>>
+			'wp-radio-user-frontend' ); ?>"
+                class="report-btn open-popup <?php echo $popup_class; ?>" <?php echo $data_attr; ?>>
             <i class="dashicons dashicons-warning"> </i>
 			<?php echo $label ? __( 'Report a Problem', 'wp-radio-user-frontend' ) : ''; ?>
         </button>
 		<?php
 	}
+}
+
+function wr_user_frontend_get_favorite_items() {
+	$user_id = get_current_user_id();
+
+	$favourites = (array) get_user_meta( $user_id, 'favourite_stations', true );
+
+	$query = wp_radio_get_stations( [ 'post__in' => $favourites ], true );
+
+	return wp_radio_get_listing_items( $query );
+
+}
+
+function wr_user_frontend_get_user_data() {
+	$user = get_user_by( 'id', get_current_user_id() );
+
+	return [
+		'firstName' => $user->first_name,
+		'lastName'  => $user->last_name,
+		'email'     => $user->user_email,
+	];
+
 }

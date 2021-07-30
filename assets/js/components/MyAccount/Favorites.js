@@ -1,16 +1,15 @@
 import Loop from '../../../../../wp-radio/assets/js/Listing/Loop'
 
-export default function Favorites() {
-    const favorites = [
-        {id: 137, title: 'ABC Radio', slogan: 'slogan', link: '#', thumbnail: '', content: 'Yo'}
-    ]
+export default function Favorites({favorites}) {
 
     return (
         <>
             <h3 className="section-title">Favorite Stations</h3>
 
             <div className="wp-radio-listings">
-                <Loop items={favorites}/>
+                {!!favorites && !!favorites.length ? <Loop items={favorites}/>
+                    : <p>You didn't add any station to your favorites list.</p>
+                }
             </div>
         </>
     )

@@ -1,25 +1,60 @@
 import Select from "react-select";
+import {countryFlag} from "../../../../wp-radio/assets/js/components/functions";
+
 const {TextControl, TextareaControl, FormFileUpload} = wp.components
 
-export default function SubmitStation() {
+const {useState} = wp.element;
 
-    const countryOptions = [{
-        bd: 'Bangladesh',
-    }]
-    const genreOptions = [{
-        12: 'Rock',
-    }]
+export default function SubmitStation({countries, genres}) {
+
+    const [formData, setFormData] = useState({});
+
+    function onSubmit(e) {
+        e.preventDefault();
+
+        wp.apiFetch({
+            method: 'POST',
+            path: `wp-radio/v1/submit-station`,
+            data: formData
+        });
+    }
+
+
+    const countryOptions = [{label: <span>{countryFlag('ww')} All Countries</span>, value: 'all'}];
+    Object.keys(countries).map(key => (countryOptions.push({
+        value: key,
+        label: <span> {countryFlag(key)} {countries[key]} </span>
+    })));
+
+    const genreOptions = [{label: 'All Genres', value: 'all'}];
+    Object.keys(genres).map(key => (genreOptions.push({value: key, label: genres[key]})));
+
+    const {
+        title,
+        slogan,
+        streamURL,
+        content,
+        country,
+        genre,
+        website,
+        facebook,
+        twitter,
+        wikipedia,
+        address,
+        email,
+        phone
+    } = formData;
 
     return (
         <div className="wp-radio-col-12">
-            <form className="wp-radio-form wp-radio-form-submit-station" encType="multipart/form-data">
+            <form className="wp-radio-form wp-radio-form-submit-station" onSubmit={onSubmit}>
 
                 <div className="wp-radio-form-row wp-radio-form-row--wide">
                     <TextControl
                         label="Station Title:"
                         placeholder="Station title"
-                        value={"myemail@emails.com"}
-                        onChange={e => console.log(e)}
+                        value={title}
+                        onChange={title => setFormData({...formData, title})}
                         type="text"
                         help="Enter the radio station name"
                     />
@@ -29,8 +64,8 @@ export default function SubmitStation() {
                     <TextControl
                         label="Station Slogan:"
                         placeholder="Station slogan"
-                        value={"myemail@emails.com"}
-                        onChange={e => console.log(e)}
+                        value={slogan}
+                        onChange={slogan => setFormData({...formData, slogan})}
                         type="text"
                         help="Enter the radio station slogan"
                     />
@@ -39,9 +74,9 @@ export default function SubmitStation() {
                 <div className="wp-radio-form-row wp-radio-form-row--wide">
                     <TextControl
                         label="Stream URL:"
-                        placeholder="Station slogan"
-                        value={"myemail@emails.com"}
-                        onChange={e => console.log(e)}
+                        placeholder="Stream Link"
+                        value={streamURL}
+                        onChange={streamURL => setFormData({...formData, streamURL})}
                         type="url"
                         help="Enter the radio station live streaming URL"
                     />
@@ -51,21 +86,32 @@ export default function SubmitStation() {
                     <TextareaControl
                         label="Station Description:"
                         placeholder="Station description"
-                        value={"myemail@emails.com"}
-                        onChange={e => console.log(e)}
+                        value={content}
+                        onChange={content => setFormData({...formData, content})}
                         help="Enter the radio station short description"
                     />
                 </div>
 
                 <div className="wp-radio-form-row wp-radio-form-row--wide">
-                    <label htmlFor="">Station Logo</label>
+                    <label>Station Logo</label>
 
                     <FormFileUpload
                         accept="image/*"
-                        onChange={(e) => console.log('new image', e)}
+                        onChange={(e) => {
+
+                            console.log({...e})
+
+                            wp.apiFetch({
+                                method: 'POST',
+                                path: `wp-radio/v1/submit-station`,
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                data: e.target.files
+                            });
+                        }}
                         render={({openFileDialog}) => (
                             <div>
-                                <p>Upload an image below: </p>
                                 <button type="button" onClick={openFileDialog}>
                                     Upload image
                                 </button>
@@ -77,15 +123,16 @@ export default function SubmitStation() {
                 </div>
 
                 <div className="wp-radio-flex">
+
                     <div className="wp-radio-col-6">
                         <div className="wp-radio-form-row wp-radio-form-row--wide">
                             <label htmlFor="">Station country</label>
                             <Select
                                 options={countryOptions}
                                 placeholder="Select country"
-                                value={''}
+                                value={country}
                                 isClearable
-                                onChange={selected => console.log('')}
+                                onChange={country => setFormData({...formData, country})}
 
                                 styles={{
                                     control: styles => ({...styles, width: '100%'}),
@@ -109,9 +156,12 @@ export default function SubmitStation() {
                             <Select
                                 options={genreOptions}
                                 placeholder="Select genres"
-                                value={''}
+                                value={genre}
+                                isMulti
                                 isClearable
-                                onChange={selected => console.log('')}
+                                onChange={genre => {
+                                    setFormData({...formData, genre});
+                                }}
 
                                 styles={{
                                     control: styles => ({...styles, width: '100%'}),
@@ -131,13 +181,14 @@ export default function SubmitStation() {
                 </div>
 
                 <div className="wp-radio-flex">
+
                     <div className="wp-radio-col-4">
                         <div className="wp-radio-form-row wp-radio-form-row--wide">
                             <TextControl
                                 label="Website :"
                                 placeholder="Website url"
-                                value={"myemail@emails.com"}
-                                onChange={e => console.log(e)}
+                                value={website}
+                                onChange={website => setFormData({...formData, website})}
                                 type="url"
                                 help="Enter the station website URL"
                             />
@@ -149,8 +200,8 @@ export default function SubmitStation() {
                             <TextControl
                                 label="Facebook:"
                                 placeholder="Facebook url"
-                                value={"myemail@emails.com"}
-                                onChange={e => console.log(e)}
+                                value={facebook}
+                                onChange={facebook => setFormData({...formData, facebook})}
                                 type="url"
                                 help="Enter the station facebook URL"
                             />
@@ -162,8 +213,8 @@ export default function SubmitStation() {
                             <TextControl
                                 label="Twitter:"
                                 placeholder="Twitter url"
-                                value={"myemail@emails.com"}
-                                onChange={e => console.log(e)}
+                                value={twitter}
+                                onChange={twitter => setFormData({...formData, twitter})}
                                 type="url"
                                 help="Enter the station twitter URL"
                             />
@@ -177,32 +228,34 @@ export default function SubmitStation() {
                     <TextareaControl
                         label="Address:"
                         placeholder="Station address"
-                        value={"myemail@emails.com"}
-                        onChange={e => console.log(e)}
+                        value={address}
+                        onChange={address => setFormData({...formData, address})}
                         help="Enter the radio station address"
                     />
                 </div>
 
                 <div className="wp-radio-flex">
+
                     <div className="wp-radio-col-6">
                         <div className="wp-radio-form-row wp-radio-form-row--wide">
                             <TextControl
                                 label="Email:"
                                 placeholder="Contact Email"
-                                value={"myemail@emails.com"}
-                                onChange={e => console.log(e)}
+                                value={email}
+                                onChange={email => setFormData({...formData, email})}
                                 type="email"
                                 help="Enter the radio station contact email."
                             />
                         </div>
                     </div>
+
                     <div className="wp-radio-col-6">
                         <div className="wp-radio-form-row wp-radio-form-row--wide">
                             <TextControl
                                 label="Phone:"
                                 placeholder="Contact Phone"
-                                value={"myemail@emails.com"}
-                                onChange={e => console.log(e)}
+                                value={phone}
+                                onChange={phone => setFormData({...formData, phone})}
                                 type="text"
                                 help="Enter the radio station contact phone number."
                             />
@@ -211,11 +264,8 @@ export default function SubmitStation() {
 
                 </div>
 
-
                 <p className="wp-radio-form-row">
-                    <button type="button" className="wp-radio-button button">
-                        Submit
-                    </button>
+                    <button type="submit" className="wp-radio-button button">Submit</button>
                 </p>
 
             </form>
@@ -226,5 +276,11 @@ export default function SubmitStation() {
 const element = document.getElementById('submit-station');
 
 if (element) {
-    wp.element.render(<SubmitStation/>, element);
+    let countries = element.getAttribute('data-countries');
+    let genres = element.getAttribute('data-genres');
+
+    countries = countries ? JSON.parse(countries) : {};
+    genres = genres ? JSON.parse(genres) : {};
+
+    wp.element.render(<SubmitStation countries={countries} genres={genres}/>, element);
 }

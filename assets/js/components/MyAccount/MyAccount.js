@@ -5,7 +5,7 @@ import EditAccount from "./EditAccount";
 
 const {useState} = wp.element;
 
-export default function MyAccount() {
+export default function MyAccount({favorites, user, logoutURL}) {
 
     const [tab, setTab] = useState('dashboard')
 
@@ -40,7 +40,7 @@ export default function MyAccount() {
 
 
                     <li className="logout">
-                        <a href="">
+                        <a href={logoutURL}>
                             <i className="dashicons dashicons-migrate"></i>Logout
                         </a>
                     </li>
@@ -50,9 +50,9 @@ export default function MyAccount() {
             <div className="wp-radio-my-account-content wp-radio-col-9">
                 <div className="wp-radio-notices"></div>
 
-                {'dashboard' === tab && <Dashboard/>}
-                {'favorites' === tab && <Favorites/>}
-                {'edit-account' === tab && <EditAccount/>}
+                {'dashboard' === tab && <Dashboard setTab={setTab}/>}
+                {'favorites' === tab && <Favorites favorites={favorites}/>}
+                {'edit-account' === tab && <EditAccount user={user}/>}
 
             </div>
 
@@ -63,5 +63,13 @@ export default function MyAccount() {
 const element = document.getElementById('wp-radio-account');
 
 if (element) {
-    wp.element.render(<MyAccount/>, element);
+    let favorites = element.getAttribute('data-favorites');
+    favorites = favorites ? JSON.parse(favorites) : [];
+
+    let user = element.getAttribute('data-user');
+    user = user ? JSON.parse(user) : [];
+
+    const logoutURL = element.getAttribute('data-logoutURL');
+
+    wp.element.render(<MyAccount user={user} favorites={favorites} logoutURL={logoutURL} />, element);
 }

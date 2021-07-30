@@ -32,7 +32,7 @@ if ( ! class_exists( 'WR_User_Frontend_Shortcode' ) ) {
 
 		public function submit_station( $atts ) {
 			ob_start();
-			wp_radio_get_template( 'form-submit-station', [ 'atts' => $atts ], '', WR_USER_FRONTEND_TEMPLATES );
+			wp_radio_get_template( 'submit-station', [ 'atts' => $atts ], '', WR_USER_FRONTEND_TEMPLATES );
 
 			return ob_get_clean();
 		}

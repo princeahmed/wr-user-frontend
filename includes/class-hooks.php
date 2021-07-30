@@ -29,10 +29,26 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 
 		public function register_routes( $namespace ) {
 
+			register_rest_route( $namespace, '/reviews/', array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_reviews' ),
+					'permission_callback' => 'is_user_logged_in',
+				),
+			) );
+
+			register_rest_route( $namespace, '/user-review/', array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_user_review' ),
+					'permission_callback' => 'is_user_logged_in',
+				),
+			) );
+
 			register_rest_route( $namespace, '/favorites/', array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'handle_favorites' ),
+					'callback'            => array( $this, 'get_favorites' ),
 					'permission_callback' => 'is_user_logged_in',
 				),
 			) );
@@ -44,6 +60,246 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 					'permission_callback' => 'is_user_logged_in',
 				),
 			) );
+
+			register_rest_route( $namespace, '/user-review/', array(
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'update_user_review' ),
+					'permission_callback' => 'is_user_logged_in',
+				),
+			) );
+
+			register_rest_route( $namespace, '/submit-station/', array(
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'handle_station_submission' ),
+					'permission_callback' => 'is_user_logged_in',
+				),
+			) );
+
+			register_rest_route( $namespace, '/update-account/', array(
+				array(
+					'methods'             => WP_REST_Server::EDITABLE,
+					'callback'            => array( $this, 'handle_update_account' ),
+					'permission_callback' => 'is_user_logged_in',
+				),
+			) );
+
+		}
+
+		public function handle_update_account( $request ) {
+			$data = json_decode( $request->get_body() );
+
+
+			$user_id = get_current_user_id();
+
+			$first_name = ! empty( $data->firstName ) ? sanitize_text_field( $data->firstName ) : '';
+			$last_name  = ! empty( $data->lastName ) ? sanitize_text_field( $data->lastName ) : '';
+			$email      = ! empty( $data->email ) ? sanitize_email( $data->email ) : '';
+
+			$current_password = ! empty( $data->currentPass ) ? $data->currentPass : '';
+			$new_password     = ! empty( $data->newPass ) ? $data->newPass : '';
+			$confirm_password = ! empty( $data->confirmPass ) ? $data->confirmPass : '';
+			$save_password    = true;
+
+			// Current user data.
+			$current_user = get_user_by( 'id', $user_id );
+
+			// New user data.
+			$user             = new stdClass();
+			$user->ID         = $user_id;
+			$user->first_name = $first_name;
+			$user->last_name  = $last_name;
+
+			// Handle required fields.
+			$required_fields = [
+				'firstName' => __( 'First name', 'wp-radio-user-frontend' ),
+				'lastName'  => __( 'Last name', 'wp-radio-user-frontend' ),
+				'email'     => __( 'Email address', 'wp-radio-user-frontend' ),
+			];
+
+			$errors = [];
+
+			foreach ( $required_fields as $field_key => $field_name ) {
+				if ( empty( $data->{$field_key} ) ) {
+					$errors[] = sprintf( __( '%s is a required field.', 'wp-radio-user-frontend' ), '<strong>' . esc_html( $field_name ) . '</strong>' );
+				}
+			}
+
+			if ( $email ) {
+				$email = sanitize_email( $email );
+				if ( ! is_email( $email ) ) {
+					$errors[] = __( 'Please provide a valid email address.', 'wp-radio-user-frontend' );
+				} elseif ( email_exists( $email ) && $email !== $current_user->user_email ) {
+					$errors[] = __( 'This email address is already registered.', 'wp-radio-user-frontend' );
+				}
+
+				$user->user_email = $email;
+			}
+
+			if ( ! empty( $current_password ) && empty( $new_password ) && empty( $confirm_password ) ) {
+				$errors[]      = __( 'Please fill out all password fields.', 'wp-radio-user-frontend' );
+				$save_password = false;
+			} elseif ( ! empty( $new_password ) && empty( $current_password ) ) {
+				$error[]       = __( 'Please enter your current password.', 'wp-radio-user-frontend' );
+				$save_password = false;
+			} elseif ( ! empty( $new_password ) && empty( $confirm_password ) ) {
+				$error[]       = __( 'Please re-enter your password.', 'wp-radio-user-frontend' );
+				$save_password = false;
+			} elseif ( ( ! empty( $new_password ) || ! empty( $confirm_password ) ) && $new_password !== $confirm_password ) {
+				$error[]       = __( 'New passwords do not match.', 'wp-radio-user-frontend' );
+				$save_password = false;
+			} elseif ( ! empty( $new_password ) && ! wp_check_password( $current_password, $current_user->user_pass, $current_user->ID ) ) {
+				$error[]       = __( 'Your current password is incorrect.', 'wp-radio-user-frontend' );
+				$save_password = false;
+			}
+
+			if ( $new_password && $save_password ) {
+				$user->user_pass = $new_password;
+			}
+
+
+			if ( empty( $errors ) ) {
+				wp_update_user( $user );
+
+				wp_send_json_success();
+			}
+
+			wp_send_json_error( $errors );
+
+		}
+
+		public function handle_station_submission( $request ) {
+			$data = json_decode( $request->get_body() );
+
+			error_log( print_r( $request, 1 ) );
+
+			return;
+
+			$args = [
+				'post_status' => 'pending',
+				'post_type'   => 'wp_radio',
+			];
+
+			$args['post_title']   = ! empty( $data->title ) ? sanitize_text_field( $data->title ) : '';
+			$args['post_content'] = ! empty( $data->content ) ? sanitize_textarea_field( $data->content ) : '';
+
+			$args['tax_input'] = [
+				'radio_country' => ! empty( $data->country ) ? intval( $data->country ) : '',
+				'radio_genre'   => ! empty( $data->genre ) ? array_map( 'intval', $data->genre ) : '',
+			];
+
+			$post_id = wp_insert_post( $args );
+
+			if ( ! is_wp_error( $post_id ) ) {
+				$metas = [
+					'slogan'       => ! empty( $data->slogan ) ? sanitize_text_field( $data->slogan ) : '',
+					'stream_url'   => ! empty( $data->stream_url ) ? esc_url( $data->stream_url ) : '',
+					'website'      => ! empty( $data->website ) ? esc_url( $data->website ) : '',
+					'facebook'     => ! empty( $data->facebook ) ? esc_url( $data->facebook ) : '',
+					'twitter'      => ! empty( $data->twitter ) ? esc_url( $data->twitter ) : '',
+					'address'      => ! empty( $data->address ) ? sanitize_textarea_field( $data->address ) : '',
+					'email'        => ! empty( $data->email ) ? sanitize_email( $data->email ) : '',
+					'phone'        => ! empty( $data->phone ) ? sanitize_text_field( $data->phone ) : '',
+					'submitted_by' => get_current_user_id(),
+				];
+
+				foreach ( $metas as $key => $meta ) {
+					update_post_meta( $post_id, $key, $meta );
+				}
+			}
+
+		}
+
+		public function update_user_review( $request ) {
+			$post_id = intval( $request->get_param( 'post_id' ) );
+			$data    = json_decode( $request->get_body() );
+
+			if ( empty( $data->rating ) || empty( $data->content ) ) {
+				wp_send_json_error( __( 'Missing Require Field(s)', 'wp-radio-user-frontend' ) );
+			}
+
+			$meta_input = [
+				'object_id' => $post_id,
+				'user_id'   => get_current_user_id(),
+				'rating'    => intval( $data->rating ),
+			];
+
+			$exits = get_page_by_title( md5( $post_id . get_current_user_id() ), OBJECT, 'radio_review' );
+
+			if ( ! empty( $exits ) ) {
+				$review_id = wp_update_post( [
+					'ID'           => $exits->ID,
+					'post_content' => sanitize_textarea_field( $data->content ),
+					'meta_input'   => $meta_input
+				] );
+			} else {
+				$review_id = wp_insert_post( [
+					'post_title'   => md5( $post_id . get_current_user_id() ),
+					'post_content' => sanitize_textarea_field( $data->content ),
+					'post_type'    => 'radio_review',
+					'post_status'  => 'publish',
+					'meta_input'   => $meta_input
+				] );
+			}
+
+
+			if ( is_wp_error( $review_id ) ) {
+				wp_send_json_error( $review_id );
+			}
+
+
+			wp_send_json_success();
+		}
+
+		public function get_reviews( $request ) {
+			$post_id = intval( $request->get_param( 'post_id' ) );
+
+			$reviews = get_posts( [
+				'post_type'   => 'radio_review',
+				'meta_key'    => 'object_id',
+				'meta_value'  => $post_id,
+				'numberposts' => 10,
+			] );
+
+			$items = [];
+
+			if ( ! empty( $reviews ) ) {
+				$item = [];
+
+				foreach ( $reviews as $review ) {
+					$review_id = $review->ID;
+
+					$item['object_id'] = get_post_meta( $review_id, 'object_id', true );
+					$item['rating']    = get_post_meta( $review_id, 'rating', true );
+
+					$user_id = get_post_meta( $review_id, 'user_id', true );
+					$user    = get_user_by( 'id', $user_id );
+
+					$item['avatar']  = get_avatar( $user_id );
+					$item['name']    = $user->first_name . ' ' . $user->last_name;
+					$item['date']    = get_the_date( '', $review_id );
+					$item['content'] = get_post_field( 'post_content', $review_id );
+
+					$items[] = $item;
+				}
+			}
+
+			wp_send_json_success( $items );
+		}
+
+		public function get_user_review( $request ) {
+			$station_id = intval( $request->get_param( 'post_id' ) );
+
+			$hash  = md5( $station_id . get_current_user_id() );
+			$exits = get_page_by_title( $hash, OBJECT, 'radio_review' );
+
+			$rating = ! empty( $exits ) ? get_post_meta( $exits->ID, 'rating', 1 ) : 0;
+
+			wp_send_json_success( [
+				'rating'  => $rating,
+				'content' => $exits ? get_post_field( 'post_content', $exits->ID ) : ''
+			] );
 
 		}
 
@@ -81,7 +337,7 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 			wp_send_json_success( true );
 		}
 
-		public function handle_favorites( $request ) {
+		public function get_favorites( $request ) {
 			$post_id = intval( $request->get_param( 'post_id' ) );
 			$action  = sanitize_key( $request->get_param( 'action' ) );
 			$user_id = get_current_user_id();
@@ -102,7 +358,6 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 			wp_send_json_success( $favourites );
 
 		}
-
 
 		//backlog
 		public function handle_station_approve( $post ) {

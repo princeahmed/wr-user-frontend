@@ -4,6 +4,7 @@ defined( 'ABSPATH' ) || exit();
 
 $hash             = md5( $post_id . get_current_user_id() );
 $exits            = get_page_by_title( $hash, OBJECT, 'radio_review' );
+
 $curr_user_rating = ! empty( $exits ) ? get_post_meta( $exits->ID, 'rating', 1 ) : 0;
 
 ?>

@@ -1,6 +1,6 @@
 import FavoriteBtn from "./FavoriteBtn";
 import ReportBtn from "./ReportBtn";
-import Review from "./Review";
+import Reviews from "./Reviews";
 
 function Hooks() {
 
@@ -45,12 +45,12 @@ function Hooks() {
 
         info.append(reportBtn);
 
-        //review
-        const review = document.createElement('span');
-        review.classList.add('wp-radio-review-wrap')
-        wp.element.render(<Review/>, review)
+        //reviews
+        const reviews = document.createElement('span');
+        reviews.classList.add('wp-radio-review-wrap')
+        wp.element.render(<Reviews data={data}/>, reviews)
 
-        parent.insertBefore(review, contacts.nextSibling);
+        parent.insertBefore(reviews, contacts.nextSibling);
     });
 
 }
