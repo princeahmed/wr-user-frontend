@@ -1,6 +1,7 @@
 .report-form-wrapper {
-  display: none;
+  display: flex;
   top: 0;
+  left: 0;
   position: fixed;
   background: rgba(#000, .6);
   width: 100%;
@@ -9,11 +10,6 @@
   align-items: center;
   justify-content: center;
   flex-flow: column;
-
-  &.active {
-    display: flex !important;
-  }
-
 }
 
 .report-form {
@@ -25,7 +21,7 @@
   color: #fff;
   width: 350px;
 
-  .form-title{
+  .form-title {
     color: #fff;
     font-size: 1.5rem;
     margin-bottom: 10px;
@@ -67,7 +63,6 @@
     input {
       flex: 1;
       border-radius: 5px;
-      padding: 0;
       min-height: 30px;
     }
   }
@@ -95,7 +90,7 @@
     }
   }
 
-  .report-submit-field{
+  .report-submit-field {
     text-align: center;
 
     button {
@@ -111,7 +106,7 @@
     color: orangered;
     font-weight: bold;
 
-    h3{
+    h3 {
       color: #fff;
     }
   }

@@ -7,9 +7,16 @@
 .favorite-btn-wrap {
   display: inline-flex;
 
-  &.added {
-    color: #f6931f !important;
+  .favorite-btn {
+    &.active {
+      color: #f6931f !important;
+    }
   }
+
+}
+
+.report-btn-wrap {
+  display: inline-flex;
 }
 
 .wp-radio-info {

@@ -5,33 +5,43 @@ import Review from "./Review";
 function Hooks() {
 
     //favorite btn
-    window.wpRadioHooks.addAction('playBtn', 'wp-radio', (parent, id) => {
+    window.wpRadioHooks.addAction('playBtn', 'wp-radio', (parent, data) => {
 
         if (!parent) return;
 
-        const btn = document.createElement('span');
-        btn.classList.add('favorite-btn-wrap')
-        wp.element.render(<FavoriteBtn/>, btn)
+        //prepend favorite button
+        let favBtnElement = parent.querySelector('.favorite-btn-wrap');
 
-        parent.prepend(btn);
+        if (!favBtnElement) {
+            favBtnElement = document.createElement('span');
+            favBtnElement.classList.add('favorite-btn-wrap')
+        }
 
+        wp.element.render(<FavoriteBtn id={data.id}/>, favBtnElement);
+        parent.prepend(favBtnElement);
+
+        //append report btn to the player controls
         if (parent.classList.contains('wp-radio-player-controls')) {
-            const btn = document.createElement('span');
-            btn.classList.add('report-btn-wrap')
-            wp.element.render(<ReportBtn isMinimal/>, btn)
+            let reportBtnElement = parent.querySelector('.report-btn-wrap');
 
-            parent.append(btn);
+            if (!reportBtnElement) {
+                reportBtnElement = document.createElement('span');
+                reportBtnElement.classList.add('report-btn-wrap')
+            }
+
+            wp.element.render(<ReportBtn isMinimal data={data}/>, reportBtnElement)
+            parent.append(reportBtnElement);
         }
 
     });
 
 
-    window.wpRadioHooks.addAction('singleRadio', 'wp-radio', (parent, info, contacts, id) => {
+    window.wpRadioHooks.addAction('singleRadio', 'wp-radio', (parent, info, contacts, data) => {
 
         //report btn
         const reportBtn = document.createElement('span');
         reportBtn.classList.add('report-btn-wrap')
-        wp.element.render(<ReportBtn/>, reportBtn)
+        wp.element.render(<ReportBtn data={data}/>, reportBtn)
 
         info.append(reportBtn);
 

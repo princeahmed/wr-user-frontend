@@ -1,11 +1,36 @@
 import icons from './icons.json'
+import classNames from "classnames";
+import {getFavorites} from "./functions";
 
-export default function FavoriteBtn() {
+const {useState, useEffect} = wp.element;
+
+export default function FavoriteBtn({id}) {
+
+    const [favorites, setFavorites] = useState(getFavorites());
+    const [active, setActive] = useState(favorites.includes(id));
+
+    useEffect(() => {
+        setActive(favorites.includes(id));
+    }, [id]);
+
+    const handleFavorite = () => {
+        setActive(!active);
+
+        wp.apiFetch({
+            path: `wp-radio/v1/favorites?post_id=${id}&action=${active ? 'remove' : 'add'}`
+        }).then(({data}) => {
+            setFavorites(data);
+            localStorage.setItem('favorite_stations', JSON.stringify(data));
+        });
+    }
+
+
     return (
         <button
             type="button"
-            className="favorite-btn"
+            className={classNames('favorite-btn', {active: active})}
             dangerouslySetInnerHTML={{__html: icons.heart}}
+            onClick={handleFavorite}
         >
 
         </button>
