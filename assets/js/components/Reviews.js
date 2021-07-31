@@ -1,8 +1,8 @@
 import classNames from "classnames";
 
-const {TextareaControl} = wp.components;
+const {TextareaControl, Spinner, Notice} = wp.components;
 
-const {useState, useEffect} = wp.element;
+const {useState, useEffect, useRef} = wp.element;
 
 export default function Reviews({data: {id, title}}) {
 
@@ -11,6 +11,11 @@ export default function Reviews({data: {id, title}}) {
     const [reviews, setReviews] = useState(null);
     const [userReview, setUserReview] = useState(null);
     const [selection, setSelection] = useState(userReview ? userReview.rating : 0);
+
+    const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState(null);
+    const [submitted, setSubmitted] = useState(false);
+    const formRef = useRef();
 
     function getReviews() {
         wp.apiFetch({
@@ -44,12 +49,49 @@ export default function Reviews({data: {id, title}}) {
     const onSubmit = (e) => {
         e.preventDefault();
 
+        setLoading(true);
+
+        const requires = {
+            rating: `<strong>Review Rating</strong>`,
+            content: `<strong>Review Description</strong>`,
+        }
+
+        const checkErrors = [];
+        Object.keys(requires).map(key => {
+
+            if (!userReview[key] || userReview[key] === '') {
+                checkErrors.push(`${requires[key]} is a required.`);
+            }
+        })
+
+
+        if (checkErrors.length) {
+            setLoading(false);
+            setErrors(checkErrors);
+
+            formRef.current.scrollIntoView({
+                behavior: 'smooth'
+            });
+
+            return;
+        }
+
         wp.apiFetch({
             method: 'POST',
             path: `wp-radio/v1/user-review/?post_id=${id}`,
             data: userReview
-        }).then((res) => {
-            console.log(res)
+        }).then((success, data) => {
+            setLoading(false);
+
+            if (!success) {
+                setErrors(data);
+            }
+
+            setSubmitted(true);
+
+            formRef.current.scrollIntoView({
+                behavior: 'smooth'
+            });
         });
     }
 
@@ -99,12 +141,39 @@ export default function Reviews({data: {id, title}}) {
             </div>
             }
 
-            <form className="wp-radio-form review-form" onSubmit={onSubmit}>
+            <form ref={formRef} className="wp-radio-form review-form" onSubmit={onSubmit}>
                 <h3 className="review-section-title">Leave a Review</h3>
-                <div className="review-form-notices"></div>
+
+                {!!errors &&
+                <div className="wp-radio-notice-list">
+                    {
+                        errors.map(content => (
+                            <Notice
+                                status="error"
+                                isDismissible
+                                onRemove={() => setErrors(errors.filter(text => text !== content))}
+                            >
+                                <span dangerouslySetInnerHTML={{__html: content}}></span>
+                            </Notice>
+                        ))
+                    }
+                </div>
+                }
+
+                {submitted &&
+                <div className="wp-radio-notice-list">
+                    <Notice
+                        status="success"
+                        onRemove={() => setSubmitted(false)}
+                    >
+                        Your review is successfully added.
+                    </Notice>
+                </div>
+                }
 
                 <p className="wp-radio-form-row wp-radio-form-row--wide set-review">
                     <label htmlFor="rating">Set your rating:</label>
+
                     <span className="set-review-stars" onMouseOut={() => userReview && setSelection(userReview.rating)}>
                         {
                             [1, 2, 3, 4, 5].map(key => {
@@ -144,6 +213,7 @@ export default function Reviews({data: {id, title}}) {
                         type="submit"
                         className={classNames("wp-radio-button button", {disabled: !!userID})}>
                         {userReview ? 'Update' : 'Submit'}
+                        {loading && <Spinner/>}
                     </button>
                 </p>
 

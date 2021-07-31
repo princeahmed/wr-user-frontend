@@ -1,4 +1,6 @@
 import Select from "react-select";
+import ClientCaptcha from "react-client-captcha";
+
 import {countryFlag} from "../../../../wp-radio/assets/js/components/functions";
 
 const {TextControl, TextareaControl, Spinner, Notice} = wp.components
@@ -11,6 +13,7 @@ export default function SubmitStation({countries, genres}) {
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState(null);
     const [submitted, setSubmitted] = useState(false);
+    const [captchaCode, setCaptchaCode] = useState('');
 
     const formRef = useRef();
 
@@ -24,6 +27,7 @@ export default function SubmitStation({countries, genres}) {
             country: `<strong>Country</strong>`,
             streamURL: `<strong>Stream URL</strong>`,
             email: `<strong>Email</strong>`,
+            captcha: `<strong>Captcha code</strong>`,
         }
 
         const checkErrors = [];
@@ -34,6 +38,9 @@ export default function SubmitStation({countries, genres}) {
             }
         })
 
+        if (data.captcha && captchaCode !== data.captcha) {
+            checkErrors.push(`<strong>Captcha code</strong> didn't match.`);
+        }
 
         if (checkErrors.length) {
             setLoading(false);
@@ -59,8 +66,6 @@ export default function SubmitStation({countries, genres}) {
             }
         }).then(({success, data}) => {
             setLoading(false);
-
-            console.log({success, data})
 
             if (!success) {
                 setErrors(data);
@@ -100,7 +105,8 @@ export default function SubmitStation({countries, genres}) {
         wikipedia,
         address,
         email,
-        phone
+        phone,
+        captcha,
     } = data;
 
     return (
@@ -121,7 +127,7 @@ export default function SubmitStation({countries, genres}) {
                         }
                     ]}
                 >
-                    <p>Your station submission has been submitted. Now it is waiting for admin confirmation.</p>
+                    <p>Your station has been submitted. Now it is waiting for the admin confirmation.</p>
                 </Notice>
 
                 :
@@ -348,8 +354,19 @@ export default function SubmitStation({countries, genres}) {
                         </div>
 
                     </div>
-                    
+
                     <p className="wp-radio-form-row">
+                        <label className="wp-radio-required">Captcha</label>
+                        <TextControl
+                            name="captcha"
+                            label={<ClientCaptcha height={50} captchaCode={code => setCaptchaCode(code)}/>}
+                            placeholder="Enter the captcha code"
+                            value={captcha}
+                            onChange={captcha => setData({...data, captcha})}
+                            help="Enter the captcha code."
+                        />
+                    </p>
+
                     <p className="wp-radio-form-row">
                         <button type="submit" className="wp-radio-button button">
                             Submit

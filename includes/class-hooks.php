@@ -180,10 +180,19 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 			$args['post_title']   = ! empty( $data['title'] ) ? sanitize_text_field( $data['title'] ) : '';
 			$args['post_content'] = ! empty( $data['content'] ) ? sanitize_textarea_field( $data['content'] ) : '';
 
-			$args['tax_input'] = [
+			$tax = [
 				'radio_country' => ! empty( $data['country'] ) ? sanitize_key( $data['country'] ) : '',
 				'radio_genre'   => ! empty( $data['genre'] ) ? array_map( 'intval', explode( ',', $data['genre'] ) ) : '',
 			];
+
+			if ( ! empty( $_FILES['logo'] ) && empty( $_FILES['logo']['error'] ) ) {
+
+				$type = wp_check_filetype( $_FILES['logo']['name'] );
+
+				if ( in_array( $type['type'], [ 'image/png', 'image/jpg', 'image/jpeg', 'image/gif' ] ) ) {
+					$image_id = wp_radio_upload_file_image( $_FILES['logo'] );
+				}
+			}
 
 			$meta = [
 				'slogan'       => ! empty( $data['slogan'] ) ? sanitize_text_field( $data['slogan'] ) : '',
@@ -197,15 +206,6 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 				'logo'         => ! empty( $image_id ) ? wp_get_attachment_url( $image_id ) : '',
 				'submitted_by' => get_current_user_id(),
 			];
-
-			if ( ! empty( $_FILES['logo'] ) && empty( $_FILES['logo']['error'] ) ) {
-
-				$type = wp_check_filetype( $_FILES['logo']['name'] );
-
-				if ( in_array( $type['type'], [ 'image/png', 'image/jpg', 'image/jpeg', 'image/gif' ] ) ) {
-					$image_id = wp_radio_upload_file_image( $_FILES['logo'] );
-				}
-			}
 
 			// Handle required fields.
 			$errors = [];
@@ -235,16 +235,18 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 					update_post_meta( $post_id, $key, $value );
 				}
 
+				foreach ( $tax as $taxonomy => $terms ) {
+					wp_set_object_terms( $post_id, $terms, $taxonomy );
+				}
+
 				//send email notification
 				$subject = esc_html__( 'New Radio Station Submission', 'wp-radio-user-frontend' );
 
 				$to = wp_radio_get_settings( 'notification_email', get_option( 'admin_email' ), 'wp_radio_user_frontend_settings' );
 
-				$country_term = get_term_by( 'slug', sanitize_key( $data['country'] ) );
 
 				$template_args = array_filter( [
 					'Station Name'    => $data['title'],
-					'Country'         => ! empty( $country_term ) && ! is_wp_error( $country_term ) ? $country_term->name : '',
 					'Contact Address' => $data['address'],
 					'Contact Email'   => $data['email'],
 					'Contact Phone'   => $data['phone'],
@@ -370,8 +372,23 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 			$message    = ! empty( $data->message ) ? sanitize_textarea_field( $data->message ) : '';
 			$station_id = ! empty( $data->id ) ? intval( $data->id ) : '';
 
-			if ( empty( $email ) || empty( $issue ) ) {
-				wp_send_json_error( [ 'type' => 'empty' ] );
+			// Handle required fields.
+			$errors = [];
+
+			$required_fields = [
+				'email'   => __( 'Email', 'wp-radio-user-frontend' ),
+				'issue'   => __( 'Issue', 'wp-radio-user-frontend' ),
+				'message' => __( 'Message', 'wp-radio-user-frontend' ),
+			];
+
+			foreach ( $required_fields as $field_key => $field_name ) {
+				if ( empty( $data->{$field_key} ) ) {
+					$errors[] = sprintf( __( '%s is a required field.', 'wp-radio-user-frontend' ), '<strong>' . $field_name . '</strong>' );
+				}
+			}
+
+			if ( ! empty( $errors ) ) {
+				wp_send_json_error( $errors );
 			}
 
 			$subject = sprintf( esc_html__( 'New Report submitted for %s Station', 'wp-radio-user-frontend' ), get_the_title( $station_id ) );
