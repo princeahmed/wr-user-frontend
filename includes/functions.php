@@ -113,6 +113,7 @@ function wr_user_frontend_get_user_data() {
 	$user = get_user_by( 'id', get_current_user_id() );
 
 	return [
+		'userName'  => $user->user_login,
 		'firstName' => $user->first_name,
 		'lastName'  => $user->last_name,
 		'email'     => $user->user_email,

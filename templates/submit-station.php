@@ -7,7 +7,7 @@ $country_terms = get_terms( [ 'taxonomy' => 'radio_country', 'parent' => 0 ] );
 $genre_terms   = get_terms( [ 'taxonomy' => 'radio_genre', 'parent' => 0 ] );
 
 $country_list = ! empty( $country_terms ) ? wp_list_pluck( $country_terms, 'name', 'slug' ) : [];
-$genre_list   = ! empty( $genre_terms ) ? wp_list_pluck( $genre_terms, 'name', 'slug' ) : [];
+$genre_list   = ! empty( $genre_terms ) ? wp_list_pluck( $genre_terms, 'name', 'term_id' ) : [];
 
 ?>
 

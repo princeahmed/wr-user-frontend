@@ -112,13 +112,13 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 			$user->last_name  = $last_name;
 
 			// Handle required fields.
+			$errors = [];
+
 			$required_fields = [
 				'firstName' => __( 'First name', 'wp-radio-user-frontend' ),
 				'lastName'  => __( 'Last name', 'wp-radio-user-frontend' ),
 				'email'     => __( 'Email address', 'wp-radio-user-frontend' ),
 			];
-
-			$errors = [];
 
 			foreach ( $required_fields as $field_key => $field_name ) {
 				if ( empty( $data->{$field_key} ) ) {
@@ -170,43 +170,102 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 		}
 
 		public function handle_station_submission( $request ) {
-			$data = json_decode( $request->get_body() );
-
-			error_log( print_r( $request, 1 ) );
-
-			return;
+			$data = $_REQUEST;
 
 			$args = [
 				'post_status' => 'pending',
 				'post_type'   => 'wp_radio',
 			];
 
-			$args['post_title']   = ! empty( $data->title ) ? sanitize_text_field( $data->title ) : '';
-			$args['post_content'] = ! empty( $data->content ) ? sanitize_textarea_field( $data->content ) : '';
+			$args['post_title']   = ! empty( $data['title'] ) ? sanitize_text_field( $data['title'] ) : '';
+			$args['post_content'] = ! empty( $data['content'] ) ? sanitize_textarea_field( $data['content'] ) : '';
 
 			$args['tax_input'] = [
-				'radio_country' => ! empty( $data->country ) ? intval( $data->country ) : '',
-				'radio_genre'   => ! empty( $data->genre ) ? array_map( 'intval', $data->genre ) : '',
+				'radio_country' => ! empty( $data['country'] ) ? sanitize_key( $data['country'] ) : '',
+				'radio_genre'   => ! empty( $data['genre'] ) ? array_map( 'intval', explode( ',', $data['genre'] ) ) : '',
 			];
+
+			$meta = [
+				'slogan'       => ! empty( $data['slogan'] ) ? sanitize_text_field( $data['slogan'] ) : '',
+				'stream_url'   => ! empty( $data['stream_url'] ) ? esc_url( $data['stream_url'] ) : '',
+				'website'      => ! empty( $data['website'] ) ? esc_url( $data['website'] ) : '',
+				'facebook'     => ! empty( $data['facebook'] ) ? esc_url( $data['facebook'] ) : '',
+				'twitter'      => ! empty( $data['twitter'] ) ? esc_url( $data['twitter'] ) : '',
+				'address'      => ! empty( $data['address'] ) ? sanitize_textarea_field( $data['address'] ) : '',
+				'email'        => ! empty( $data['email'] ) ? sanitize_email( $data['email'] ) : '',
+				'phone'        => ! empty( $data['phone'] ) ? sanitize_text_field( $data['phone'] ) : '',
+				'logo'         => ! empty( $image_id ) ? wp_get_attachment_url( $image_id ) : '',
+				'submitted_by' => get_current_user_id(),
+			];
+
+			if ( ! empty( $_FILES['logo'] ) && empty( $_FILES['logo']['error'] ) ) {
+
+				$type = wp_check_filetype( $_FILES['logo']['name'] );
+
+				if ( in_array( $type['type'], [ 'image/png', 'image/jpg', 'image/jpeg', 'image/gif' ] ) ) {
+					$image_id = wp_radio_upload_file_image( $_FILES['logo'] );
+				}
+			}
+
+			// Handle required fields.
+			$errors = [];
+
+			$required_fields = [
+				'title'      => __( 'Title', 'wp-radio-user-frontend' ),
+				'content'    => __( 'Description', 'wp-radio-user-frontend' ),
+				'country'    => __( 'Country', 'wp-radio-user-frontend' ),
+				'stream_url' => __( 'Stream URL', 'wp-radio-user-frontend' ),
+				'email'      => __( 'Email', 'wp-radio-user-frontend' ),
+			];
+
+			foreach ( $required_fields as $field_key => $field_name ) {
+				if ( empty( $data[ $field_key ] ) ) {
+					$errors[] = sprintf( __( '%s is a required field.', 'wp-radio-user-frontend' ), '<strong>' . $field_name . '</strong>' );
+				}
+			}
+
+			if ( ! empty( $errors ) ) {
+				wp_send_json_error( $errors );
+			}
 
 			$post_id = wp_insert_post( $args );
 
 			if ( ! is_wp_error( $post_id ) ) {
-				$metas = [
-					'slogan'       => ! empty( $data->slogan ) ? sanitize_text_field( $data->slogan ) : '',
-					'stream_url'   => ! empty( $data->stream_url ) ? esc_url( $data->stream_url ) : '',
-					'website'      => ! empty( $data->website ) ? esc_url( $data->website ) : '',
-					'facebook'     => ! empty( $data->facebook ) ? esc_url( $data->facebook ) : '',
-					'twitter'      => ! empty( $data->twitter ) ? esc_url( $data->twitter ) : '',
-					'address'      => ! empty( $data->address ) ? sanitize_textarea_field( $data->address ) : '',
-					'email'        => ! empty( $data->email ) ? sanitize_email( $data->email ) : '',
-					'phone'        => ! empty( $data->phone ) ? sanitize_text_field( $data->phone ) : '',
-					'submitted_by' => get_current_user_id(),
-				];
-
-				foreach ( $metas as $key => $meta ) {
-					update_post_meta( $post_id, $key, $meta );
+				foreach ( $meta as $key => $value ) {
+					update_post_meta( $post_id, $key, $value );
 				}
+
+				//send email notification
+				$subject = esc_html__( 'New Radio Station Submission', 'wp-radio-user-frontend' );
+
+				$to = wp_radio_get_settings( 'notification_email', get_option( 'admin_email' ), 'wp_radio_user_frontend_settings' );
+
+				$country_term = get_term_by( 'slug', sanitize_key( $data['country'] ) );
+
+				$template_args = array_filter( [
+					'Station Name'    => $data['title'],
+					'Country'         => ! empty( $country_term ) && ! is_wp_error( $country_term ) ? $country_term->name : '',
+					'Contact Address' => $data['address'],
+					'Contact Email'   => $data['email'],
+					'Contact Phone'   => $data['phone'],
+				] );
+
+
+				$user = get_user_by( 'email', $to );
+
+				ob_start();
+				wp_radio_get_template( 'html-station-submit-email', [
+					'post_id'   => $post_id,
+					'args'      => $template_args,
+					'user_name' => $user->data->display_name,
+				], '', WR_USER_FRONTEND_TEMPLATES );
+				$email_message = ob_get_clean();
+
+				$headers = array( 'Content-Type: text/html; charset=UTF-8' );
+
+				wp_mail( $to, $subject, $email_message, $headers );
+
+				wp_send_json_success();
 			}
 
 		}
@@ -276,7 +335,7 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 					$user_id = get_post_meta( $review_id, 'user_id', true );
 					$user    = get_user_by( 'id', $user_id );
 
-					$item['avatar']  = get_avatar( $user_id );
+					$item['avatar']  = get_avatar( $user_id, 32 );
 					$item['name']    = $user->first_name . ' ' . $user->last_name;
 					$item['date']    = get_the_date( '', $review_id );
 					$item['content'] = get_post_field( 'post_content', $review_id );

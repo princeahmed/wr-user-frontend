@@ -31,7 +31,7 @@ export default function Reviews({data: {id, title}}) {
     useEffect(() => {
         getReviews();
         getUserReview();
-    }, []);
+    }, [id]);
 
     const onHover = (key) => {
         setSelection(key);
@@ -64,8 +64,9 @@ export default function Reviews({data: {id, title}}) {
 
                         return (
                             <div className="single-review">
-                                <div className="reviewer-avatar">
-                                    <img src={avatar} alt={name} width="32" height="32"/>
+                                <div className="reviewer-avatar"
+                                     dangerouslySetInnerHTML={{__html: avatar}}
+                                >
                                 </div>
 
                                 <div className="reviewer-name">
@@ -104,7 +105,7 @@ export default function Reviews({data: {id, title}}) {
 
                 <p className="wp-radio-form-row wp-radio-form-row--wide set-review">
                     <label htmlFor="rating">Set your rating:</label>
-                    <span className="set-review-stars" onMouseOut={() => setSelection(userReview.rating)}>
+                    <span className="set-review-stars" onMouseOut={() => userReview && setSelection(userReview.rating)}>
                         {
                             [1, 2, 3, 4, 5].map(key => {
                                 let icon = 'empty';

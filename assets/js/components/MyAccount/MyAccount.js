@@ -50,7 +50,7 @@ export default function MyAccount({favorites, user, logoutURL}) {
             <div className="wp-radio-my-account-content wp-radio-col-9">
                 <div className="wp-radio-notices"></div>
 
-                {'dashboard' === tab && <Dashboard setTab={setTab}/>}
+                {'dashboard' === tab && <Dashboard logoutURL={logoutURL} user={user} setTab={setTab}/>}
                 {'favorites' === tab && <Favorites favorites={favorites}/>}
                 {'edit-account' === tab && <EditAccount user={user}/>}
 
@@ -71,5 +71,5 @@ if (element) {
 
     const logoutURL = element.getAttribute('data-logoutURL');
 
-    wp.element.render(<MyAccount user={user} favorites={favorites} logoutURL={logoutURL} />, element);
+    wp.element.render(<MyAccount user={user} favorites={favorites} logoutURL={logoutURL}/>, element);
 }

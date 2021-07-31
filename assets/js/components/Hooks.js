@@ -38,18 +38,27 @@ function Hooks() {
 
     window.wpRadioHooks.addAction('singleRadio', 'wp-radio', (parent, info, contacts, data) => {
 
-        //report btn
-        const reportBtn = document.createElement('span');
-        reportBtn.classList.add('report-btn-wrap')
-        wp.element.render(<ReportBtn data={data}/>, reportBtn)
 
+        //report btn
+        let reportBtn = parent.querySelector('.report-btn-wrap');
+
+        if (!reportBtn) {
+            reportBtn = document.createElement('span');
+            reportBtn.classList.add('report-btn-wrap');
+        }
+
+        wp.element.render(<ReportBtn data={data}/>, reportBtn);
         info.append(reportBtn);
 
         //reviews
-        const reviews = document.createElement('span');
-        reviews.classList.add('wp-radio-review-wrap')
-        wp.element.render(<Reviews data={data}/>, reviews)
+        let reviews = parent.querySelector('.wp-radio-review-wrap');
 
+        if (!reviews) {
+            reviews = document.createElement('span');
+            reviews.classList.add('wp-radio-review-wrap');
+        }
+
+        wp.element.render(<Reviews data={data}/>, reviews)
         parent.insertBefore(reviews, contacts.nextSibling);
     });
 

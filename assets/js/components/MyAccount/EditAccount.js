@@ -61,49 +61,51 @@ export default function EditAccount({user}) {
                     />
                 </p>
 
-                <div className="change-password">
-                    <button type="button" className="button change-password-button"
-                            onClick={() => setChangePass(!changePass)}>Change Password
-                    </button>
+                <p className="wp-radio-form-row wp-radio-form-row--wide">
+                    <div className="change-password">
+                        <button type="button" className="button change-password-button"
+                                onClick={() => setChangePass(!changePass)}>Change Password
+                        </button>
 
-                    {changePass &&
-                    <div className="change-password-fields">
-                        <p className="wp-radio-form-row wp-radio-form-row--wide">
-                            <TextControl
-                                label="Current password (leave blank to leave unchanged)"
-                                placeholder="Current password"
-                                value={formData.currentPass}
-                                onChange={currentPass => setFormData({...formData, currentPass})}
-                                type="password"
-                                help="Enter your current password"
-                            />
-                        </p>
+                        {changePass &&
+                        <div className="change-password-fields">
+                            <p className="wp-radio-form-row wp-radio-form-row--wide">
+                                <TextControl
+                                    label="Current password (leave blank to leave unchanged)"
+                                    placeholder="Current password"
+                                    value={formData.currentPass}
+                                    onChange={currentPass => setFormData({...formData, currentPass})}
+                                    type="password"
+                                    help="Enter your current password"
+                                />
+                            </p>
 
-                        <p className="wp-radio-form-row wp-radio-form-row--wide">
-                            <TextControl
-                                label="New password (leave blank to leave unchanged)"
-                                placeholder="New password"
-                                value={formData.newPass}
-                                onChange={newPass => setFormData({...formData, newPass})}
-                                type="password"
-                                help="Enter your new password"
-                            />
-                        </p>
+                            <p className="wp-radio-form-row wp-radio-form-row--wide">
+                                <TextControl
+                                    label="New password (leave blank to leave unchanged)"
+                                    placeholder="New password"
+                                    value={formData.newPass}
+                                    onChange={newPass => setFormData({...formData, newPass})}
+                                    type="password"
+                                    help="Enter your new password"
+                                />
+                            </p>
 
-                        <p className="wp-radio-form-row wp-radio-form-row--wide">
-                            <TextControl
-                                label="Confirm new password"
-                                placeholder="Confirm new password"
-                                value={formData.confirmNewPass}
-                                onChange={confirmNewPass => setFormData({...formData, confirmNewPass})}
-                                type="password"
-                                help="Enter the new password again to confirm"
-                            />
-                        </p>
+                            <p className="wp-radio-form-row wp-radio-form-row--wide">
+                                <TextControl
+                                    label="Confirm new password"
+                                    placeholder="Confirm new password"
+                                    value={formData.confirmNewPass}
+                                    onChange={confirmNewPass => setFormData({...formData, confirmNewPass})}
+                                    type="password"
+                                    help="Enter the new password again to confirm"
+                                />
+                            </p>
+                        </div>
+                        }
+
                     </div>
-                    }
-
-                </div>
+                </p>
 
                 <p className="wp-radio-form-row wp-radio-form-row--wide">
                     <button type="submit" className="wp-radio-btn">
