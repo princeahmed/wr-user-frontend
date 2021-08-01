@@ -37,28 +37,13 @@
 .wp-radio-my-account-content {
   .content-favourites {
     .wp-radio-listing {
-      &.wp-radio-listing-grid {
-        width: calc(33% - 10px);
+      .listing-desc, .genres {
+        display: none;
       }
+    }
 
-      .play-btn {
-        .dashicons {
-          cursor: pointer;
-
-          &:hover {
-            color: #f6931f;
-          }
-
-          &.dashicons-controls-pause {
-            color: #f6931f;
-          }
-        }
-
-        .wp-radio-player-play-pause {
-          height: auto;
-          width: auto;
-        }
-      }
+    .listing-footer {
+      justify-content: center;
     }
 
   }
@@ -95,10 +80,6 @@
 
     .change-password-button {
       margin-bottom: 20px;
-    }
-
-    .change-password-fields {
-      display: none;
     }
   }
 

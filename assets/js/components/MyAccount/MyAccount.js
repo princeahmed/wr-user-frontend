@@ -5,7 +5,7 @@ import EditAccount from "./EditAccount";
 
 const {useState} = wp.element;
 
-export default function MyAccount({favorites, user, logoutURL}) {
+export default function MyAccount({favorites, user, logoutURL, pageCount}) {
 
     const [tab, setTab] = useState('dashboard')
 
@@ -48,12 +48,9 @@ export default function MyAccount({favorites, user, logoutURL}) {
             </nav>
 
             <div className="wp-radio-my-account-content wp-radio-col-9">
-                <div className="wp-radio-notices"></div>
-
                 {'dashboard' === tab && <Dashboard logoutURL={logoutURL} user={user} setTab={setTab}/>}
-                {'favorites' === tab && <Favorites favorites={favorites}/>}
+                {'favorites' === tab && <Favorites initFavorites={favorites} pageCount={pageCount}/>}
                 {'edit-account' === tab && <EditAccount user={user}/>}
-
             </div>
 
         </div>
@@ -66,10 +63,14 @@ if (element) {
     let favorites = element.getAttribute('data-favorites');
     favorites = favorites ? JSON.parse(favorites) : [];
 
+
     let user = element.getAttribute('data-user');
     user = user ? JSON.parse(user) : [];
 
+    const pageCount = parseInt(element.getAttribute('data-pagecount'));
+
     const logoutURL = element.getAttribute('data-logoutURL');
 
-    wp.element.render(<MyAccount user={user} favorites={favorites} logoutURL={logoutURL}/>, element);
+    wp.element.render(<MyAccount user={user} favorites={favorites} logoutURL={logoutURL}
+                                 pageCount={pageCount}/>, element);
 }

@@ -53,6 +53,14 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 				),
 			) );
 
+			register_rest_route( $namespace, '/user-favorites/', array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_favorite_items' ),
+					'permission_callback' => 'is_user_logged_in',
+				),
+			) );
+
 			register_rest_route( $namespace, '/report/', array(
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
@@ -433,6 +441,12 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 			update_user_meta( $user_id, 'favourite_stations', $favourites );
 			wp_send_json_success( $favourites );
 
+		}
+
+		public function get_favorite_items( $request ) {
+			$paged = intval( $request->get_param( 'paginate' ) );
+
+			wp_send_json_success( wr_user_frontend_get_favorite_items( $paged ) );
 		}
 
 		//backlog

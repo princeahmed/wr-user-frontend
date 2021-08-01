@@ -53,22 +53,20 @@ if ( ! function_exists( 'wp_radio_create_new_listener' ) ) {
 	}
 }
 
-if ( ! function_exists( 'wr_user_frontend_get_favourites' ) ) {
-	function wr_user_frontend_get_favourites( $offset = 0, $limit = 15, $count = false ) {
-		$favourites = get_user_meta( get_current_user_id(), 'favourite_stations', true );
+function wr_user_frontend_get_favourites( $offset = 0, $limit = 15, $count = false ) {
+	$favourites = get_user_meta( get_current_user_id(), 'favourite_stations', true );
 
-		if ( $count ) {
-			return count( $favourites );
-		}
-
-		if ( empty( $favourites ) ) {
-			return false;
-		}
-
-		$favourites = array_slice( $favourites, $offset, $offset + $limit );
-
-		return ! empty( $favourites ) ? array_unique( $favourites ) : false;
+	if ( $count ) {
+		return count( $favourites );
 	}
+
+	if ( empty( $favourites ) ) {
+		return false;
+	}
+
+	$favourites = array_slice( $favourites, $offset, $offset + $limit );
+
+	return ! empty( $favourites ) ? array_unique( $favourites ) : false;
 }
 
 if ( ! function_exists( 'wp_radio_report_btn' ) ) {
@@ -98,12 +96,16 @@ if ( ! function_exists( 'wp_radio_report_btn' ) ) {
 	}
 }
 
-function wr_user_frontend_get_favorite_items() {
+function wr_user_frontend_get_favorite_items( $paged = 1, $page_count = false ) {
 	$user_id = get_current_user_id();
 
 	$favourites = (array) get_user_meta( $user_id, 'favourite_stations', true );
 
-	$query = wp_radio_get_stations( [ 'post__in' => $favourites ], true );
+	$query = wp_radio_get_stations( [ 'post__in' => $favourites, 'paged' => $paged ], true );
+
+	if ( $page_count ) {
+		return $query->max_num_pages;
+	}
 
 	return wp_radio_get_listing_items( $query );
 

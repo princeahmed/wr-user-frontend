@@ -1,27 +1,94 @@
-const {TextControl} = wp.components;
+const {TextControl, Notice, Spinner} = wp.components;
 
 const {useState} = wp.element;
 
 export default function EditAccount({user}) {
 
-
     const [changePass, setChangePass] = useState(false);
     const [formData, setFormData] = useState(user);
+    const [submitted, setSubmitted] = useState(false);
+    const [errors, setErrors] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     function handleSubmit(e) {
         e.preventDefault();
+
+        setLoading(true);
+
+        const requires = {
+            firstName: `<strong>First Name</strong>`,
+            lastName: `<strong>Last Name</strong>`,
+            email: `<strong>Email</strong>`,
+        }
+
+        const checkErrors = [];
+        Object.keys(requires).map(key => {
+
+            if (!formData[key] || formData[key] === '') {
+                checkErrors.push(`${requires[key]} is a required.`);
+            }
+        })
+
+
+        if (checkErrors.length) {
+            setLoading(false);
+            setErrors(checkErrors);
+
+            return;
+        }
 
         wp.apiFetch({
             method: 'POST',
             path: `wp-radio/v1/update-account`,
             data: formData
-        }).then((res) => console.log(res));
+        }).then(({success, data}) => {
+            setLoading(false);
+
+            if (!success) {
+                setErrors(data);
+            }
+
+            setSubmitted(true);
+
+            setTimeout(() => {
+                setSubmitted(false);
+            }, 3000);
+
+        });
 
     }
 
+
     return (
-        <>
+        <div className="content-edit-account">
             <h3 className="section-title">Account Details</h3>
+
+            {!!errors &&
+            <div className="wp-radio-notice-list">
+                {
+                    errors.map(content => (
+                        <Notice
+                            status="error"
+                            isDismissible
+                            onRemove={() => setErrors(errors.filter(text => text !== content))}
+                        >
+                            <span dangerouslySetInnerHTML={{__html: content}}></span>
+                        </Notice>
+                    ))
+                }
+            </div>
+            }
+
+            {submitted &&
+            <div className="wp-radio-notice-list">
+                <Notice
+                    status="success"
+                    onRemove={() => setSubmitted(false)}
+                >
+                    Account details updated successfully.
+                </Notice>
+            </div>
+            }
 
             <form className="wp-radio-form wp-radio-form-edit-account" onSubmit={handleSubmit}>
 
@@ -43,7 +110,7 @@ export default function EditAccount({user}) {
                                 label="Last Name:"
                                 placeholder="Last Name"
                                 value={formData.lastName}
-                                onChange={lastName => setFormData(...formData, lastName)}
+                                onChange={lastName => setFormData({...formData, lastName})}
                                 help="Enter your last name"
                             />
                         </p>
@@ -55,7 +122,7 @@ export default function EditAccount({user}) {
                         label="Email Address:"
                         placeholder="Email Address"
                         value={formData.email}
-                        onChange={email => setFormData(...formData, email)}
+                        onChange={email => setFormData({...formData, email})}
                         type="email"
                         help="Enter your email address"
                     />
@@ -107,13 +174,15 @@ export default function EditAccount({user}) {
                     </div>
                 </p>
 
-                <p className="wp-radio-form-row wp-radio-form-row--wide">
+                <p className="wp-radio-form-row wp-radio-submit-row wp-radio-form-row--wide">
                     <button type="submit" className="wp-radio-btn">
                         Update
+
+                        {loading && <Spinner/>}
                     </button>
                 </p>
 
             </form>
-        </>
+        </div>
     )
 }
