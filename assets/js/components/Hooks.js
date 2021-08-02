@@ -5,7 +5,7 @@ import Reviews from "./Reviews";
 function Hooks() {
 
     //favorite btn
-    window.wpRadioHooks.addAction('playBtn', 'wp-radio', (parent, data) => {
+    window.wpRadioHooks.addAction('playBtn', 'wp-radio', (parent, data, playerType) => {
 
         if (!parent) return;
 
@@ -21,7 +21,7 @@ function Hooks() {
         parent.prepend(favBtnElement);
 
         //append report btn to the player controls
-        if (parent.classList.contains('wp-radio-player-controls')) {
+        if ( 'popup' != playerType && parent.classList.contains('wp-radio-player-controls')) {
             let reportBtnElement = parent.querySelector('.report-btn-wrap');
 
             if (!reportBtnElement) {
