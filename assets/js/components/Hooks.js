@@ -21,16 +21,18 @@ function Hooks() {
         parent.prepend(favBtnElement);
 
         //append report btn to the player controls
-        if ( 'popup' != playerType && parent.classList.contains('wp-radio-player-controls')) {
-            let reportBtnElement = parent.querySelector('.report-btn-wrap');
+        if (WRUF.enableReport) {
+            if ('popup' != playerType && parent.classList.contains('wp-radio-player-controls')) {
+                let reportBtnElement = parent.querySelector('.report-btn-wrap');
 
-            if (!reportBtnElement) {
-                reportBtnElement = document.createElement('span');
-                reportBtnElement.classList.add('report-btn-wrap')
+                if (!reportBtnElement) {
+                    reportBtnElement = document.createElement('span');
+                    reportBtnElement.classList.add('report-btn-wrap')
+                }
+
+                wp.element.render(<ReportBtn isMinimal data={data}/>, reportBtnElement)
+                parent.append(reportBtnElement);
             }
-
-            wp.element.render(<ReportBtn isMinimal data={data}/>, reportBtnElement)
-            parent.append(reportBtnElement);
         }
 
     });
@@ -40,15 +42,17 @@ function Hooks() {
 
 
         //report btn
-        let reportBtn = parent.querySelector('.report-btn-wrap');
+        if (WRUF.enableReport) {
+            let reportBtn = parent.querySelector('.report-btn-wrap');
 
-        if (!reportBtn) {
-            reportBtn = document.createElement('span');
-            reportBtn.classList.add('report-btn-wrap');
+            if (!reportBtn) {
+                reportBtn = document.createElement('span');
+                reportBtn.classList.add('report-btn-wrap');
+            }
+
+            wp.element.render(<ReportBtn data={data}/>, reportBtn);
+            info.append(reportBtn);
         }
-
-        wp.element.render(<ReportBtn data={data}/>, reportBtn);
-        info.append(reportBtn);
 
         //reviews
         let reviews = parent.querySelector('.wp-radio-review-wrap');

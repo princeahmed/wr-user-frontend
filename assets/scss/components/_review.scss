@@ -38,6 +38,12 @@
   textarea {
     border-radius: 5px;
   }
+
+  .set-review-stars {
+    i.dashicons-star-filled {
+      color: #f6931f;
+    }
+  }
 }
 
 .review-listing {
@@ -68,6 +74,7 @@
       margin-right: 15px;
 
       i {
+        color: #f6931f;
 
         &.dashicons-star-empty:hover:before {
           content: '\f154';

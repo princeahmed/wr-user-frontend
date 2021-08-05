@@ -80,6 +80,7 @@ export default function ReportBtn({isMinimal, data: {id, title}}) {
                     setActive(false)
                     setSubmitted(false)
                 }}
+                overlayClassName="report-form-overlay"
             >
                 {!!errors && !!errors.length &&
                 <div className="wp-radio-notice-list">

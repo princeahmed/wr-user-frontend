@@ -113,3 +113,11 @@
   }
 
 }
+
+@media (max-width: 767px) {
+  .report-form-overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

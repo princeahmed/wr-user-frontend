@@ -19,6 +19,7 @@ class WR_User_Frontend_Enqueue {
 
 		$localize_array = [
 			'currentUserID' => get_current_user_id(),
+			'enableReport'  => 'on' == wp_radio_get_settings( 'enable_report', 'on', 'wp_radio_user_frontend_settings' ),
 			'i18n'          => [
 				'loginAlert' => __( 'Please, Login to add this station to your favourite list.', 'wp-radio-user-frontend' )
 			]
