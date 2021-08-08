@@ -4,7 +4,7 @@
  * Plugin Name: WP Radio User Frontend
  * Plugin URI:  https://princeboss.com
  * Description: Engage Your Radio Listeners to your website.
- * Version:     1.1.3
+ * Version:     1.1.4
  * Author:      Prince
  * Author URI:  http://princeboss.com
  * Text Domain: wp-radio-user-frontend
@@ -98,7 +98,7 @@ function wr_user_frontend_fs_init() {
 		return;
 	}
 
-	define( 'WR_USER_FRONTEND_VERSION', '1.1.3' );
+	define( 'WR_USER_FRONTEND_VERSION', '1.1.4' );
 	define( 'WR_USER_FRONTEND_FILE', __FILE__ );
 	define( 'WR_USER_FRONTEND_PATH', dirname( WR_USER_FRONTEND_FILE ) );
 	define( 'WR_USER_FRONTEND_INCLUDES', WR_USER_FRONTEND_PATH . '/includes' );
@@ -106,7 +106,7 @@ function wr_user_frontend_fs_init() {
 	define( 'WR_USER_FRONTEND_ASSETS', WR_USER_FRONTEND_URL . '/assets' );
 	define( 'WR_USER_FRONTEND_TEMPLATES', WR_USER_FRONTEND_PATH . '/templates' );
 	define( 'WR_USER_FRONTEND_NAME', 'WP Radio User Frontend' );
-	define( 'WR_USER_FRONTEND_MIN_WP_RADIO', '2.0.8' );
+	define( 'WR_USER_FRONTEND_MIN_WP_RADIO', '3.0.9' );
 
 	if ( wr_user_frontend_fs_is_parent_active_and_loaded() ) {
 		// Init Freemius.
@@ -124,15 +124,18 @@ function wr_user_frontend_fs_init() {
 		//check min WP Radio version
 		if ( defined( 'WP_RADIO_VERSION' ) && version_compare( WP_RADIO_VERSION, WR_USER_FRONTEND_MIN_WP_RADIO, '<' ) ) {
 			add_action( 'admin_notices', function () {
-				$notice
-					= sprintf( /* translators: 1: Plugin name 2: WP Radio 3: Required WP Radio version */ esc_html__( '"%1$s" requires "%2$s" version %3$s or greater.',
-					'wp-radio-user-frontend' ), '<strong>' . WR_USER_FRONTEND_NAME . '</strong>', '<strong>WP Radio</strong>',
+				$notice = sprintf(
+				/* translators: 1: Plugin name 2: WP Radio 3: Required WP Radio version */
+					esc_html__( '"%1$s" requires "%2$s" version %3$s or greater.', 'wp-radio-user-frontend' ),
+					'<strong>' . WR_USER_FRONTEND_NAME . '</strong>', '<strong>WP Radio</strong>',
 					WR_USER_FRONTEND_MIN_WP_RADIO );
 				?>
                 <div class="notice is-dismissible notice-error">
                     <p><?php echo $notice; ?></p>
                 </div>
 			<?php } );
+
+			return;
 		}
 
 		// Activation hook
@@ -148,8 +151,10 @@ function wr_user_frontend_fs_init() {
 
 		add_action( 'admin_notices', function () {
 			$notice
-				= sprintf( /* translators: 1: Plugin name 2: WP Radio */ esc_html__( '"%1$s" requires "%2$s" to be installed and activated.',
-				'wp-radio-user-frontend' ), '<strong>' . WR_USER_FRONTEND_NAME . '</strong>',
+				= sprintf(
+			/* translators: 1: Plugin name 2: WP Radio */
+				esc_html__( '"%1$s" requires "%2$s" to be installed and activated.',
+					'wp-radio-user-frontend' ), '<strong>' . WR_USER_FRONTEND_NAME . '</strong>',
 				'<strong>' . esc_html__( 'WP Radio', 'wp-radio-user-frontend' ) . '</strong>' );
 			?>
             <div class="notice is-dismissible notice-error">

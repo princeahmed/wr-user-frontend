@@ -14,6 +14,12 @@ export default function FavoriteBtn({id}) {
     }, [id]);
 
     const handleFavorite = () => {
+
+        if (WRUF.currentUserID == 0) {
+            alert("Please, login to add the station to your favorite list.")
+            return;
+        }
+
         setActive(!active);
 
         wp.apiFetch({
