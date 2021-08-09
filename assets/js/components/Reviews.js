@@ -9,7 +9,7 @@ export default function Reviews({data: {id, title}}) {
     const userID = WRUF.currentUserID;
 
     const [reviews, setReviews] = useState(null);
-    const [userReview, setUserReview] = useState(null);
+    const [userReview, setUserReview] = useState({});
     const [selection, setSelection] = useState(userReview ? userReview.rating : 0);
 
     const [loading, setLoading] = useState(false);
@@ -26,6 +26,9 @@ export default function Reviews({data: {id, title}}) {
     }
 
     function getUserReview() {
+
+        if (userID == 0) return;
+
         wp.apiFetch({
             path: `wp-radio/v1/user-review/?post_id=${id}`
         }).then(({data}) => {
@@ -48,21 +51,27 @@ export default function Reviews({data: {id, title}}) {
 
     const onSubmit = (e) => {
         e.preventDefault();
-
         setLoading(true);
 
-        const requires = {
-            rating: `<strong>Review Rating</strong>`,
-            content: `<strong>Review Description</strong>`,
+        const checkErrors = [];
+
+        if (userID == 0) {
+            checkErrors.push(`Please login to add a review for the stations.`);
         }
 
-        const checkErrors = [];
-        Object.keys(requires).map(key => {
-
-            if (!userReview[key] || userReview[key] === '') {
-                checkErrors.push(`${requires[key]} is a required.`);
+        if (userID != 0) {
+            const requires = {
+                rating: `<strong>Review Rating</strong>`,
+                content: `<strong>Review Description</strong>`,
             }
-        })
+
+            Object.keys(requires).map(key => {
+
+                if (!userReview[key] || userReview[key] === '') {
+                    checkErrors.push(`${requires[key]} is a required.`);
+                }
+            })
+        }
 
 
         if (checkErrors.length) {

@@ -10,16 +10,6 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 
 		public function __construct() {
 			add_action( 'wp_radio/register_routes', [ $this, 'register_routes' ] );
-
-
-			//backlog
-			//add_action( 'wp_radio_player_controls_tools_start', [ $this, 'favourite_btn' ] );
-			//add_action( 'wp_radio/before_play_btn', [ $this, 'favourite_btn' ] );
-			//add_action( 'wp_radio_before_you_may_like', [ $this, 'review' ] );
-			//add_action( 'wp_footer', [ $this, 'player_templates' ], 99 );
-			//add_action( 'wp_radio_single_info', 'wp_radio_report_btn', 10, 2 );
-			//add_action( 'wp_radio_player_controls_tools_end', [ $this, 'player_controls_tools' ] );
-
 			add_filter( 'comments_open', [ $this, 'enable_comment' ], 10, 2 );
 			add_filter( 'wp_radio/settings_sections', [ $this, 'settings_sections' ] );
 			add_filter( 'wp_radio/settings_fields', [ $this, 'settings_fields' ] );
@@ -33,7 +23,7 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 				array(
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_reviews' ),
-					'permission_callback' => 'is_user_logged_in',
+					'permission_callback' => '__return_true',
 				),
 			) );
 
@@ -540,17 +530,6 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 
 		}
 
-		public function favourite_btn( $id = false ) {
-			printf( '<button type="button" class="add-favourite dashicons dashicons-heart %1$s" aria-label="%2$s" title="%2$s"></button>',
-				is_user_logged_in() ? '' : 'disabled',
-				__( 'Add to Favorite.', 'wp-radio-user-frontend' )
-			);
-		}
-
-		public function review( $post_id ) {
-			wp_radio_get_template( 'reviews', [ 'post_id' => $post_id ], '', WR_USER_FRONTEND_TEMPLATES );
-		}
-
 		public function settings_fields( $settings ) {
 
 			$settings['wp_radio_user_frontend_settings'][] = [
@@ -584,26 +563,6 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 			];
 
 			return $settings;
-		}
-
-		public function player_templates() {
-
-			//load report form if not popup window
-			if ( empty( $_GET['player'] ) || 'popup' != $_GET['player'] ) {
-				wp_radio_get_template( 'html-report-form', [], '', WR_USER_FRONTEND_TEMPLATES );
-			}
-
-		}
-
-		public function player_controls_tools( $player_type ) {
-
-			$post_id = 0;
-
-			if ( 'popup' == $player_type ) {
-				$post_id = intval( $_GET['station_id'] );
-			}
-
-			wp_radio_report_btn( false, $post_id, $player_type );
 		}
 
 		public static function instance() {
