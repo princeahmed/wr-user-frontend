@@ -55,6 +55,10 @@ const paths = {
             '!build/**',
             '!src/**',
 
+            '!assets/scss/**',
+            '!assets/js/frontend.js',
+            '!assets/js/components/**',
+
             '!block/src/**',
             '!block/package.json',
             '!block/package-lock.json',
@@ -173,7 +177,6 @@ export const js = () => {
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest(paths.js.dest));
 };
-
 
 
 export const serve = done => {

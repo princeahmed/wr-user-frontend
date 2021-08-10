@@ -221,7 +221,7 @@ export default function Reviews({data: {id, title}}) {
                     <button
                         type="submit"
                         className={classNames("wp-radio-button", {disabled: !!userID})}>
-                        {userReview ? 'Update' : 'Submit'}
+                        {userReview ? 'Update' : 'Submit'} Review
                         {loading && <Spinner/>}
                     </button>
                 </p>
