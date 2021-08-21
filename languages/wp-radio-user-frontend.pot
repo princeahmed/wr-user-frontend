@@ -33,80 +33,80 @@ msgstr ""
 msgid "Please, Login to add this station to your favourite list."
 msgstr ""
 
-#: includes/class-form-handler.php:39, includes/class-form-handler.php:43, includes/class-form-handler.php:143
+#: includes/class-form-handler.php:40, includes/class-form-handler.php:44, includes/class-form-handler.php:145
 msgid "Error:"
 msgstr ""
 
-#: includes/class-form-handler.php:43
+#: includes/class-form-handler.php:44
 msgid "Username is required."
 msgstr ""
 
-#: includes/class-form-handler.php:124
+#: includes/class-form-handler.php:126
 msgid "Your account was created successfully. Your login details have been sent to your email address."
 msgstr ""
 
-#: includes/class-form-handler.php:205
+#: includes/class-form-handler.php:207
 msgid "Your station submission has been submitted. Now it is waiting for admin confirmation."
 msgstr ""
 
-#: includes/class-form-handler.php:184
+#: includes/class-form-handler.php:186
 msgid "Something went wrong please try again later."
 msgstr ""
 
-#: includes/class-form-handler.php:213, includes/class-hooks.php:241
+#: includes/class-form-handler.php:215, includes/class-hooks.php:241
 msgid "New Radio Station Submission"
 msgstr ""
 
-#: includes/class-form-handler.php:281, includes/class-hooks.php:116
+#: includes/class-form-handler.php:283, includes/class-hooks.php:116
 msgid "First name"
 msgstr ""
 
-#: includes/class-form-handler.php:282, includes/class-hooks.php:117
+#: includes/class-form-handler.php:284, includes/class-hooks.php:117
 msgid "Last name"
 msgstr ""
 
-#: includes/class-form-handler.php:283, includes/class-hooks.php:118, templates/my-account/form-login.php:61
+#: includes/class-form-handler.php:285, includes/class-hooks.php:118, templates/my-account/form-login.php:61
 msgid "Email address"
 msgstr ""
 
 #. translators: %s: Field name.
-#: includes/class-form-handler.php:290, includes/class-hooks.php:123, includes/class-hooks.php:221, includes/class-hooks.php:384
+#: includes/class-form-handler.php:292, includes/class-hooks.php:123, includes/class-hooks.php:221, includes/class-hooks.php:384
 msgid "%s is a required field."
 msgstr ""
 
-#: includes/class-form-handler.php:299, includes/class-hooks.php:132
+#: includes/class-form-handler.php:301, includes/class-hooks.php:132
 msgid "This email address is already registered."
 msgstr ""
 
-#: includes/class-form-handler.php:297, includes/class-hooks.php:130, includes/functions.php:8
+#: includes/class-form-handler.php:299, includes/class-hooks.php:130, includes/functions.php:8
 msgid "Please provide a valid email address."
 msgstr ""
 
-#: includes/class-form-handler.php:317, includes/class-hooks.php:151
+#: includes/class-form-handler.php:319, includes/class-hooks.php:151
 msgid "Your current password is incorrect."
 msgstr ""
 
-#: includes/class-form-handler.php:314, includes/class-hooks.php:148
+#: includes/class-form-handler.php:316, includes/class-hooks.php:148
 msgid "New passwords do not match."
 msgstr ""
 
-#: includes/class-form-handler.php:311, includes/class-hooks.php:145
+#: includes/class-form-handler.php:313, includes/class-hooks.php:145
 msgid "Please re-enter your password."
 msgstr ""
 
-#: includes/class-form-handler.php:308, includes/class-hooks.php:142
+#: includes/class-form-handler.php:310, includes/class-hooks.php:142
 msgid "Please enter your current password."
 msgstr ""
 
-#: includes/class-form-handler.php:305, includes/class-hooks.php:139
+#: includes/class-form-handler.php:307, includes/class-hooks.php:139
 msgid "Please fill out all password fields."
 msgstr ""
 
-#: includes/class-form-handler.php:332
+#: includes/class-form-handler.php:334
 msgid "Please upload a valid image file."
 msgstr ""
 
-#: includes/class-form-handler.php:352
+#: includes/class-form-handler.php:354
 msgid "Account details changed successfully."
 msgstr ""
 
@@ -271,46 +271,6 @@ msgstr ""
 msgid "Your message has been sent. Thanks %s"
 msgstr ""
 
-#: templates/my-account/edit-account.php:14
-msgid "Avatar Image:"
-msgstr ""
-
-#: templates/my-account/edit-account.php:27, templates/my-account/form-login.php:78
-msgid "First Name"
-msgstr ""
-
-#: templates/my-account/edit-account.php:34, templates/my-account/form-login.php:84
-msgid "Last Name"
-msgstr ""
-
-#: templates/my-account/edit-account.php:42
-msgid "Email Address"
-msgstr ""
-
-#: templates/my-account/edit-account.php:51
-msgid "Current password (leave blank to leave unchanged)"
-msgstr ""
-
-#: templates/my-account/edit-account.php:56
-msgid "New password (leave blank to leave unchanged)"
-msgstr ""
-
-#: templates/my-account/edit-account.php:61
-msgid "Confirm new password"
-msgstr ""
-
-#: templates/my-account/edit-account.php:70, templates/reviews.php:41
-msgid "Update"
-msgstr ""
-
-#: templates/my-account/favourites.php:10
-msgid "Favorite Stations"
-msgstr ""
-
-#: templates/my-account/favourites.php:41
-msgid "You didn't add any station to your favourites."
-msgstr ""
-
 #: templates/my-account/form-login.php:7
 msgid "Login"
 msgstr ""
@@ -343,6 +303,14 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
+#: templates/my-account/form-login.php:78
+msgid "First Name"
+msgstr ""
+
+#: templates/my-account/form-login.php:84
+msgid "Last Name"
+msgstr ""
+
 #: templates/reviews.php:12
 msgid "Leave a Review"
 msgstr ""
@@ -353,6 +321,10 @@ msgstr ""
 
 #: templates/reviews.php:34
 msgid "Your Review:"
+msgstr ""
+
+#: templates/reviews.php:41
+msgid "Update"
 msgstr ""
 
 #: templates/reviews.php:58
