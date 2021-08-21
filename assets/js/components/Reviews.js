@@ -9,8 +9,8 @@ export default function Reviews({data: {id, title}}) {
     const userID = WRUF.currentUserID;
 
     const [reviews, setReviews] = useState(null);
-    const [userReview, setUserReview] = useState({});
-    const [selection, setSelection] = useState(userReview ? userReview.rating : 0);
+    const [userReview, setUserReview] = useState(null);
+    const [selection, setSelection] = useState(!!userReview ? userReview.rating : 0);
 
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState(null);
@@ -67,7 +67,7 @@ export default function Reviews({data: {id, title}}) {
 
             Object.keys(requires).map(key => {
 
-                if (!userReview[key] || userReview[key] === '') {
+                if (!!userReview && (!userReview[key] || userReview[key] === '')) {
                     checkErrors.push(`${requires[key]} is a required.`);
                 }
             })
@@ -104,11 +104,12 @@ export default function Reviews({data: {id, title}}) {
         });
     }
 
+
     return (
         <>
             {!!reviews && !!reviews.length &&
             <div className="review-listing">
-                <h3 className="review-listing-title">What Others Say about {title}</h3>
+                <h3 className="review-listing-title">What others say about {title}</h3>
 
                 {
                     reviews.map(({avatar, name, rating, date, content}) => {

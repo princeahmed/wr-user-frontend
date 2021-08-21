@@ -2,7 +2,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-if(!class_exists('WR_User_Frontend_Form_Handler')) {
+if ( ! class_exists( 'WR_User_Frontend_Form_Handler' ) ) {
 
 	class WR_User_Frontend_Form_Handler {
 		private static $instance = null;
@@ -25,6 +25,7 @@ if(!class_exists('WR_User_Frontend_Form_Handler')) {
 			$nonce_value = wp_radio_get_var( $_REQUEST['wp-radio-login-nonce'], wp_radio_get_var( $_REQUEST['_wpnonce'], '' ) );
 
 			if ( isset( $_POST['login'], $_POST['username'], $_POST['password'] ) && wp_verify_nonce( $nonce_value, 'wp-radio-login' ) ) {
+
 
 				try {
 					$creds = [
@@ -54,6 +55,7 @@ if(!class_exists('WR_User_Frontend_Form_Handler')) {
 
 					// Perform the login.
 					$user = wp_signon( $creds, is_ssl() );
+
 
 					if ( is_wp_error( $user ) ) {
 						$message = $user->get_error_message();
@@ -187,7 +189,7 @@ if(!class_exists('WR_User_Frontend_Form_Handler')) {
 			} else {
 				$metas = [
 					//'language'     => ! empty( $_REQUEST['language'] ) ? sanitize_text_field( $_REQUEST['language'] ) : '',
-					'slogan'     => ! empty( $_REQUEST['slogan'] ) ? sanitize_text_field( $_REQUEST['slogan'] ) : '',
+					'slogan'       => ! empty( $_REQUEST['slogan'] ) ? sanitize_text_field( $_REQUEST['slogan'] ) : '',
 					'stream_url'   => ! empty( $_REQUEST['stream_url'] ) ? esc_url( $_REQUEST['stream_url'] ) : '',
 					'website'      => ! empty( $_REQUEST['website'] ) ? esc_url( $_REQUEST['website'] ) : '',
 					'facebook'     => ! empty( $_REQUEST['facebook'] ) ? esc_url( $_REQUEST['facebook'] ) : '',
@@ -383,8 +385,8 @@ if(!class_exists('WR_User_Frontend_Form_Handler')) {
 			return ! empty( $upload_id ) ? $upload_id : false;
 		}
 
-		public static function instance(){
-			if(is_null(self::$instance)){
+		public static function instance() {
+			if ( is_null( self::$instance ) ) {
 				self::$instance = new self();
 			}
 

@@ -1,6 +1,6 @@
 DONE
 ----------
-* Fix: Fixed [wp_radio_user_favorites] shortcode
+* Fix: Fix listing
 
 TODO
 ----------

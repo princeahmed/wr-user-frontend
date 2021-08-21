@@ -116,8 +116,8 @@ function wr_user_frontend_get_user_data() {
 
 	return [
 		'userName'  => $user->user_login,
-		'firstName' => $user->first_name,
-		'lastName'  => $user->last_name,
+		'firstName' => wp_radio_escape_quote( $user->first_name ),
+		'lastName'  => wp_radio_escape_quote( $user->last_name ),
 		'email'     => $user->user_email,
 	];
 
