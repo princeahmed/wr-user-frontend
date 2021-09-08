@@ -416,20 +416,20 @@ if ( ! class_exists( 'WR_User_Frontend_Hooks' ) ) {
 			$action  = sanitize_key( $request->get_param( 'action' ) );
 			$user_id = get_current_user_id();
 
-			$favourites = (array) get_user_meta( $user_id, 'favourite_stations', true );
+			$favorites = (array) get_user_meta( $user_id, 'favourite_stations', true );
 
 			if ( 'add' == $action ) {
-				$favourites = array_merge( $favourites, [ $post_id ] );
+				$favorites = array_merge( $favorites, [ $post_id ] );
 			} else {
-				if ( ( $key = array_search( $post_id, $favourites ) ) !== false ) {
-					unset( $favourites[ $key ] );
+				if ( ( $key = array_search( $post_id, $favorites ) ) !== false ) {
+					unset( $favorites[ $key ] );
 				}
 			}
 
-			$favourites = array_unique( $favourites );
+			$favorites = array_unique( $favorites );
 
-			update_user_meta( $user_id, 'favourite_stations', $favourites );
-			wp_send_json_success( $favourites );
+			update_user_meta( $user_id, 'favourite_stations', $favorites );
+			wp_send_json_success( $favorites );
 
 		}
 

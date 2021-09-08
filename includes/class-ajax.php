@@ -8,15 +8,15 @@ if(!class_exists('WR_User_Frontend_Ajax')) {
 		private static $instance = null;
 
 		public function __construct() {
-			add_action( 'wp_ajax_add_favourites', [ $this, 'handle_favourites' ] );
-			add_action( 'wp_ajax_nopriv_add_favourites', [ $this, 'handle_favourites' ] );
+			add_action( 'wp_ajax_add_favorites', [ $this, 'handle_favorites' ] );
+			add_action( 'wp_ajax_nopriv_add_favorites', [ $this, 'handle_favorites' ] );
 
 			//check if a station is added to favorite
 			add_action( 'wp_ajax_check_favourite', [ $this, 'check_favourite' ] );
 			add_action( 'wp_ajax_nopriv_check_favourite', [ $this, 'check_favourite' ] );
 
-			add_action( 'wp_ajax_load_more_favourites', [ $this, 'load_more_favourites' ] );
-			add_action( 'wp_ajax_nopriv_load_more_favourites', [ $this, 'load_more_favourites' ] );
+			add_action( 'wp_ajax_load_more_favorites', [ $this, 'load_more_favorites' ] );
+			add_action( 'wp_ajax_nopriv_load_more_favorites', [ $this, 'load_more_favorites' ] );
 
 			add_action( 'wp_ajax_submit_review', [ $this, 'submit_review' ] );
 			add_action( 'wp_ajax_nopriv_submit_review', [ $this, 'submit_review' ] );
@@ -30,47 +30,47 @@ if(!class_exists('WR_User_Frontend_Ajax')) {
 
 		}
 
-		public function handle_favourites() {
+		public function handle_favorites() {
 
 			$post_id = ! empty( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : '';
 			$user_id = get_current_user_id();
 			$type    = ! empty( $_REQUEST['type'] ) ? wp_unslash( $_REQUEST['type'] ) : '';
 
-			$favourites = get_user_meta( $user_id, 'favourite_stations', true );
-			$favourites = ! empty( $favourites ) ? $favourites : [];
+			$favorites = get_user_meta( $user_id, 'favourite_stations', true );
+			$favorites = ! empty( $favorites ) ? $favorites : [];
 
 			if ( 'add' == $type ) {
-				$favourites = array_merge( $favourites, [ $post_id ] );
+				$favorites = array_merge( $favorites, [ $post_id ] );
 			} else {
-				if ( ( $key = array_search( $post_id, $favourites ) ) !== false ) {
-					unset( $favourites[ $key ] );
+				if ( ( $key = array_search( $post_id, $favorites ) ) !== false ) {
+					unset( $favorites[ $key ] );
 				}
 			}
 
-			$favourites = array_unique( $favourites );
+			$favorites = array_unique( $favorites );
 
-			update_user_meta( $user_id, 'favourite_stations', $favourites );
-			wp_send_json_success( [ 'success' => true, 'favorites' => $favourites ] );
+			update_user_meta( $user_id, 'favourite_stations', $favorites );
+			wp_send_json_success( [ 'success' => true, 'favorites' => $favorites ] );
 		}
 
 		public function check_favourite() {
 			$id         = ! empty( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : '';
-			$favourites = get_user_meta( get_current_user_id(), 'favourite_stations', true );
-			$favourites = ! empty( $favourites ) ? $favourites : [];
+			$favorites = get_user_meta( get_current_user_id(), 'favourite_stations', true );
+			$favorites = ! empty( $favorites ) ? $favorites : [];
 
 			wp_send_json_success( [
-				'added' => in_array( $id, $favourites ),
+				'added' => in_array( $id, $favorites ),
 			] );
 		}
 
-		public function load_more_favourites() {
+		public function load_more_favorites() {
 			$offset = ! empty( $_REQUEST['offset'] ) ? intval( $_REQUEST['offset'] ) : '';
 
-			$favourites = wr_user_frontend_get_favourites( $offset );
+			$favorites = wr_user_frontend_get_favorites( $offset );
 
-			if ( ! empty( $favourites ) ) {
+			if ( ! empty( $favorites ) ) {
 				ob_start();
-				foreach ( $favourites as $post_id ) {
+				foreach ( $favorites as $post_id ) {
 					$station = get_post( $post_id );
 					wp_radio_get_template( 'listing/loop', [ 'station' => $station ] );
 				}

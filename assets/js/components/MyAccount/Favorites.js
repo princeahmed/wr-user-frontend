@@ -32,7 +32,7 @@ export default function Favorites({initFavorites, pageCount}) {
     }
 
     return (
-        <div className="content-favourites">
+        <div className="content-favorites">
             <h3 className="section-title">Favorite Stations</h3>
 
             <div ref={listingRef} className="wp-radio-listings">

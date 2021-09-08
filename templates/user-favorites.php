@@ -2,16 +2,16 @@
 
 defined( 'ABSPATH' ) || exit();
 
-$is_grid = 'grid' == prince_get_option( 'listing_view' );
+$is_grid = 'grid' == wp_radio_get_settings( 'listing_view', '', 'wp_radio_display_settings' );
 
-$favourites = wr_user_frontend_get_favourites();
+$favorites = wr_user_frontend_get_favorites();
 
 ?>
 
-<?php if ( ! empty( $favourites ) ) { ?>
-    <div class="wp-radio-favourites wp-radio-listings <?php echo $is_grid ? 'wp-radio-listing-grid' : ''; ?>">
+<?php if ( ! empty( $favorites ) ) { ?>
+    <div class="wp-radio-favorites wp-radio-listings <?php echo $is_grid ? 'wp-radio-listing-grid' : ''; ?>">
 		<?php
-		foreach ( $favourites as $post_id ) {
+		foreach ( $favorites as $post_id ) {
 
 			if ( 'wp_radio' != get_post_type($post_id ) ) {
 				continue;
@@ -23,9 +23,9 @@ $favourites = wr_user_frontend_get_favourites();
 		?>
     </div>
 
-	<?php if ( wr_user_frontend_get_favourites( 0, '', true ) >= 15 ) { ?>
+	<?php if ( wr_user_frontend_get_favorites( 0, '', true ) >= 15 ) { ?>
         <p class="load-more">
-            <button class="button load-more-favourites" id="load_more_favourites" data-offset="15">
+            <button class="button load-more-favorites" id="load_more_favorites" data-offset="15">
                 <img src="<?php echo site_url( 'wp-includes/images/wpspin.gif' ); ?>" alt="Loading..."> Load More Favorites
             </button>
         </p>
@@ -33,6 +33,6 @@ $favourites = wr_user_frontend_get_favourites();
 
 <?php } else { ?>
 
-    <p>You didn't add any station to your favourites.</p>
+    <p>You didn't add any station to your favorites.</p>
 	<?php
 }
