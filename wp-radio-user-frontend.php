@@ -32,7 +32,15 @@ if ( ! function_exists( 'wr_user_frontend_fs' ) ) {
 				// Try to load SDK from premium parent plugin folder.
 				require_once dirname( dirname( __FILE__ ) ) . '/wp-radio-premium/freemius/start.php';
 			} else {
-                wp_die( 'Freemius SDK not found.' );
+				add_action( 'admin_notices', function () {
+					?>
+                    <div class="notice notice-error is-dismissible">
+                        <p><?php _e( 'Freemius SDK not found!', 'wp-radio-user-frontend' ); ?></p>
+                    </div>
+					<?php
+				} );
+
+                return;
 			}
 
 			$wr_user_frontend_fs = fs_dynamic_init( array(

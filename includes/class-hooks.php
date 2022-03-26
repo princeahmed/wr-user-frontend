@@ -2,7 +2,6 @@
 
 defined( 'ABSPATH' ) || exit();
 
-
 class WR_User_Frontend_Hooks {
 
 	private static $instance = null;
