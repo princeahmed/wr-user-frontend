@@ -1,7 +1,7 @@
 import Select from "react-select";
 import ClientCaptcha from "react-client-captcha";
 
-import {countryFlag} from "../../../../wp-radio/assets/js/components/functions";
+import {countryFlag} from "../../../../wp-radio/assets/js/includes/functions";
 
 const {TextControl, TextareaControl, Spinner, Notice} = wp.components
 
@@ -118,16 +118,22 @@ export default function SubmitStation({countries, genres}) {
                     isDismissible={false}
                     actions={[
                         {
-                            label: 'Submit more station',
+                            label: wp.i18n.__('Submit more station', 'wp-radio'),
                             onClick: () => {
                                 setData({});
                                 setErrors(null);
                                 setSubmitted(false);
                             }
+                        },
+                        {
+                            label: wp.i18n.__('Go to Homepage', 'wp-radio'),
+                            onClick: () => {
+                                window.location.href = wpRadio.siteUrl;
+                            }
                         }
                     ]}
                 >
-                    <p>Your station has been submitted. Now it is waiting for the admin confirmation.</p>
+                    <p>{wp.i18n.__('Thanks for your submission. Your station has been submitted. Now it is waiting for the admin confirmation.', 'wp-radio')}</p>
                 </Notice>
 
                 :
@@ -135,19 +141,19 @@ export default function SubmitStation({countries, genres}) {
                       encType="multipart/form-data">
 
                     {!!errors &&
-                    <div className="wp-radio-notice-list">
-                        {
-                            errors.map((content, index) => (
-                                <Notice
-                                    status="error"
-                                    isDismissible
-                                    onRemove={() => setErrors(errors.filter(text => text !== content))}
-                                >
-                                    <span dangerouslySetInnerHTML={{__html: content}}></span>
-                                </Notice>
-                            ))
-                        }
-                    </div>
+                        <div className="wp-radio-notice-list">
+                            {
+                                errors.map((content, index) => (
+                                    <Notice
+                                        status="error"
+                                        isDismissible
+                                        onRemove={() => setErrors(errors.filter(text => text !== content))}
+                                    >
+                                        <span dangerouslySetInnerHTML={{__html: content}}></span>
+                                    </Notice>
+                                ))
+                            }
+                        </div>
                     }
 
                     <div className="wp-radio-form-row wp-radio-form-row--wide">

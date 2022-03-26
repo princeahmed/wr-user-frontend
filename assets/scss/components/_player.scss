@@ -31,6 +31,14 @@
       padding: 2px 5px;
       border-radius: 3px;
       line-height: 1;
+      background: #ffdddd;
+      font-size: 1rem;
+      font-weight: normal;
+      color: #333;
+
+      &:hover {
+        background: darken(#ffdddd, 5%);
+      }
 
       svg {
         margin-right: 5px;

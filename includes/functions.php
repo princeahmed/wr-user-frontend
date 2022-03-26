@@ -72,7 +72,7 @@ function wr_user_frontend_get_favorites( $offset = 0, $limit = 15, $count = fals
 if ( ! function_exists( 'wp_radio_report_btn' ) ) {
 	function wp_radio_report_btn( $label = 0, $post_id = 0, $player_type = false ) {
 
-		if ( 'on' != wp_radio_get_settings( 'enable_report', 'on', 'wp_radio_user_frontend_settings' ) ) {
+		if ( wp_radio_get_settings( 'enable_report', true ) ) {
 			return;
 		}
 

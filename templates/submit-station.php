@@ -22,8 +22,7 @@ if ( is_user_logged_in() ) { ?>
          data-genres='<?php echo json_encode( $genre_list ); ?>'
     ></div>
 <?php } else { ?>
-    <p>Please, <a href="<?php echo get_the_permalink( wp_radio_get_settings( 'account_page',
-			get_option( 'wp_radio_account_page' ), 'wp_radio_user_frontend_settings' ) ); ?>">Login</a> to your account
+    <p>Please, <a href="<?php echo get_the_permalink( wp_radio_get_settings( 'account_page' ) ); ?>">Login</a> to your account
         to submit a
         station.</p>
 

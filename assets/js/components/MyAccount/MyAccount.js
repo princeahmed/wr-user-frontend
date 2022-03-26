@@ -5,7 +5,7 @@ import EditAccount from "./EditAccount";
 
 const {useState} = wp.element;
 
-export default function MyAccount({favorites, user, logoutURL, pageCount}) {
+export default function MyAccount({favorites, user, logoutURL, pageCount, submitURL}) {
 
     const [tab, setTab] = useState('dashboard')
 
@@ -22,26 +22,31 @@ export default function MyAccount({favorites, user, logoutURL, pageCount}) {
 
                     <li className={classNames({active: 'dashboard' === tab})}>
                         <a href="#" onClick={(e) => handleMenu(e, 'dashboard')}>
-                            <i className="dashicons dashicons-dashboard"></i> Dashboard
+                            <i className="dashicons dashicons-dashboard"></i> {wp.i18n.__('Dashboard', 'wp-radio')}
                         </a>
                     </li>
 
                     <li className={classNames({active: 'favorites' === tab})}>
                         <a href="#" onClick={(e) => handleMenu(e, 'favorites')}>
-                            <i className="dashicons dashicons-heart"></i> Favorites
+                            <i className="dashicons dashicons-heart"></i> {wp.i18n.__('Favorites', 'wp-radio')}
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href={submitURL}>
+                            <i className="dashicons dashicons-plus-alt"></i> {wp.i18n.__('Submit Station', 'wp-radio')}
                         </a>
                     </li>
 
                     <li className={classNames({active: 'edit-account' === tab})}>
                         <a href="#" onClick={(e) => handleMenu(e, 'edit-account')}>
-                            <i className="dashicons dashicons-admin-users"></i> Edit Account
+                            <i className="dashicons dashicons-admin-users"></i> {wp.i18n.__('Edit Account', 'wp-radio')}
                         </a>
                     </li>
 
-
                     <li className="logout">
                         <a href={logoutURL}>
-                            <i className="dashicons dashicons-migrate"></i>Logout
+                            <i className="dashicons dashicons-migrate"></i> {wp.i18n.__('Logout', 'wp-radio')}
                         </a>
                     </li>
                 </ul>
@@ -70,7 +75,14 @@ if (element) {
     const pageCount = parseInt(element.getAttribute('data-pagecount'));
 
     const logoutURL = element.getAttribute('data-logoutURL');
+    const submitURL = element.getAttribute('data-submitURL');
 
-    wp.element.render(<MyAccount user={user} favorites={favorites} logoutURL={logoutURL}
-                                 pageCount={pageCount}/>, element);
+    wp.element.render(
+        <MyAccount
+            user={user}
+            favorites={favorites}
+            logoutURL={logoutURL}
+            pageCount={pageCount}
+            submitURL={submitURL}
+        />, element);
 }

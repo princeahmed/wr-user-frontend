@@ -7,6 +7,12 @@ class WR_User_Frontend_Enqueue {
 
 	public function __construct() {
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'admin_scripts' ] );
+	}
+
+	public function admin_scripts(){
+		wp_enqueue_script('wp-radio-user-frontend-admin', WR_USER_FRONTEND_ASSETS . '/js/admin.min.js',
+			array( 'wp-radio-admin' ), WR_USER_FRONTEND_VERSION, true);
 	}
 
 	public static function enqueue_scripts() {
@@ -19,7 +25,7 @@ class WR_User_Frontend_Enqueue {
 
 		$localize_array = [
 			'currentUserID' => get_current_user_id(),
-			'enableReport'  => 'on' == wp_radio_get_settings( 'enable_report', 'on', 'wp_radio_user_frontend_settings' ),
+			'enableReport'  => wp_radio_get_settings( 'enable_report', true ),
 			'i18n'          => [
 				'loginAlert' => __( 'Please, Login to add this station to your favourite list.', 'wp-radio-user-frontend' )
 			]

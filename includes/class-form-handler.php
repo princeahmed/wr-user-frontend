@@ -68,10 +68,10 @@ if ( ! class_exists( 'WR_User_Frontend_Form_Handler' ) ) {
 						} elseif ( wp_get_raw_referer() ) {
 							$redirect = wp_get_raw_referer();
 						} else {
-							$redirect = get_the_permalink( wp_radio_get_settings( 'account_page', '', 'wp_radio_user_frontend_settings' ) );
+							$redirect = get_the_permalink( wp_radio_get_settings( 'account_page' ) );
 						}
 
-						wp_redirect( wp_validate_redirect( $redirect, get_the_permalink( wp_radio_get_settings( 'account_page', get_option( 'wp_radio_account_page' ), 'wp_radio_user_frontend_settings' ) ) ) );
+						wp_redirect( wp_validate_redirect( $redirect, get_the_permalink( wp_radio_get_settings( 'account_page' ) ) ) );
 						exit;
 					}
 				} catch ( Exception $e ) {
@@ -134,10 +134,10 @@ if ( ! class_exists( 'WR_User_Frontend_Form_Handler' ) ) {
 					} elseif ( wp_get_raw_referer() ) {
 						$redirect = wp_get_raw_referer();
 					} else {
-						$redirect = get_the_permalink( wp_radio_get_settings( 'account_page', '', 'wp_radio_user_frontend_settings' ) );
+						$redirect = get_the_permalink( wp_radio_get_settings( 'account_page' ) );
 					}
 
-					wp_redirect( wp_validate_redirect( $redirect, get_the_permalink( wp_radio_get_settings( 'account_page', '', 'wp_radio_user_frontend_settings' ) ) ) );
+					wp_redirect( wp_validate_redirect( $redirect, get_the_permalink( wp_radio_get_settings( 'account_page' ) ) ) );
 					exit;
 
 				} catch ( Exception $e ) {
@@ -214,7 +214,7 @@ if ( ! class_exists( 'WR_User_Frontend_Form_Handler' ) ) {
 			//send email notification
 			$subject = esc_html__( 'New Radio Station Submission', 'wp-radio-user-frontend' );
 
-			$to = wp_radio_get_settings( 'notification_email', get_option( 'admin_email' ), 'wp_radio_user_frontend_settings' );
+			$to = wp_radio_get_settings( 'notification_email', get_option( 'admin_email' ) );
 
 			$template_args = array_filter( [
 				'Station Name'    => $args['post_title'],
@@ -240,7 +240,7 @@ if ( ! class_exists( 'WR_User_Frontend_Form_Handler' ) ) {
 			wp_mail( $to, $subject, $email_message, $headers );
 
 			//redirect back to the submission page
-			wp_redirect( get_the_permalink( wp_radio_get_settings( 'submit_station_page', get_option( 'wp_radio_submit_station_page' ), 'wp_radio_user_frontend_settings' ) ) );
+			wp_redirect( get_the_permalink( wp_radio_get_settings( 'submit_station_page' ) ) );
 
 		}
 
@@ -353,7 +353,7 @@ if ( ! class_exists( 'WR_User_Frontend_Form_Handler' ) ) {
 
 				wp_radio()->add_notice( 'success', __( 'Account details changed successfully.', 'wp-radio-user-frontend' ) );
 
-				wp_safe_redirect( get_the_permalink( wp_radio_get_settings( 'account_page', '', 'wp_radio_user_frontend_settings' ) ) );
+				wp_safe_redirect( get_the_permalink( wp_radio_get_settings( 'account_page' ) ) );
 				exit;
 			}
 

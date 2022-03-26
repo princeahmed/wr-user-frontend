@@ -109,7 +109,7 @@ export default function Reviews({data: {id, title}}) {
         <>
             {!!reviews && !!reviews.length &&
             <div className="review-listing">
-                <h3 className="review-listing-title">What others say about {title}</h3>
+                <h3 className="review-listing-title">{title} reviews</h3>
 
                 {
                     reviews.map(({avatar, name, rating, date, content}) => {

@@ -45,16 +45,18 @@ export default function Favorites({initFavorites, pageCount}) {
                 }
             </div>
 
-            <div className="listing-footer">
-                <Pagination
-                    className={"wp-radio-pagination"}
-                    pageCount={pageCount}
-                    currentPage={paginate}
-                    onPageChange={page => onPageChange(page)}
-                />
+            {pageCount > 1 &&
+                <div className="listing-footer">
+                    <Pagination
+                        className={"wp-radio-pagination"}
+                        pageCount={pageCount}
+                        currentPage={paginate}
+                        onPageChange={page => onPageChange(page)}
+                    />
 
-                {loading && <Spinner/>}
-            </div>
+                    {loading && <Spinner/>}
+                </div>
+            }
 
         </div>
     )

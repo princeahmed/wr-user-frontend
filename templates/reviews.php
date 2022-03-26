@@ -2,8 +2,11 @@
 
 defined( 'ABSPATH' ) || exit();
 
-$hash             = md5( $post_id . get_current_user_id() );
-$exits            = get_page_by_title( $hash, OBJECT, 'radio_review' );
+global $post;
+$post_id = $post->ID;
+
+$hash  = md5( $post_id . get_current_user_id() );
+$exits = get_page_by_title( $hash, OBJECT, 'radio_review' );
 
 $curr_user_rating = ! empty( $exits ) ? get_post_meta( $exits->ID, 'rating', 1 ) : 0;
 
@@ -32,12 +35,14 @@ $curr_user_rating = ! empty( $exits ) ? get_post_meta( $exits->ID, 'rating', 1 )
 
         <p class="wp-radio-form-row wp-radio-form-row--wide">
             <label for="review"><?php esc_html_e( 'Your Review:', 'wp-radio-user-frontend' ); ?></label>
-            <textarea name="review" id="review" placeholder="Your Review" rows="3"><?php echo ! empty( $exits ) ? $exits->post_content : ''; ?></textarea>
+            <textarea name="review" id="review" placeholder="Your Review"
+                      rows="3"><?php echo ! empty( $exits ) ? $exits->post_content : ''; ?></textarea>
         </p>
 
         <!--Submit-->
         <p class="wp-radio-form-row">
-            <button type="submit" class="wp-radio-button button <?php echo ! is_user_logged_in() ? 'disabled' : ''; ?>" name="submit" id="review_submit" data-offset="10">
+            <button type="submit" class="wp-radio-button button <?php echo ! is_user_logged_in() ? 'disabled' : ''; ?>"
+                    name="submit" id="review_submit" data-offset="10">
 				<?php echo ! empty( $exits ) ? __( 'Update', 'wp-radio-user-frontend' ) : __( 'Submit', 'wp-radio-user-frontend' ); ?>
             </button>
         </p>
@@ -55,7 +60,7 @@ $curr_user_rating = ! empty( $exits ) ? get_post_meta( $exits->ID, 'rating', 1 )
 		] );
 
 		if ( ! empty( $reviews ) ) {
-			printf( '<h3 class="review-listing-title">%1$s %2$s:</h3>', __( 'What Others Say about', 'wp-radio-user-frontend' ), get_the_title( $post_id ) );
+			printf( '<h3 class="review-listing-title">%1$s reviews : </h3>', get_the_title( $post_id ) );
 			foreach ( $reviews as $review ) {
 				wp_radio_get_template( 'review-loop', [ 'review_id' => $review->ID ], '', WR_USER_FRONTEND_TEMPLATES );
 			}
