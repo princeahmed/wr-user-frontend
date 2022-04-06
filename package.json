@@ -1,6 +1,6 @@
 {
   "name": "wp-radio-user-frontend",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "Completed:\r ---\r 1.",
   "main": "index.js",
   "repository": {
@@ -19,10 +19,8 @@
     "build": "gulp build --prod"
   },
   "dependencies": {
-    "@wordpress/hooks": "^2.12.0",
     "classnames": "^2.3.1",
     "react-client-captcha": "^1.0.3",
-    "react-player": "^2.9.0",
     "react-select": "^4.3.1"
   },
   "devDependencies": {

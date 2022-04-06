@@ -1,6 +1,8 @@
 import icons from './icons.json'
 import classNames from "classnames";
 import {getFavorites} from "./functions";
+import Alert from "../../../../wp-radio/assets/js/includes/Alert";
+
 
 const {useState, useEffect} = wp.element;
 
@@ -8,6 +10,7 @@ export default function FavoriteBtn({id}) {
 
     const [favorites, setFavorites] = useState(getFavorites());
     const [active, setActive] = useState(favorites.includes(id));
+    const [showAlert, setShowAlert] = useState(false);
 
     useEffect(() => {
         setActive(favorites.includes(id));
@@ -16,7 +19,12 @@ export default function FavoriteBtn({id}) {
     const handleFavorite = () => {
 
         if (WRUF.currentUserID == 0) {
-            alert("Please, login to add the station to your favorite list.")
+
+            wpRadioHooks.doAction('showAlert', {
+                content: wp.i18n.__('Please, login first to add the station to your favorite list.', 'wp-radio'),
+                type: 'info',
+                showCancel: false,
+            });
             return;
         }
 
@@ -32,13 +40,16 @@ export default function FavoriteBtn({id}) {
 
 
     return (
-        <button
-            type="button"
-            className={classNames('favorite-btn', {active: active})}
-            dangerouslySetInnerHTML={{__html: icons.heart}}
-            onClick={handleFavorite}
-        >
+        <>
+            <Alert/>
+            <button
+                type="button"
+                className={classNames('favorite-btn', {active: active})}
+                dangerouslySetInnerHTML={{__html: icons.heart}}
+                onClick={handleFavorite}
+            >
 
-        </button>
+            </button>
+        </>
     )
 }

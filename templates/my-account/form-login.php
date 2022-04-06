@@ -49,6 +49,21 @@
 
         <form method="post" class="wp-radio-form wp-radio-form-register register">
 
+            <div class="wp-radio-flex">
+                <div class="wp-radio-col-6">
+                    <p class="wp-radio-form-row wp-radio-form-row--wide">
+                        <label for="first_name"><?php esc_html_e( 'First Name', 'wp-radio-user-frontend' ); ?></label>
+                        <input type="text" name="first_name" id="first_name" placeholder="First Name">
+                    </p>
+                </div>
+                <div class="wp-radio-col-6">
+                    <p class="wp-radio-form-row wp-radio-form-row--wide">
+                        <label for="last_name"><?php esc_html_e( 'Last Name', 'wp-radio-user-frontend' ); ?></label>
+                        <input type="text" name="last_name" id="last_name" placeholder="Last Name">
+                    </p>
+                </div>
+            </div>
+
             <p class="wp-radio-form-row wp-radio-form-row--wide">
                 <label for="reg_username"><?php esc_html_e( 'Username', 'wp-radio-user-frontend' ); ?>
                     &nbsp;<span class="required">*</span></label>
@@ -71,21 +86,6 @@
                 <input type="password" class="wp-radio-input wp-radio-input--text" name="password" id="reg_password"
                        autocomplete="new-password"/>
             </p>
-
-            <div class="wp-radio-flex">
-                <div class="wp-radio-col-6">
-                    <p class="wp-radio-form-row wp-radio-form-row--wide">
-                        <label for="first_name"><?php esc_html_e( 'First Name', 'wp-radio-user-frontend' ); ?></label>
-                        <input type="text" name="first_name" id="first_name" placeholder="First Name">
-                    </p>
-                </div>
-                <div class="wp-radio-col-6">
-                    <p class="wp-radio-form-row wp-radio-form-row--wide">
-                        <label for="last_name"><?php esc_html_e( 'Last Name', 'wp-radio-user-frontend' ); ?></label>
-                        <input type="text" name="last_name" id="last_name" placeholder="Last Name">
-                    </p>
-                </div>
-            </div>
 
             <p class="wp-radio-form-row wp-radio-submit-row">
 				<?php wp_nonce_field( 'wp-radio-register', 'wp-radio-register-nonce' ); ?>

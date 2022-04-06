@@ -7,13 +7,8 @@ class WR_User_Frontend_Enqueue {
 
 	public function __construct() {
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
-		add_action( 'admin_enqueue_scripts', [ $this, 'admin_scripts' ] );
 	}
 
-	public function admin_scripts(){
-		wp_enqueue_script('wp-radio-user-frontend-admin', WR_USER_FRONTEND_ASSETS . '/js/admin.min.js',
-			array( 'wp-radio-admin' ), WR_USER_FRONTEND_VERSION, true);
-	}
 
 	public static function enqueue_scripts() {
 		wp_enqueue_style( 'wp-radio-user-frontend', WR_USER_FRONTEND_ASSETS . '/css/frontend.min.css', false, WR_USER_FRONTEND_VERSION );

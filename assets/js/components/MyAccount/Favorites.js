@@ -37,11 +37,8 @@ export default function Favorites({initFavorites, pageCount}) {
 
             <div ref={listingRef} className="wp-radio-listings">
                 {!!favorites && !!favorites.length
-                    ?
-                    <>
-                        <Loop items={favorites}/>
-                    </>
-                    : <p>You didn't add any station to your favorites list.</p>
+                    ? <Loop items={favorites}/>
+                    : <p>{wp.i18n.__('You didn\'t add any station to your favorites list.', 'wp-radio')}</p>
                 }
             </div>
 

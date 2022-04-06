@@ -56,7 +56,7 @@ export default function Reviews({data: {id, title}}) {
         const checkErrors = [];
 
         if (userID == 0) {
-            checkErrors.push(`Please login to add a review for the stations.`);
+            checkErrors.push(`Please login to add a review for the station.`);
         }
 
         if (userID != 0) {
@@ -221,7 +221,7 @@ export default function Reviews({data: {id, title}}) {
                 <p className="wp-radio-form-row">
                     <button
                         type="submit"
-                        className={classNames("wp-radio-button", {disabled: !!userID})}>
+                        className={classNames("wp-radio-button", {disabled: !userID})}>
                         {userReview ? 'Update' : 'Submit'} Review
                         {loading && <Spinner/>}
                     </button>

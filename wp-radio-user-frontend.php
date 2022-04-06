@@ -31,16 +31,18 @@ if ( ! function_exists( 'wr_user_frontend_fs' ) ) {
 			} elseif ( file_exists( dirname( dirname( __FILE__ ) ) . '/wp-radio-premium/freemius/start.php' ) ) {
 				// Try to load SDK from premium parent plugin folder.
 				require_once dirname( dirname( __FILE__ ) ) . '/wp-radio-premium/freemius/start.php';
+			} elseif ( defined( 'WP_RADIO_PATH' ) && file_exists( WP_RADIO_PATH . '/freemius/start.php' ) ) {
+				require_once WP_RADIO_PATH . '/freemius/start.php';
 			} else {
 				add_action( 'admin_notices', function () {
 					?>
                     <div class="notice notice-error is-dismissible">
-                        <p><?php _e( 'Freemius SDK not found!', 'wp-radio-user-frontend' ); ?></p>
+                        <p><?php _e( 'Freemius SDK not found for WP Radio User Frontend!', 'wp-radio-user-frontend' ); ?></p>
                     </div>
 					<?php
 				} );
 
-                return;
+				return;
 			}
 
 			$wr_user_frontend_fs = fs_dynamic_init( array(
@@ -64,7 +66,7 @@ if ( ! function_exists( 'wr_user_frontend_fs' ) ) {
 				),
 				'menu'             => array(
 					'slug'       => 'edit.php?post_type=wp_radio',
-					'first-path' => 'edit.php?post_type=wp_radio&page=get-started&tab=user_frontend',
+					'first-path' => 'edit.php?post_type=wp_radio&page=wp-radio-getting-started&tab=user_frontend',
 					'support'    => false,
 				),
 				// Set the SDK to work in a sandbox mode (for development & testing).

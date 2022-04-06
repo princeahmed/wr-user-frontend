@@ -29,7 +29,7 @@ const paths = {
         dest: 'assets/css/'
     },
     js: {
-        src: ['assets/js/admin.js','assets/js/frontend.js'],
+        src: ['assets/js/frontend.js'],
         dest: 'assets/js/'
     },
 

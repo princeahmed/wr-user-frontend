@@ -2,7 +2,7 @@
 Contributors: princeahmed
 Tags: wp radio user frontend, wp radio, post submission, radio, station, radio station
 Requires at least: 5.0
-Tested up to: 5.8
+Tested up to: 5.9
 Requires PHP: 5.6
 Stable tag: 1.1.6
 License: GPLv2 or later
