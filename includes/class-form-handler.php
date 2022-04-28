@@ -8,8 +8,6 @@ if ( ! class_exists( 'WR_User_Frontend_Form_Handler' ) ) {
 		private static $instance = null;
 
 		public function __construct() {
-			add_action( 'template_redirect', [ $this, 'save_account_details' ] );
-
 			add_action( 'wp_loaded', [ $this, 'process_login' ], 20 );
 			add_action( 'wp_loaded', [ $this, 'process_registration' ], 20 );
 
@@ -142,7 +140,7 @@ if ( ! class_exists( 'WR_User_Frontend_Form_Handler' ) ) {
 
 				} catch ( Exception $e ) {
 					if ( $e->getMessage() ) {
-						wp_radio()->add_notice( 'error', '<strong>' . __( 'Error:', 'wp-radio-user-frontend' ) . '</strong> ' . $e->getMessage() );
+						error_log( $e->getMessage() );
 					}
 				}
 			}
@@ -152,10 +150,22 @@ if ( ! class_exists( 'WR_User_Frontend_Form_Handler' ) ) {
 		 * handle station submission
 		 */
 		public function process_submit_station() {
+			$redirect_url = get_the_permalink( wp_radio_get_settings( 'submit_station_page' ) );
 
 			if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'] ) ) {
+				wp_redirect(add_query_arg( [ 'err' => 'nonce' ], $redirect_url ));
 				return;
 			}
+
+			//check captcha
+			$captcha      = ! empty( $_POST['captcha'] ) ? intval( $_POST['captcha'] ) : '';
+			$captcha_code = ! empty( $_POST['captcha_code'] ) ? intval( $_POST['captcha_code'] ) : '';
+
+			if ( $captcha != $captcha_code ) {
+				wp_redirect(add_query_arg( [ 'err' => 'captcha' ], $redirect_url ));
+				return;
+			}
+
 
 			$args = [
 				'post_status' => 'pending',
@@ -183,12 +193,11 @@ if ( ! class_exists( 'WR_User_Frontend_Form_Handler' ) ) {
 			$post_id = wp_insert_post( $args );
 
 			if ( is_wp_error( $post_id ) ) {
-				wp_radio()->add_notice( 'error', __( 'Something went wrong please try again later.', 'wp-radio-user-frontend' ) );
+				wp_redirect(add_query_arg( [ 'err' => 'error' ], $redirect_url ));
 
 				return;
 			} else {
 				$metas = [
-					//'language'     => ! empty( $_REQUEST['language'] ) ? sanitize_text_field( $_REQUEST['language'] ) : '',
 					'slogan'       => ! empty( $_REQUEST['slogan'] ) ? sanitize_text_field( $_REQUEST['slogan'] ) : '',
 					'stream_url'   => ! empty( $_REQUEST['stream_url'] ) ? esc_url( $_REQUEST['stream_url'] ) : '',
 					'website'      => ! empty( $_REQUEST['website'] ) ? esc_url( $_REQUEST['website'] ) : '',
@@ -203,8 +212,6 @@ if ( ! class_exists( 'WR_User_Frontend_Form_Handler' ) ) {
 				foreach ( $metas as $key => $meta ) {
 					update_post_meta( $post_id, $key, $meta );
 				}
-
-				wp_radio()->add_notice( 'success', __( 'Your station submission has been submitted. Now it is waiting for admin confirmation.', 'wp-radio-user-frontend' ) );
 			}
 
 			if ( ! empty( $image_id ) ) {
@@ -240,122 +247,7 @@ if ( ! class_exists( 'WR_User_Frontend_Form_Handler' ) ) {
 			wp_mail( $to, $subject, $email_message, $headers );
 
 			//redirect back to the submission page
-			wp_redirect( get_the_permalink( wp_radio_get_settings( 'submit_station_page' ) ) );
-
-		}
-
-		public function save_account_details() {
-			$nonce_value = wp_radio_get_var( $_REQUEST['wp_radio_save_account_details_nonce'], wp_radio_get_var( $_REQUEST['_wpnonce'], '' ) );
-
-			if ( ! wp_verify_nonce( $nonce_value, 'wp_radio_save_account_details' ) ) {
-				return;
-			}
-
-			if ( empty( $_POST['action'] ) || 'wp_radio_save_account_details' !== $_POST['action'] ) {
-				return;
-			}
-
-			$user_id = get_current_user_id();
-
-			if ( $user_id <= 0 ) {
-				return;
-			}
-
-			$first_name       = ! empty( $_POST['first_name'] ) ? wp_unslash( $_POST['first_name'] ) : '';
-			$last_name        = ! empty( $_POST['last_name'] ) ? wp_unslash( $_POST['last_name'] ) : '';
-			$email            = ! empty( $_POST['email'] ) ? wp_unslash( $_POST['email'] ) : '';
-			$current_password = ! empty( $_POST['current_password'] ) ? $_POST['current_password'] : '';
-			$new_password     = ! empty( $_POST['new_password'] ) ? $_POST['new_password'] : '';
-			$confirm_password = ! empty( $_POST['confirm_password'] ) ? $_POST['confirm_password'] : '';
-			$save_password    = true;
-
-			// Current user data.
-			$current_user = get_user_by( 'id', $user_id );
-
-			// New user data.
-			$user             = new stdClass();
-			$user->ID         = $user_id;
-			$user->first_name = $first_name;
-			$user->last_name  = $last_name;
-
-			// Handle required fields.
-			$required_fields = [
-				'first_name' => __( 'First name', 'wp-radio-user-frontend' ),
-				'last_name'  => __( 'Last name', 'wp-radio-user-frontend' ),
-				'email'      => __( 'Email address', 'wp-radio-user-frontend' ),
-			];
-
-
-			foreach ( $required_fields as $field_key => $field_name ) {
-				if ( empty( $_POST[ $field_key ] ) ) {
-					/* translators: %s: Field name. */
-					wp_radio()->add_notice( 'error', sprintf( __( '%s is a required field.', 'wp-radio-user-frontend' ), '<strong>' . esc_html( $field_name ) . '</strong>' ) );
-				}
-			}
-
-			if ( $email ) {
-				$email = sanitize_email( $email );
-				if ( ! is_email( $email ) ) {
-					wp_radio()->add_notice( 'error', __( 'Please provide a valid email address.', 'wp-radio-user-frontend' ) );
-				} elseif ( email_exists( $email ) && $email !== $current_user->user_email ) {
-					wp_radio()->add_notice( 'error', __( 'This email address is already registered.', 'wp-radio-user-frontend' ) );
-				}
-				$user->user_email = $email;
-			}
-
-			if ( ! empty( $current_password ) && empty( $new_password ) && empty( $confirm_password ) ) {
-				wp_radio()->add_notice( 'error', __( 'Please fill out all password fields.', 'wp-radio-user-frontend' ) );
-				$save_password = false;
-			} elseif ( ! empty( $new_password ) && empty( $current_password ) ) {
-				wp_radio()->add_notice( 'error', __( 'Please enter your current password.', 'wp-radio-user-frontend' ) );
-				$save_password = false;
-			} elseif ( ! empty( $new_password ) && empty( $confirm_password ) ) {
-				wp_radio()->add_notice( 'error', __( 'Please re-enter your password.', 'wp-radio-user-frontend' ) );
-				$save_password = false;
-			} elseif ( ( ! empty( $new_password ) || ! empty( $confirm_password ) ) && $new_password !== $confirm_password ) {
-				wp_radio()->add_notice( 'error', __( 'New passwords do not match.', 'wp-radio-user-frontend' ) );
-				$save_password = false;
-			} elseif ( ! empty( $new_password ) && ! wp_check_password( $current_password, $current_user->user_pass, $current_user->ID ) ) {
-				wp_radio()->add_notice( 'error', __( 'Your current password is incorrect.', 'wp-radio-user-frontend' ) );
-				$save_password = false;
-			}
-
-			if ( $new_password && $save_password ) {
-				$user->user_pass = $new_password;
-			}
-
-			if ( ! empty( $_FILES['avatar'] ) && empty( $_FILES['avatar']['error'] ) ) {
-
-				$type = wp_check_filetype( $_FILES['avatar']['name'] );
-
-				if ( in_array( $type['type'], [ 'image/png', 'image/jpg', 'image/jpeg', 'image/gif' ] ) ) {
-					$avatar_img = $this->upload_image( $_FILES['avatar'] );
-				} else {
-					wp_radio()->add_notice( 'error', __( 'Please upload a valid image file.', 'wp-radio-user-frontend' ) );
-				}
-			}
-
-			// Allow plugins to return their own errors.
-			$errors = new WP_Error();
-
-			if ( $errors->get_error_messages() ) {
-				foreach ( $errors->get_error_messages() as $error ) {
-					wp_radio()->add_notice( 'error', $error );
-				}
-			}
-
-			if ( 0 === count( get_option( 'wp_radio_notification', [] ) ) ) {
-				wp_update_user( $user );
-
-				if ( ! empty( $avatar_img ) ) {
-					update_user_meta( $user->ID, 'avatar', $avatar_img );
-				}
-
-				wp_radio()->add_notice( 'success', __( 'Account details changed successfully.', 'wp-radio-user-frontend' ) );
-
-				wp_safe_redirect( get_the_permalink( wp_radio_get_settings( 'account_page' ) ) );
-				exit;
-			}
+			wp_redirect( add_query_arg( [ 'success' => 1 ], $redirect_url ) );
 
 		}
 

@@ -34,19 +34,19 @@ msgstr ""
 msgid "\"%1$s\" requires \"%2$s\" version %3$s or greater."
 msgstr ""
 
-#: includes/class-ajax.php:95, includes/class-hooks.php:306
+#: includes/class-ajax.php:73, includes/class-hooks.php:306
 msgid "Missing Require Field(s)"
 msgstr ""
 
-#: includes/class-ajax.php:156
+#: includes/class-ajax.php:134
 msgid "No More Reviews!"
 msgstr ""
 
-#: includes/class-ajax.php:170
+#: includes/class-ajax.php:148
 msgid "No Cheating, Hmm -_-"
 msgstr ""
 
-#: includes/class-ajax.php:188, includes/class-hooks.php:420
+#: includes/class-ajax.php:166, includes/class-hooks.php:420
 msgid "New Report submitted for %s Station"
 msgstr ""
 
@@ -195,11 +195,11 @@ msgstr ""
 msgid "Please enter an account password."
 msgstr ""
 
-#: includes/functions.php:89, includes/functions.php:89
+#: includes/functions.php:73, includes/functions.php:73
 msgid "Report"
 msgstr ""
 
-#: includes/functions.php:93
+#: includes/functions.php:77
 msgid "Report a Problem"
 msgstr ""
 

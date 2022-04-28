@@ -2,9 +2,15 @@
 
 defined( 'ABSPATH' ) || exit();
 
+$user_id = get_current_user_id();
 $is_grid = 'grid' == wp_radio_get_settings( 'listing_view' );
 
-$favorites = wr_user_frontend_get_favorites();
+$paginate = ! empty( $_GET['paginate'] ) ? intval( $_GET['paginate'] ) : 1;
+$perpage = wp_radio_get_settings('posts_per_page', 10);
+
+$user_favorites = (array) get_user_meta( get_current_user_id(), 'favourite_stations', true );
+$favorites = array_slice( $user_favorites, ( $paginate - 1 ) * $perpage, $perpage );
+
 
 ?>
 
@@ -14,22 +20,28 @@ $favorites = wr_user_frontend_get_favorites();
 		foreach ( $favorites as $post_id ) {
 
 			if ( 'wp_radio' != get_post_type($post_id ) ) {
+
+                $new_favorites = array_diff( $user_favorites, [ $post_id ] );
+				update_user_meta( $user_id, 'favourite_stations', $new_favorites );
 				continue;
 			}
 
-			$station = get_post( $post_id );
+			$station = wp_radio_get_station_data( $post_id );
+
 			wp_radio_get_template( 'listing/loop', [ 'station' => $station, 'hide_desc' => 'yes', 'col' => 3 ] );
 		}
-		?>
-    </div>
 
-	<?php if ( wr_user_frontend_get_favorites( 0, '', true ) >= 15 ) { ?>
-        <p class="load-more">
-            <button class="button load-more-favorites" id="load_more_favorites" data-offset="15">
-                <img src="<?php echo site_url( 'wp-includes/images/wpspin.gif' ); ?>" alt="Loading..."> Load More Favorites
-            </button>
-        </p>
-	<?php } ?>
+        // Pagination
+        if( count( $favorites ) >= $perpage ) {
+	        wp_radio_get_template( 'listing/footer', [
+		        'pageCount' => ceil( count( $user_favorites ) / $perpage ),
+		        'paginate'  => $paginate,
+	        ] );
+        }
+
+		?>
+
+    </div>
 
 <?php } else { ?>
 

@@ -35,6 +35,10 @@
 }
 
 .wp-radio-my-account-content {
+  .account-content {
+    display: none;
+  }
+
   .content-favorites {
     .wp-radio-listing {
       .listing-desc, .genres {
@@ -49,6 +53,26 @@
   }
 
   .content-edit-account {
+
+    .form-message{
+      p{
+        margin-bottom: 5px;
+        padding: .3rem .5rem;
+      }
+
+      .success{
+        color: #4CAF50;
+        background: #d4edda;
+        border-color: #c3e6cb;
+      }
+
+      .error{
+        color: #dc3545;
+        background: #f8d7da;
+        border-color: #f5c6cb;
+      }
+
+    }
 
     .avatar-field {
       display: flex;
@@ -79,7 +103,19 @@
     }
 
     .change-password-button {
-      margin-bottom: 20px;
+      margin-bottom: 30px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      padding: 15px;
+    }
+
+    .change-password-fields{
+      display: none;
+
+      &.active {
+        display: block;
+      }
     }
   }
 
@@ -93,22 +129,6 @@
       margin-top: 0;
       border-bottom: 1px solid #ddd;
       padding-bottom: 13px;
-    }
-  }
-}
-
-.load-more {
-  margin: 20px 0;
-  text-align: center;
-
-  button {
-    display: flex;
-    align-items: center;
-    margin: 0 auto;
-
-    img {
-      display: none;
-      margin-right: 5px;
     }
   }
 }

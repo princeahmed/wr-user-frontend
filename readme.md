@@ -1,6 +1,6 @@
 DONE
 ----------
-* Fix: Fix listing
+* Fix: Fixed user favorites
 
 TODO
 ----------

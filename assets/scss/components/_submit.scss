@@ -1,6 +1,25 @@
 .wp-radio-form-submit-station {
 
-  .description{
+  .form-message {
+    p {
+      padding: .3rem .5rem;
+    }
+
+    .success {
+      background-color: #dff0d8;
+      border-color: #d6e9c6;
+      color: #3c763d;
+    }
+
+    .error {
+      background-color: #f2dede;
+      border-color: #ebccd1;
+      color: #a94442;
+    }
+
+  }
+
+  .description {
     font-size: .9rem;
     color: #555;
   }
@@ -8,8 +27,17 @@
   .select2-selection {
     line-height: 1;
 
-    input{
+    input {
       height: auto;
+    }
+  }
+
+  .captcha-wrap {
+    display: flex;
+
+    input {
+      margin-left: 10px;
+      width: 60px;
     }
   }
 }

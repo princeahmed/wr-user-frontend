@@ -1,4 +1,8 @@
-<?php defined( 'ABSPATH' ) || exit(); ?>
+<?php
+
+defined( 'ABSPATH' ) || exit();
+
+?>
 
 <div class="wp-radio-flex" id="listener-login">
 

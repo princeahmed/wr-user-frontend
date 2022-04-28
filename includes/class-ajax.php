@@ -2,7 +2,7 @@
 
 defined( 'ABSPATH' ) || exit();
 
-if(!class_exists('WR_User_Frontend_Ajax')) {
+if ( ! class_exists( 'WR_User_Frontend_Ajax' ) ) {
 	class WR_User_Frontend_Ajax {
 
 		private static $instance = null;
@@ -15,9 +15,6 @@ if(!class_exists('WR_User_Frontend_Ajax')) {
 			add_action( 'wp_ajax_check_favourite', [ $this, 'check_favourite' ] );
 			add_action( 'wp_ajax_nopriv_check_favourite', [ $this, 'check_favourite' ] );
 
-			add_action( 'wp_ajax_load_more_favorites', [ $this, 'load_more_favorites' ] );
-			add_action( 'wp_ajax_nopriv_load_more_favorites', [ $this, 'load_more_favorites' ] );
-
 			add_action( 'wp_ajax_submit_review', [ $this, 'submit_review' ] );
 			add_action( 'wp_ajax_nopriv_submit_review', [ $this, 'submit_review' ] );
 
@@ -28,6 +25,97 @@ if(!class_exists('WR_User_Frontend_Ajax')) {
 			add_action( 'wp_ajax_send_report', array( $this, 'send_report' ) );
 			add_action( 'wp_ajax_nopriv_send_report', array( $this, 'send_report' ) );
 
+			// handle edit-account
+			add_action( 'wp_ajax_wp_radio_edit_account', [ $this, 'edit_account' ] );
+			add_action( 'wp_ajax_nopriv_wp_radio_edit_account', [ $this, 'edit_account' ] );
+
+		}
+
+		public function edit_account() {
+			parse_str( $_POST['data'], $data );
+
+			$errors = [];
+
+			$nonce_value = ! empty( $data['_wpnonce'] ) ? $data['_wpnonce'] : '';
+			if ( ! wp_verify_nonce( $nonce_value ) ) {
+				$errors[] = __( 'Invalid request', 'wp-radio' );
+			}
+
+			$user_id = get_current_user_id();
+
+			if ( $user_id <= 0 ) {
+				$errors[] = __( 'You are not logged in', 'wp-radio' );
+			}
+
+			$first_name       = ! empty( $data['first_name'] ) ? sanitize_text_field( $data['first_name'] ) : '';
+			$last_name        = ! empty( $data['last_name'] ) ? sanitize_text_field( $data['last_name'] ) : '';
+			$email            = ! empty( $data['email'] ) ? sanitize_email( $data['email'] ) : '';
+			$current_password = ! empty( $data['current_password'] ) ? $data['current_password'] : '';
+			$new_password     = ! empty( $data['new_password'] ) ? $data['new_password'] : '';
+			$confirm_password = ! empty( $data['confirm_password'] ) ? $data['confirm_password'] : '';
+			$save_password    = true;
+
+			// Current user data.
+			$current_user = get_user_by( 'id', $user_id );
+
+			// New user data.
+			$user             = new stdClass();
+			$user->ID         = $user_id;
+			$user->first_name = $first_name;
+			$user->last_name  = $last_name;
+
+			// Handle required fields.
+			$required_fields = [
+				'first_name' => __( 'First name', 'wp-radio-user-frontend' ),
+				'last_name'  => __( 'Last name', 'wp-radio-user-frontend' ),
+				'email'      => __( 'Email address', 'wp-radio-user-frontend' ),
+			];
+
+
+			foreach ( $required_fields as $field_key => $field_name ) {
+				if ( empty( $data[ $field_key ] ) ) {
+					$errors[] = sprintf( __( '%s is required', 'wp-radio-user-frontend' ), $field_name );
+				}
+			}
+
+			if ( $email ) {
+				if ( ! is_email( $email ) ) {
+					$errors[] = __( 'Email address is invalid', 'wp-radio-user-frontend' );
+				} elseif ( email_exists( $email ) && $email !== $current_user->user_email ) {
+					$errors[] = __( 'Email address already exists', 'wp-radio-user-frontend' );
+				}
+
+				$user->user_email = $email;
+			}
+
+			if ( ! empty( $current_password ) && empty( $new_password ) && empty( $confirm_password ) ) {
+				$errors[]      = __( 'Please enter your new password', 'wp-radio-user-frontend' );
+				$save_password = false;
+			} elseif ( ! empty( $new_password ) && empty( $current_password ) ) {
+				$errors[]      = __( 'Please enter your current password', 'wp-radio-user-frontend' );
+				$save_password = false;
+			} elseif ( ! empty( $new_password ) && empty( $confirm_password ) ) {
+				$errors[]      = __( 'Please confirm your new password', 'wp-radio-user-frontend' );
+				$save_password = false;
+			} elseif ( ( ! empty( $new_password ) || ! empty( $confirm_password ) ) && $new_password !== $confirm_password ) {
+				$errors[]      = __( 'New password and confirm password do not match', 'wp-radio-user-frontend' );
+				$save_password = false;
+			} elseif ( ! empty( $new_password ) && ! wp_check_password( $current_password, $current_user->user_pass, $current_user->ID ) ) {
+				$errors[]      = __( 'Current password is incorrect', 'wp-radio-user-frontend' );
+				$save_password = false;
+			}
+
+			if ( $new_password && $save_password ) {
+				$user->user_pass = $new_password;
+			}
+
+			if ( empty( $errors ) ) {
+				wp_update_user( $user );
+
+				wp_send_json_success(['success' => __('Account details updated successfully', 'wp-radio-user-frontend')]);
+			}
+
+			wp_send_json_error( $errors );
 		}
 
 		public function handle_favorites() {
@@ -54,32 +142,13 @@ if(!class_exists('WR_User_Frontend_Ajax')) {
 		}
 
 		public function check_favourite() {
-			$id         = ! empty( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : '';
+			$id        = ! empty( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : '';
 			$favorites = get_user_meta( get_current_user_id(), 'favourite_stations', true );
 			$favorites = ! empty( $favorites ) ? $favorites : [];
 
 			wp_send_json_success( [
 				'added' => in_array( $id, $favorites ),
 			] );
-		}
-
-		public function load_more_favorites() {
-			$offset = ! empty( $_REQUEST['offset'] ) ? intval( $_REQUEST['offset'] ) : '';
-
-			$favorites = wr_user_frontend_get_favorites( $offset );
-
-			if ( ! empty( $favorites ) ) {
-				ob_start();
-				foreach ( $favorites as $post_id ) {
-					$station = get_post( $post_id );
-					wp_radio_get_template( 'listing/loop', [ 'station' => $station ] );
-				}
-				$html = ob_get_clean();
-
-				wp_send_json_success( [ 'html' => $html ] );
-			} else {
-				wp_send_json_error();
-			}
 		}
 
 		public function submit_review() {
@@ -209,8 +278,8 @@ if(!class_exists('WR_User_Frontend_Ajax')) {
 			exit();
 		}
 
-		public static function instance(){
-			if(is_null(self::$instance)){
+		public static function instance() {
+			if ( is_null( self::$instance ) ) {
 				self::$instance = new self();
 			}
 
