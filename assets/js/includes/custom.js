@@ -13,6 +13,13 @@
             $(`.content-${target}`).addClass('active');
         });
 
+        const searchParams = new URLSearchParams(window.location.search);
+        const isFavorites = searchParams.has('paginate');
+        if (isFavorites) {
+            $(`.wp-radio-my-account-navigation a[data-target=favorites]`).trigger('click');
+        }
+
+
         // Password fields toggle
         $('.change-password-button').on('click', function (e) {
             e.preventDefault();

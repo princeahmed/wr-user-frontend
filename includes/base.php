@@ -1,14 +1,14 @@
 <?php
 
-defined('ABSPATH') || exit();
+defined( 'ABSPATH' ) || exit();
 
 final class WP_Radio_User_Frontend {
 
 	protected static $instance = null;
 
 	public function __construct() {
-			$this->includes();
-			$this->init_hooks();
+		$this->includes();
+		$this->init_hooks();
 	}
 
 	function includes() {
@@ -35,7 +35,10 @@ final class WP_Radio_User_Frontend {
 		add_action( 'init', [ $this, 'add_image_sizes' ] );
 
 		//action_links
-		add_filter( 'plugin_action_links_' . plugin_basename( WR_USER_FRONTEND_FILE ), [ $this, 'plugin_action_links' ] );
+		add_filter( 'plugin_action_links_' . plugin_basename( WR_USER_FRONTEND_FILE ), [
+			$this,
+			'plugin_action_links'
+		] );
 	}
 
 	function localization_setup() {

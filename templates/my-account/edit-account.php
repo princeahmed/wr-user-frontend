@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit();
 ?>
 
 <div class="account-content content-edit-account">
-    <h3 class="section-title"><?php _e('Account Details', 'wp-radio'); ?></h3>
+    <h3 class="section-title"><?php _e('Account Details', 'wp-radio-user-frontend'); ?></h3>
 
     <form class="wp-radio-form wp-radio-form-edit-account">
 

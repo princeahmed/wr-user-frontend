@@ -9,11 +9,10 @@ const {useState, useEffect} = wp.element;
 export default function FavoriteBtn({id}) {
 
     const [favorites, setFavorites] = useState(getFavorites());
-    const [active, setActive] = useState(favorites.includes(id));
-    const [showAlert, setShowAlert] = useState(false);
+    const [active, setActive] = useState(favorites.includes(parseInt(id)));
 
     useEffect(() => {
-        setActive(favorites.includes(id));
+        setActive(favorites.includes(parseInt(id)));
     }, [id]);
 
     const handleFavorite = () => {
@@ -47,9 +46,7 @@ export default function FavoriteBtn({id}) {
                 className={classNames('favorite-btn', {active: active})}
                 dangerouslySetInnerHTML={{__html: icons.heart}}
                 onClick={handleFavorite}
-            >
-
-            </button>
+            ></button>
         </>
     )
 }

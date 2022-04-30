@@ -14,18 +14,18 @@ defined( 'ABSPATH' ) || exit();
                 <div class="form-message">
 		            <?php
 		            if ( ! empty( $_GET['success'] ) ) {
-			            printf( '<p class="success">%s</p>', __( 'Station submitted successfully, waiting for admin approval.', 'wp-radio' ) );
+			            printf( '<p class="success">%s</p>', __( 'Station submitted successfully, waiting for admin approval.', 'wp-radio-user-frontend' ) );
 		            }
 		            if( ! empty( $_GET['err'] ) && $_GET['err'] == 'nonce' ) {
-			            printf( '<p class="error">%s</p>', __( 'Your session has been expired!', 'wp-radio' ) );
+			            printf( '<p class="error">%s</p>', __( 'Your session has been expired!', 'wp-radio-user-frontend' ) );
 		            }
 
 		            if( ! empty( $_GET['err'] ) && $_GET['err'] == 'captcha' ) {
-			            printf( '<p class="error">%s</p>', __( 'Captcha didn\'t match', 'wp-radio' ) );
+			            printf( '<p class="error">%s</p>', __( 'Captcha didn\'t match', 'wp-radio-user-frontend' ) );
 		            }
 
 		            if( ! empty( $_GET['err'] ) && $_GET['err'] == 'error' ) {
-			            printf( '<p class="error">%s</p>', __( 'Something went wrong, please try again later.', 'wp-radio' ) );
+			            printf( '<p class="error">%s</p>', __( 'Something went wrong, please try again later.', 'wp-radio-user-frontend' ) );
 		            }
 
 		            ?>

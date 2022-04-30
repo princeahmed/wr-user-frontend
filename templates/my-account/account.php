@@ -41,7 +41,7 @@ $menus = [
         <ul>
 			<?php
 			foreach ( $menus as $key => $menu ) {
-				printf( '<li class="%s"><a href="%s" data-target="%s"><i class="dashicons %s"></i>%s</a></li>', $key == 'dashboard' ? 'active' : '', $menu['url'], $key,$menu['icon'], $menu['title'] );
+				printf( '<li><a class="%s" href="%s" data-target="%s"><i class="dashicons %s"></i>%s</a></li>', $key == 'dashboard' ? 'active' : '', $menu['url'], $key,$menu['icon'], $menu['title'] );
 			}
 			?>
         </ul>

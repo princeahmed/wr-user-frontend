@@ -4,7 +4,7 @@
  * Plugin Name: WP Radio User Frontend
  * Plugin URI:  https://princeboss.com
  * Description: Engage Your Radio Listeners to your website.
- * Version:     1.1.7
+ * Version:     1.1.8
  * Author:      Prince
  * Author URI:  http://princeboss.com
  * Text Domain: wp-radio-user-frontend
@@ -108,7 +108,7 @@ function wr_user_frontend_fs_init() {
 		return;
 	}
 
-	define( 'WR_USER_FRONTEND_VERSION', '1.1.7' );
+	define( 'WR_USER_FRONTEND_VERSION', '1.1.8' );
 	define( 'WR_USER_FRONTEND_FILE', __FILE__ );
 	define( 'WR_USER_FRONTEND_PATH', dirname( WR_USER_FRONTEND_FILE ) );
 	define( 'WR_USER_FRONTEND_INCLUDES', WR_USER_FRONTEND_PATH . '/includes' );
@@ -121,6 +121,11 @@ function wr_user_frontend_fs_init() {
 	if ( wr_user_frontend_fs_is_parent_active_and_loaded() ) {
 		// Init Freemius.
 		wr_user_frontend_fs();
+
+		// Activation hook
+		register_activation_hook( WR_USER_FRONTEND_FILE, function () {
+			include_once WR_USER_FRONTEND_INCLUDES . '/class-install.php';
+		} );
 
 		if ( ! wr_user_frontend_fs()->can_use_premium_code__premium_only() ) {
 			return;
@@ -147,11 +152,6 @@ function wr_user_frontend_fs_init() {
 
 			return;
 		}
-
-		// Activation hook
-		register_activation_hook( __FILE__, function () {
-			include_once WR_USER_FRONTEND_INCLUDES . '/class-install.php';
-		} );
 
 		//Base file
 		include_once WR_USER_FRONTEND_INCLUDES . '/base.php';

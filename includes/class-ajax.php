@@ -38,13 +38,13 @@ if ( ! class_exists( 'WR_User_Frontend_Ajax' ) ) {
 
 			$nonce_value = ! empty( $data['_wpnonce'] ) ? $data['_wpnonce'] : '';
 			if ( ! wp_verify_nonce( $nonce_value ) ) {
-				$errors[] = __( 'Invalid request', 'wp-radio' );
+				$errors[] = __( 'Invalid request', 'wp-radio-user-frontend' );
 			}
 
 			$user_id = get_current_user_id();
 
 			if ( $user_id <= 0 ) {
-				$errors[] = __( 'You are not logged in', 'wp-radio' );
+				$errors[] = __( 'You are not logged in', 'wp-radio-user-frontend' );
 			}
 
 			$first_name       = ! empty( $data['first_name'] ) ? sanitize_text_field( $data['first_name'] ) : '';

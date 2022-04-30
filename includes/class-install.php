@@ -25,11 +25,10 @@ class WP_Radio_User_Frontend_Install {
 				'post_content' => '[wp_radio_my_account]',
 			) );
 
-			$settings                 = (array) get_option( 'wp_radio_user_frontend_settings' );
+			$settings                 = (array) get_option( 'wp_radio_settings' );
 			$settings['account_page'] = $account_page;
 
-			update_option( 'wp_radio_user_frontend_settings', $settings );
-
+			update_option( 'wp_radio_settings', $settings );
 		}
 
 		if ( ! get_page_by_title( 'Submit a Station' ) ) {
@@ -40,10 +39,10 @@ class WP_Radio_User_Frontend_Install {
 				'post_content' => '[wp_radio_submit_station]',
 			) );
 
-			$settings                        = (array) get_option( 'wp_radio_user_frontend_settings' );
+			$settings                        = (array) get_option( 'wp_radio_settings' );
 			$settings['submit_station_page'] = $submit_page;
 
-			update_option( 'wp_radio_user_frontend_settings', $settings );
+			update_option( 'wp_radio_settings', $settings );
 		}
 
 	}
@@ -51,6 +50,7 @@ class WP_Radio_User_Frontend_Install {
 	private static function update_option() {
 		$key = sanitize_key( WR_USER_FRONTEND_NAME );
 		update_option( $key . '_version', WR_USER_FRONTEND_VERSION );
+
 		add_role( 'listener', __( 'Listener', 'wp-radio-user-frontend' ), [ 'read' => true ] );
 	}
 
