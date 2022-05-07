@@ -12,37 +12,33 @@ class WR_User_Frontend_Hooks {
 		add_action( 'admin_action_view_station_submission', [ $this, 'view_station_submission' ] );
 		add_action( 'pending_to_publish', [ $this, 'handle_station_approve' ] );
 
-		add_action( 'wp_radio/single/footer/info/end', [ $this, 'display_report_btn' ] );
+		add_action( 'wp_radio/single/footer/info/end', [ $this, 'render_report_btn' ] );
 		add_action( 'wp_radio/single/contacts/before', [ $this, 'display_reviews' ] );
+
+		// Render favorite button
+		add_action( 'wp_radio/play_btn/before', [ $this, 'render_favorite_btn' ] );
+
+		add_action( 'wp_radio/player/controls/start', [ $this, 'render_favorite_btn' ] );
+		add_action( 'wp_radio/player/controls/end', [ $this, 'render_report_btn' ] );
 	}
+
+	public function render_favorite_btn( $id ) { ?>
+        <button type="button" class="favorite-btn" data-id="<?php echo $id; ?>">
+            <i class="dashicons dashicons-heart"></i>
+        </button>
+	<?php }
 
 	public function display_reviews() { ?>
         <div class="reviews-wrapper"></div>
 	<?php }
 
-	public function display_report_btn() {
-		global $post;
-		$post_id = $post->ID;
-		$title   = get_the_title( $post_id );
-
-		$data = [
-			'post_id' => $post_id,
-			'title'   => $title,
-		];
-
-		?>
-        <div class="report-btn-wrap">
-            <button type="button" class="report-btn"
-                    onclick='window.wpRadioHooks.doAction("showReportModal", this, <?php echo json_encode( $data ); ?>)'>
-
-                <svg width="26" height="26" aria-hidden="true" focusable="false" role="img"
-                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                    <path fill="currentColor"
-                          d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zm-248 50c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"></path>
-                </svg>
-				<?php esc_html_e( 'Report a problem', 'wp-radio-user-frontend' ); ?>
-            </button>
-        </div>
+	public function render_report_btn($id) { ?>
+        <button type="button" class="report-btn wp-radio-button"
+        data-station='<?php echo json_encode(wp_radio_get_stream_data($id)); ?>'
+        >
+            <i class="dashicons dashicons-warning"></i>
+            <span><?php esc_html_e( 'Report a problem', 'wp-radio-user-frontend' ); ?></span>
+        </button>
 	<?php }
 
 	public function register_routes( $namespace ) {
@@ -531,7 +527,6 @@ class WR_User_Frontend_Hooks {
 
 
 	}
-
 
 	public function enable_comment( $open, $post_id ) {
 		if ( ! is_singular( 'wp_radio' ) ) {

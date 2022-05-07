@@ -8,8 +8,9 @@ if ( ! class_exists( 'WR_User_Frontend_Ajax' ) ) {
 		private static $instance = null;
 
 		public function __construct() {
-			add_action( 'wp_ajax_add_favorites', [ $this, 'handle_favorites' ] );
-			add_action( 'wp_ajax_nopriv_add_favorites', [ $this, 'handle_favorites' ] );
+			//add remove favorites
+			add_action( 'wp_ajax_wp_radio_toggle_favorite', [ $this, 'toggle_favorites' ] );
+			add_action( 'wp_ajax_nopriv_wp_radio_toggle_favorite', [ $this, 'toggle_favorites' ] );
 
 			//check if a station is added to favorite
 			add_action( 'wp_ajax_check_favourite', [ $this, 'check_favourite' ] );
@@ -22,8 +23,8 @@ if ( ! class_exists( 'WR_User_Frontend_Ajax' ) ) {
 			add_action( 'wp_ajax_nopriv_load_more_reviews', [ $this, 'load_more_reviews' ] );
 
 			//handle report submission
-			add_action( 'wp_ajax_send_report', array( $this, 'send_report' ) );
-			add_action( 'wp_ajax_nopriv_send_report', array( $this, 'send_report' ) );
+			add_action( 'wp_ajax_wp_radio_report', array( $this, 'send_report' ) );
+			add_action( 'wp_ajax_nopriv_wp_radio_report', array( $this, 'send_report' ) );
 
 			// handle edit-account
 			add_action( 'wp_ajax_wp_radio_edit_account', [ $this, 'edit_account' ] );
@@ -112,25 +113,32 @@ if ( ! class_exists( 'WR_User_Frontend_Ajax' ) ) {
 			if ( empty( $errors ) ) {
 				wp_update_user( $user );
 
-				wp_send_json_success(['success' => __('Account details updated successfully', 'wp-radio-user-frontend')]);
+				wp_send_json_success( [ 'success' => __( 'Account details updated successfully', 'wp-radio-user-frontend' ) ] );
 			}
 
 			wp_send_json_error( $errors );
 		}
 
-		public function handle_favorites() {
+		public function toggle_favorites() {
 
-			$post_id = ! empty( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : '';
 			$user_id = get_current_user_id();
-			$type    = ! empty( $_REQUEST['type'] ) ? wp_unslash( $_REQUEST['type'] ) : '';
+
+			if ( ! $user_id ) {
+				wp_send_json_error( [ 'error' => __( 'You must be logged in to perform this action', 'wp-radio-user-frontend' ) ] );
+			}
+
+			$id   = ! empty( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : '';
+			$type = ! empty( $_REQUEST['type'] ) ? sanitize_key( $_REQUEST['type'] ) : 'add';
 
 			$favorites = get_user_meta( $user_id, 'favourite_stations', true );
 			$favorites = ! empty( $favorites ) ? $favorites : [];
 
 			if ( 'add' == $type ) {
-				$favorites = array_merge( $favorites, [ $post_id ] );
+				error_log(print_r($favorites, true));
+				$favorites = array_merge( $favorites, [ $id ] );
+				error_log(print_r($favorites, true));
 			} else {
-				if ( ( $key = array_search( $post_id, $favorites ) ) !== false ) {
+				if ( ( $key = array_search( $id, $favorites ) ) !== false ) {
 					unset( $favorites[ $key ] );
 				}
 			}
@@ -138,7 +146,7 @@ if ( ! class_exists( 'WR_User_Frontend_Ajax' ) ) {
 			$favorites = array_unique( $favorites );
 
 			update_user_meta( $user_id, 'favourite_stations', $favorites );
-			wp_send_json_success( [ 'success' => true, 'favorites' => $favorites ] );
+			wp_send_json_success(  $favorites );
 		}
 
 		public function check_favourite() {
@@ -235,23 +243,13 @@ if ( ! class_exists( 'WR_User_Frontend_Ajax' ) ) {
 		 */
 		public function send_report() {
 
-			if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'wp-radio' ) ) {
-				wp_send_json_error( __( 'No Cheating, Hmm -_-', 'wp-radio-user-frontend' ) );
-			}
+			$email      = ! empty( $_REQUEST['email'] ) ? sanitize_email( $_REQUEST['email'] ) : '';
+			$issue      = ! empty( $_REQUEST['issue'] ) ? sanitize_text_field( $_REQUEST['issue'] ) : '';
+			$message    = ! empty( $_REQUEST['message'] ) ? sanitize_textarea_field( $_REQUEST['message'] ) : '';
+			$station_id = ! empty( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : '';
 
-			$data = [];
-			parse_str( $_REQUEST['data'], $data );
-
-
-			$email      = ! empty( $data['email'] ) ? sanitize_email( $data['email'] ) : '';
-			$issue      = ! empty( $data['issue'] ) ? sanitize_text_field( $data['issue'] ) : '';
-			$message    = ! empty( $data['message'] ) ? sanitize_textarea_field( $data['message'] ) : '';
-			$station_id = ! empty( $data['id'] ) ? intval( $data['id'] ) : '';
-
-			if ( empty( $email ) || empty( $issue ) ) {
-				wp_send_json_error( [
-					'type' => 'empty',
-				] );
+			if ( empty( $email ) || empty( $issue )  || empty( $station_id ) ) {
+				wp_send_json_error( __( 'Missing Require Field(s)', 'wp-radio-user-frontend' ) );
 			}
 
 			$subject = sprintf( esc_html__( 'New Report submitted for %s Station', 'wp-radio-user-frontend' ), get_the_title( $station_id ) );

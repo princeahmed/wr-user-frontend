@@ -1,5 +1,3 @@
-import classNames from "classnames";
-
 const {TextareaControl, Spinner, Notice} = wp.components;
 
 const {useState, useEffect, useRef} = wp.element;
@@ -221,7 +219,7 @@ export default function Reviews({data: {id, title}}) {
                 <p className="wp-radio-form-row">
                     <button
                         type="submit"
-                        className={classNames("wp-radio-button", {disabled: !userID})}>
+                        className={`wp-radio-button ${!userID ? 'disabled' : ''}`}>
                         {userReview ? 'Update' : 'Submit'} Review
                         {loading && <Spinner/>}
                     </button>

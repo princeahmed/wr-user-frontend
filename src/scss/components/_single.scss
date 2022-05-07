@@ -1,0 +1,28 @@
+.wp-radio-single {
+
+  .wp-radio-header {
+    .play-btn-wrap {
+      .favorite-btn {
+        margin-right: 10px;
+
+        .dashicons {
+          font-size: 2rem;
+        }
+      }
+    }
+  }
+
+  .wp-radio-info {
+    .report-btn {
+      margin-left: auto;
+      color: #fff;
+      background: #f0ad4e;;
+      border: 1px solid #ffb400;
+
+      &:hover {
+        background: #ffb400;
+        border: 1px solid #f0ad4e;;
+      }
+    }
+  }
+}
