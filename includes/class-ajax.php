@@ -16,8 +16,12 @@ if ( ! class_exists( 'WR_User_Frontend_Ajax' ) ) {
 			add_action( 'wp_ajax_check_favourite', [ $this, 'check_favourite' ] );
 			add_action( 'wp_ajax_nopriv_check_favourite', [ $this, 'check_favourite' ] );
 
-			add_action( 'wp_ajax_submit_review', [ $this, 'submit_review' ] );
-			add_action( 'wp_ajax_nopriv_submit_review', [ $this, 'submit_review' ] );
+			// Handle reviews
+			add_action( 'wp_ajax_wp_radio_add_review', [ $this, 'add_review' ] );
+			add_action( 'wp_ajax_nopriv_wp_radio_add_review', [ $this, 'add_review' ] );
+
+			add_action( 'wp_ajax_wp_radio_delete_review', [ $this, 'delete_review' ] );
+			add_action( 'wp_ajax_nopriv_wp_radio_delete_review', [ $this, 'delete_review' ] );
 
 			add_action( 'wp_ajax_load_more_reviews', [ $this, 'load_more_reviews' ] );
 			add_action( 'wp_ajax_nopriv_load_more_reviews', [ $this, 'load_more_reviews' ] );
@@ -134,9 +138,9 @@ if ( ! class_exists( 'WR_User_Frontend_Ajax' ) ) {
 			$favorites = ! empty( $favorites ) ? $favorites : [];
 
 			if ( 'add' == $type ) {
-				error_log(print_r($favorites, true));
+				error_log( print_r( $favorites, true ) );
 				$favorites = array_merge( $favorites, [ $id ] );
-				error_log(print_r($favorites, true));
+				error_log( print_r( $favorites, true ) );
 			} else {
 				if ( ( $key = array_search( $id, $favorites ) ) !== false ) {
 					unset( $favorites[ $key ] );
@@ -146,7 +150,7 @@ if ( ! class_exists( 'WR_User_Frontend_Ajax' ) ) {
 			$favorites = array_unique( $favorites );
 
 			update_user_meta( $user_id, 'favourite_stations', $favorites );
-			wp_send_json_success(  $favorites );
+			wp_send_json_success( $favorites );
 		}
 
 		public function check_favourite() {
@@ -159,37 +163,46 @@ if ( ! class_exists( 'WR_User_Frontend_Ajax' ) ) {
 			] );
 		}
 
-		public function submit_review() {
+		public function delete_review() {
+			$review_id = ! empty( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : '';
 
-			if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'wp-radio' ) ) {
-				wp_send_json_error();
+			if ( ! $review_id ) {
+				wp_send_json_error( [ 'error' => __( 'Invalid review ID', 'wp-radio-user-frontend' ) ] );
 			}
 
-			$data = [];
-			parse_str( $_REQUEST['formData'], $data );
+			wp_delete_post( $review_id );
+		}
 
-			if ( empty( $data['rating'] ) || empty( $data['review'] ) || empty( $data['user_id'] ) || empty( $data['object_id'] ) ) {
+		public function add_review() {
+
+			$user_id = get_current_user_id();
+
+			$object_id = ! empty( $_REQUEST['object_id'] ) ? intval( $_REQUEST['object_id'] ) : '';
+			$rating    = ! empty( $_REQUEST['rating'] ) ? intval( $_REQUEST['rating'] ) : '';
+			$review    = ! empty( $_REQUEST['review'] ) ? sanitize_textarea_field( $_REQUEST['review'] ) : '';
+
+			if ( ! $object_id || ! $rating || ! $review ) {
 				wp_send_json_error( __( 'Missing Require Field(s)', 'wp-radio-user-frontend' ) );
 			}
 
 			$meta_input = [
-				'object_id' => intval( $data['object_id'] ),
-				'user_id'   => intval( $data['user_id'] ),
-				'rating'    => intval( $data['rating'] ),
+				'object_id' => $object_id,
+				'user_id'   => $user_id,
+				'rating'    => $rating,
 			];
 
-			$exits = get_page_by_title( md5( $data['object_id'] . $data['user_id'] ), OBJECT, 'radio_review' );
+			$exits = get_page_by_title( md5( $object_id . $user_id ), OBJECT, 'radio_review' );
 
 			if ( ! empty( $exits ) ) {
 				$review_id = wp_update_post( [
 					'ID'           => $exits->ID,
-					'post_content' => sanitize_textarea_field( $data['review'] ),
+					'post_content' => $review,
 					'meta_input'   => $meta_input
 				] );
 			} else {
 				$review_id = wp_insert_post( [
-					'post_title'   => md5( $meta_input['object_id'] . $meta_input['user_id'] ),
-					'post_content' => sanitize_textarea_field( $data['review'] ),
+					'post_title'   => md5( $object_id . $user_id ),
+					'post_content' => $review,
 					'post_type'    => 'radio_review',
 					'post_status'  => 'publish',
 					'meta_input'   => $meta_input
@@ -248,7 +261,7 @@ if ( ! class_exists( 'WR_User_Frontend_Ajax' ) ) {
 			$message    = ! empty( $_REQUEST['message'] ) ? sanitize_textarea_field( $_REQUEST['message'] ) : '';
 			$station_id = ! empty( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : '';
 
-			if ( empty( $email ) || empty( $issue )  || empty( $station_id ) ) {
+			if ( empty( $email ) || empty( $issue ) || empty( $station_id ) ) {
 				wp_send_json_error( __( 'Missing Require Field(s)', 'wp-radio-user-frontend' ) );
 			}
 

@@ -6,6 +6,8 @@
             app.updateFavorites();
 
             $('.favorite-btn').on('click', app.toggleFavorite);
+
+            wpRadioHooks.addAction('update_player_data', 'wp-radio', app.updateFavorites);
         },
 
         toggleFavorite: function (e) {

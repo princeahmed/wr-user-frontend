@@ -13,7 +13,9 @@ class WR_User_Frontend_Hooks {
 		add_action( 'pending_to_publish', [ $this, 'handle_station_approve' ] );
 
 		add_action( 'wp_radio/single/footer/info/end', [ $this, 'render_report_btn' ] );
-		add_action( 'wp_radio/single/contacts/before', [ $this, 'display_reviews' ] );
+
+        // Render reviews
+		add_action( 'wp_radio/single/playlist/after', [ $this, 'render_reviews' ] );
 
 		// Render favorite button
 		add_action( 'wp_radio/play_btn/before', [ $this, 'render_favorite_btn' ] );
@@ -28,9 +30,9 @@ class WR_User_Frontend_Hooks {
         </button>
 	<?php }
 
-	public function display_reviews() { ?>
-        <div class="reviews-wrapper"></div>
-	<?php }
+	public function render_reviews($id) {
+        wp_radio_get_template('reviews', ['id' => $id], '', WR_USER_FRONTEND_TEMPLATES);
+    }
 
 	public function render_report_btn($id) { ?>
         <button type="button" class="report-btn wp-radio-button"

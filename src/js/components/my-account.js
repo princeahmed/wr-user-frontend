@@ -3,13 +3,6 @@
     const app = {
         init: () => {
 
-            // set favorites active tab if pagination
-            const searchParams = new URLSearchParams(window.location.search);
-            const isFavorites = searchParams.has('paginate');
-            if (isFavorites) {
-                $(`.wp-radio-my-account-navigation a[data-target=favorites]`).trigger('click');
-            }
-
             // Handle menu tabs
             $('.wp-radio-my-account-navigation a[href=#]').on('click', app.handleTabs);
 
@@ -18,6 +11,13 @@
 
             // Handle edit-account form
             $('.wp-radio-form-edit-account').on('submit', app.handleEditAccount);
+
+            // set favorites active tab if pagination
+            const searchParams = new URLSearchParams(window.location.search);
+            const isFavorites = searchParams.has('paginate');
+            if (isFavorites) {
+                $(`.wp-radio-my-account-navigation a[data-target=favorites]`).trigger('click');
+            }
         },
 
         handleEditAccount: function (e) {
