@@ -7,7 +7,7 @@
 
             $('.favorite-btn').on('click', app.toggleFavorite);
 
-            wpRadioHooks.addAction('update_player_data', 'wp-radio', app.updateFavorites);
+            //wpRadioHooks.addAction('update_player_data', 'wp-radio', app.updateFavorites);
         },
 
         toggleFavorite: function (e) {
@@ -32,7 +32,12 @@
                 },
                 success: function (favorites) {
 
+                    if (typeof favorites === 'object') {
+                        favorites = Object.values(favorites);
+                    }
+
                     favorites = Array.isArray(favorites) ? favorites : [];
+
                     localStorage.setItem('favorite_stations', JSON.stringify(favorites));
                     app.updateFavorites();
                 },

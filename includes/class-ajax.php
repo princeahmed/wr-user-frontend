@@ -138,9 +138,7 @@ if ( ! class_exists( 'WR_User_Frontend_Ajax' ) ) {
 			$favorites = ! empty( $favorites ) ? $favorites : [];
 
 			if ( 'add' == $type ) {
-				error_log( print_r( $favorites, true ) );
 				$favorites = array_merge( $favorites, [ $id ] );
-				error_log( print_r( $favorites, true ) );
 			} else {
 				if ( ( $key = array_search( $id, $favorites ) ) !== false ) {
 					unset( $favorites[ $key ] );
