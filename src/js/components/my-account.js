@@ -70,7 +70,7 @@
         },
     }
 
-    $(document).on('ready', app.init);
+    $(document).ready( app.init);
     $(document).on('pjax:complete', app.init);
 
 })(jQuery);

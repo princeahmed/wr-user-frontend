@@ -7,7 +7,7 @@
 
             $('.favorite-btn').on('click', app.toggleFavorite);
 
-            //wpRadioHooks.addAction('update_player_data', 'wp-radio', app.updateFavorites);
+            wpRadioHooks.addAction('update_player_data', 'wp-radio', app.updateFavorites);
         },
 
         toggleFavorite: function (e) {
@@ -73,6 +73,6 @@
         },
     }
 
-    $(document).ready(app.init);
+    $(document).ready( app.init);
     $(document).on('pjax:complete', app.init);
 })(jQuery);
