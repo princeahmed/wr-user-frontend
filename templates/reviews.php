@@ -28,7 +28,7 @@ $curr_user_rating = ! empty( $exits ) ? get_post_meta( $exits->ID, 'rating', 1 )
 			wp_radio_get_template( 'review-loop', [ 'review_id' => $review->ID ], '', WR_USER_FRONTEND_TEMPLATES );
 		}
 	} else { ?>
-        <p id="no-review-msg"><?php esc_html_e( 'No reviews added yet. Be the first to add a review for the station.', 'wp-radio' ); ?></p>
+        <p id="no-review-msg"><?php esc_html_e( 'No reviews added yet. Be the first to add a review for the station.', 'wp-radio-user-frontend' ); ?></p>
 	<?php } ?>
 </div>
 

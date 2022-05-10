@@ -4,7 +4,7 @@
  * Plugin Name: WP Radio User Frontend
  * Plugin URI:  https://princeboss.com
  * Description: Engage Your Radio Listeners to your website.
- * Version:     1.1.8
+ * Version:     1.1.9
  * Author:      Prince
  * Author URI:  http://princeboss.com
  * Text Domain: wp-radio-user-frontend
@@ -77,101 +77,101 @@ if ( ! function_exists( 'wr_user_frontend_fs' ) ) {
 
 		return $wr_user_frontend_fs;
 	}
-}
 
-
-function wr_user_frontend_fs_is_parent_active_and_loaded() {
-	// Check if the parent's init SDK method exists.
-	return function_exists( 'wr_fs' );
-}
-
-function wr_user_frontend_fs_is_parent_active() {
-	$active_plugins = get_option( 'active_plugins', array() );
-
-	if ( is_multisite() ) {
-		$network_active_plugins = get_site_option( 'active_sitewide_plugins', array() );
-		$active_plugins         = array_merge( $active_plugins, array_keys( $network_active_plugins ) );
+	function wr_user_frontend_fs_is_parent_active_and_loaded() {
+		// Check if the parent's init SDK method exists.
+		return function_exists( 'wr_fs' );
 	}
 
-	foreach ( $active_plugins as $basename ) {
-		if ( 0 === strpos( $basename, 'wp-radio/' ) || 0 === strpos( $basename, 'wp-radio-premium/' ) ) {
-			return true;
+	function wr_user_frontend_fs_is_parent_active() {
+		$active_plugins = get_option( 'active_plugins', array() );
+
+		if ( is_multisite() ) {
+			$network_active_plugins = get_site_option( 'active_sitewide_plugins', array() );
+			$active_plugins         = array_merge( $active_plugins, array_keys( $network_active_plugins ) );
 		}
+
+		foreach ( $active_plugins as $basename ) {
+			if ( 0 === strpos( $basename, 'wp-radio/' ) || 0 === strpos( $basename, 'wp-radio-premium/' ) ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
-	return false;
-}
+	function wr_user_frontend_fs_init() {
 
-function wr_user_frontend_fs_init() {
-
-	if ( defined( 'WR_USER_FRONTEND_VERSION' ) ) {
-		return;
-	}
-
-	define( 'WR_USER_FRONTEND_VERSION', '1.1.8' );
-	define( 'WR_USER_FRONTEND_FILE', __FILE__ );
-	define( 'WR_USER_FRONTEND_PATH', dirname( WR_USER_FRONTEND_FILE ) );
-	define( 'WR_USER_FRONTEND_INCLUDES', WR_USER_FRONTEND_PATH . '/includes' );
-	define( 'WR_USER_FRONTEND_URL', plugins_url( '', WR_USER_FRONTEND_FILE ) );
-	define( 'WR_USER_FRONTEND_ASSETS', WR_USER_FRONTEND_URL . '/assets' );
-	define( 'WR_USER_FRONTEND_TEMPLATES', WR_USER_FRONTEND_PATH . '/templates' );
-	define( 'WR_USER_FRONTEND_NAME', 'WP Radio User Frontend' );
-	define( 'WR_USER_FRONTEND_MIN_WP_RADIO', '3.0.9' );
-
-	if ( wr_user_frontend_fs_is_parent_active_and_loaded() ) {
-		// Init Freemius.
-		wr_user_frontend_fs();
-
-		// Activation hook
-		register_activation_hook( WR_USER_FRONTEND_FILE, function () {
-			include_once WR_USER_FRONTEND_INCLUDES . '/class-install.php';
-		} );
-
-		if ( ! wr_user_frontend_fs()->can_use_premium_code__premium_only() ) {
+		if ( defined( 'WR_USER_FRONTEND_VERSION' ) ) {
 			return;
 		}
 
-		// Signal that the add-on's SDK was initiated.
-		do_action( 'wr_user_frontend_fs_loaded' );
+		define( 'WR_USER_FRONTEND_VERSION', '1.1.9' );
+		define( 'WR_USER_FRONTEND_FILE', __FILE__ );
+		define( 'WR_USER_FRONTEND_PATH', dirname( WR_USER_FRONTEND_FILE ) );
+		define( 'WR_USER_FRONTEND_INCLUDES', WR_USER_FRONTEND_PATH . '/includes' );
+		define( 'WR_USER_FRONTEND_URL', plugins_url( '', WR_USER_FRONTEND_FILE ) );
+		define( 'WR_USER_FRONTEND_ASSETS', WR_USER_FRONTEND_URL . '/assets' );
+		define( 'WR_USER_FRONTEND_TEMPLATES', WR_USER_FRONTEND_PATH . '/templates' );
+		define( 'WR_USER_FRONTEND_NAME', 'WP Radio User Frontend' );
+		define( 'WR_USER_FRONTEND_MIN_WP_RADIO', '3.1.7' );
 
-		// Parent is active, add your init code here.
+		if ( wr_user_frontend_fs_is_parent_active_and_loaded() ) {
+			// Init Freemius.
+			wr_user_frontend_fs();
 
-		//check min WP Radio version
-		if ( defined( 'WP_RADIO_VERSION' ) && version_compare( WP_RADIO_VERSION, WR_USER_FRONTEND_MIN_WP_RADIO, '<' ) ) {
+			// Activation hook
+			register_activation_hook( WR_USER_FRONTEND_FILE, function () {
+				include_once WR_USER_FRONTEND_INCLUDES . '/class-install.php';
+			} );
+
+			if ( ! wr_user_frontend_fs()->can_use_premium_code__premium_only() ) {
+				return;
+			}
+
+			// Signal that the add-on's SDK was initiated.
+			do_action( 'wr_user_frontend_fs_loaded' );
+
+			// Parent is active, add your init code here.
+
+			//check min WP Radio version
+			if ( defined( 'WP_RADIO_VERSION' ) && version_compare( WP_RADIO_VERSION, WR_USER_FRONTEND_MIN_WP_RADIO, '<' ) ) {
+				add_action( 'admin_notices', function () {
+					$notice = sprintf(
+					/* translators: 1: Plugin name 2: WP Radio 3: Required WP Radio version */
+						esc_html__( '"%1$s" requires "%2$s" version %3$s or greater.', 'wp-radio-user-frontend' ),
+						'<strong>' . WR_USER_FRONTEND_NAME . '</strong>', '<strong>WP Radio</strong>',
+						WR_USER_FRONTEND_MIN_WP_RADIO );
+					?>
+                    <div class="notice is-dismissible notice-error">
+                        <p><?php echo $notice; ?></p>
+                    </div>
+				<?php } );
+
+				return;
+			}
+
+			//Base file
+			include_once WR_USER_FRONTEND_INCLUDES . '/base.php';
+
+		} else {
+			// Parent is inactive, add your error handling here.
+
 			add_action( 'admin_notices', function () {
-				$notice = sprintf(
-				/* translators: 1: Plugin name 2: WP Radio 3: Required WP Radio version */
-					esc_html__( '"%1$s" requires "%2$s" version %3$s or greater.', 'wp-radio-user-frontend' ),
-					'<strong>' . WR_USER_FRONTEND_NAME . '</strong>', '<strong>WP Radio</strong>',
-					WR_USER_FRONTEND_MIN_WP_RADIO );
+				$notice
+					= sprintf(
+				/* translators: 1: Plugin name 2: WP Radio */
+					esc_html__( '"%1$s" requires "%2$s" to be installed and activated.',
+						'wp-radio-user-frontend' ), '<strong>' . WR_USER_FRONTEND_NAME . '</strong>',
+					'<strong>' . esc_html__( 'WP Radio', 'wp-radio-user-frontend' ) . '</strong>' );
 				?>
                 <div class="notice is-dismissible notice-error">
                     <p><?php echo $notice; ?></p>
                 </div>
 			<?php } );
-
-			return;
 		}
-
-		//Base file
-		include_once WR_USER_FRONTEND_INCLUDES . '/base.php';
-
-	} else {
-		// Parent is inactive, add your error handling here.
-
-		add_action( 'admin_notices', function () {
-			$notice
-				= sprintf(
-			/* translators: 1: Plugin name 2: WP Radio */
-				esc_html__( '"%1$s" requires "%2$s" to be installed and activated.',
-					'wp-radio-user-frontend' ), '<strong>' . WR_USER_FRONTEND_NAME . '</strong>',
-				'<strong>' . esc_html__( 'WP Radio', 'wp-radio-user-frontend' ) . '</strong>' );
-			?>
-            <div class="notice is-dismissible notice-error">
-                <p><?php echo $notice; ?></p>
-            </div>
-		<?php } );
 	}
+
 }
 
 if ( wr_user_frontend_fs_is_parent_active_and_loaded() ) {

@@ -6,7 +6,7 @@ $user_id = get_current_user_id();
 $is_grid = 'grid' == wp_radio_get_settings( 'listing_view' );
 
 $paginate = ! empty( $_GET['paginate'] ) ? intval( $_GET['paginate'] ) : 1;
-$perpage  = wp_radio_get_settings( 'posts_per_page', 10 );
+$perpage  = wp_radio_get_settings( 'posts_per_page', 20 );
 
 $user_favorites = (array) get_user_meta( get_current_user_id(), 'favourite_stations', true );
 $favorites      = array_slice( $user_favorites, ( $paginate - 1 ) * $perpage, $perpage );

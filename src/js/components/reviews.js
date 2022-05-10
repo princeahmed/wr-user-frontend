@@ -108,8 +108,11 @@
                         timerProgressBar: true,
                     }).then(() => {
                         $('#no-review-msg').remove();
+                        if (response.update) {
+                            $('.single-review.current-user-review').remove();
+                        }
                         $('.review-listing').append(response.html);
-                    })
+                    });
                 },
                 error: error => console.log(error),
             });

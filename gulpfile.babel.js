@@ -7,14 +7,13 @@ import autoprefixer from 'gulp-autoprefixer';
 import cleanCss from 'gulp-clean-css';
 import gulpif from 'gulp-if';
 import sourcemaps from 'gulp-sourcemaps';
-import imagemin from 'gulp-imagemin';
 import del from 'del';
 import webpack from 'webpack-stream';
 import named from 'vinyl-named';
 import browserSync from 'browser-sync';
 import zip from 'gulp-zip';
-import replace from 'gulp-replace';
 import checktextdomain from 'gulp-checktextdomain';
+import ReplaceInFileWebpackPlugin from 'replace-in-file-webpack-plugin';
 
 const PRODUCTION = yargs.argv.prod;
 const server = browserSync.create();
@@ -75,7 +74,7 @@ const paths = {
     }
 };
 
-export const clean = () => del(['build']);
+export const clean = () => del(['assets','build']);
 
 export const css = () => {
 
@@ -129,19 +128,38 @@ export const js = () => {
                     },
                 ]
             },
-            plugins: [],
+            plugins: [
+                new ReplaceInFileWebpackPlugin([
+                    {
+                        files: ['wp-radio-user-frontend.php'],
+                        rules: [
+                            {
+                                search: /Version:(\s*?)[a-zA-Z0-9\.\-\+]+$/m,
+                                replace: 'Version:$1' + pkg.version,
+                            },
+                            {
+                                search: /define\(\s*'WR_USER_FRONTEND_VERSION',\s*'(.*)'\s*\);/,
+                                replace: `define( 'WR_USER_FRONTEND_VERSION', '${pkg.version}' );`,
+                            },
+                        ],
+                    },
+                    {
+                        files: ['readme.txt'],
+                        rules: [
+                            {
+                                search: /^(\*\*|)Stable tag:(\*\*|)(\s*?)[a-zA-Z0-9.-]+(\s*?)$/im,
+                                replace: '$1Stable tag:$2$3' + pkg.version,
+                            },
+                        ],
+                    },
+                ]),
+            ],
 
             devtool: !PRODUCTION ? 'inline-source-map' : false
         }))
         .pipe(gulp.dest(paths.js.dest));
 };
 
-export const imageMinify = () => {
-    return gulp.src('src/images/**/*')
-        .pipe(del('src/images/**/*'))
-        .pipe(imagemin())
-        .pipe(gulp.dest('assets/images'));
-};
 
 export const serve = done => {
     server.init({
@@ -163,28 +181,11 @@ export const watch = () => {
     gulp.watch(['src/images/**/*', 'src/vendor/**/*'], srcCopy);
 };
 
-export const srcCopy = done => {
-    gulp.src([
-        'src/images/**/*',
-    ]).pipe(gulp.dest('assets/images'));
-
-    gulp.src([
-        'src/vendor/**/*',
-    ]).pipe(gulp.dest('assets/vendor'));
-
-    done();
+export const srcCopy = () => {
+    return  gulp.src(['src/**/*', '!src/{scss,js}', '!src/{scss,js}/**/*'])
+        .pipe(gulp.dest('assets'));
 }
 
-export const replaces = done => {
-    gulp.src(['wp-radio-user-frontend.php'])
-        .pipe(replace(/Version:(\s*?)[a-zA-Z0-9\.\-\+]+$/m, 'Version:$1' + pkg.version))
-        .pipe(replace(/define\(\s*'WR_USER_FRONTEND_VERSION',\s*'(.*)'\s*\);/, `define( 'WR_USER_FRONTEND_VERSION', '${pkg.version}' );`));
-
-    gulp.src(['readme.txt'])
-        .pipe(replace(/^(\*\*|)Stable tag:(\*\*|)(\s*?)[a-zA-Z0-9.-]+(\s*?)$/im, '$1Stable tag:$2$3' + pkg.version));
-
-    done();
-}
 
 export const compress = () => {
     return gulp.src(paths.build.src)
@@ -195,7 +196,6 @@ export const compress = () => {
 export const checkdomain = () => {
     return gulp.src([
         '**/*.php',
-        'block/class-block.php',
         '!freemius/**',
         '!languages/**',
         '!node_modules/**',
@@ -227,6 +227,6 @@ export const checkdomain = () => {
 };
 
 export const dev = gulp.series(clean, gulp.parallel(css, js), srcCopy, serve, watch);
-export const build = gulp.series(clean, gulp.parallel(css, js), replaces, imageMinify, srcCopy, checkdomain, compress);
+export const build = gulp.series(clean, gulp.parallel(css, js), srcCopy, checkdomain, compress);
 
 export default dev;
