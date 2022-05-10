@@ -14,6 +14,7 @@ import browserSync from 'browser-sync';
 import zip from 'gulp-zip';
 import checktextdomain from 'gulp-checktextdomain';
 import ReplaceInFileWebpackPlugin from 'replace-in-file-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
 
 const PRODUCTION = yargs.argv.prod;
 const server = browserSync.create();
@@ -154,7 +155,11 @@ export const js = () => {
                     },
                 ]),
             ],
-
+            optimization: {
+                minimizer: [new TerserPlugin({
+                    extractComments: false,
+                })],
+            },
             devtool: !PRODUCTION ? 'inline-source-map' : false
         }))
         .pipe(gulp.dest(paths.js.dest));
