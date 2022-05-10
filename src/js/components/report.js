@@ -18,6 +18,7 @@
                 cancelButtonColor: '#d33',
                 reverseButtons: true,
                 showLoaderOnConfirm: true,
+
                 preConfirm: () => {
                     const email = $('#report-email').val();
                     const issue = $('#report-issue').val();

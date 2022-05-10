@@ -13,16 +13,21 @@ class WR_User_Frontend_Hooks {
 		add_action( 'admin_action_view_station_submission', [ $this, 'view_station_submission' ] );
 		add_action( 'pending_to_publish', [ $this, 'handle_station_approve' ] );
 
-		add_action( 'wp_radio/single/footer/info/end', [ $this, 'render_report_btn' ] );
-
-        // Render reviews
-		add_action( 'wp_radio/single/playlist/after', [ $this, 'render_reviews' ] );
-
 		// Render favorite button
 		add_action( 'wp_radio/play_btn/before', [ $this, 'render_favorite_btn' ] );
 
 		add_action( 'wp_radio/player/controls/start', [ $this, 'render_favorite_btn' ] );
-		add_action( 'wp_radio/player/controls/end', [ $this, 'render_report_btn' ] );
+
+		// Render reviews
+		if ( wp_radio_get_settings( 'enable_reviews', true ) ) {
+			add_action( 'wp_radio/single/playlist/after', [ $this, 'render_reviews' ] );
+		}
+
+		if ( wp_radio_get_settings( 'enable_report', true ) ) {
+			add_action( 'wp_radio/player/controls/end', [ $this, 'render_report_btn' ] );
+			add_action( 'wp_radio/single/footer/info/end', [ $this, 'render_report_btn' ] );
+		}
+
 	}
 
 	public function render_favorite_btn( $id ) { ?>
@@ -31,13 +36,13 @@ class WR_User_Frontend_Hooks {
         </button>
 	<?php }
 
-	public function render_reviews($id) {
-        wp_radio_get_template('reviews', ['id' => $id], '', WR_USER_FRONTEND_TEMPLATES);
-    }
+	public function render_reviews( $id ) {
+		wp_radio_get_template( 'reviews', [ 'id' => $id ], '', WR_USER_FRONTEND_TEMPLATES );
+	}
 
-	public function render_report_btn($id) { ?>
+	public function render_report_btn( $id ) { ?>
         <button type="button" class="report-btn wp-radio-button"
-        data-station='<?php echo json_encode(wp_radio_get_stream_data($id)); ?>'
+                data-station='<?php echo json_encode( wp_radio_get_stream_data( $id ) ); ?>'
         >
             <i class="dashicons dashicons-warning"></i>
             <span><?php esc_html_e( 'Report a problem', 'wp-radio-user-frontend' ); ?></span>

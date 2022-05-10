@@ -24,11 +24,12 @@
             }
 
             const id = $(this).attr('data-id');
+            const isFavorite = $(this).hasClass('active');
 
             wp.ajax.send('wp_radio_toggle_favorite', {
                 data: {
                     id: id,
-                    type: $(this).hasClass('active') ? 'remove' : 'add',
+                    type: isFavorite ? 'remove' : 'add',
                 },
                 success: function (favorites) {
 
@@ -39,7 +40,20 @@
                     favorites = Array.isArray(favorites) ? favorites : [];
 
                     localStorage.setItem('favorite_stations', JSON.stringify(favorites));
-                    app.updateFavorites();
+
+                    //sweetalert toast
+                    throw Swal.fire({
+                        toast: true,
+                        title: isFavorite ? 'Station removed from favorites.' : 'Station added to favorites',
+                        icon: 'success',
+                        timer: 2500,
+                        position: 'bottom',
+                        timerProgressBar: true,
+                        showConfirmButton: false,
+                    }).then(() => {
+                        app.updateFavorites();
+                    });
+
                 },
                 error: error => console.log(error),
             });
@@ -73,6 +87,6 @@
         },
     }
 
-    $(document).ready( app.init);
+    $(document).ready(app.init);
     $(document).on('pjax:complete', app.init);
 })(jQuery);
