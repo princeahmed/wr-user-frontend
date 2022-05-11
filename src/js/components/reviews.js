@@ -129,6 +129,5 @@
     }
 
     $(document).ready(app.init);
-    $(document).on('pjax:complete', app.init);
 
 })(jQuery);

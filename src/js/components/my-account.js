@@ -1,22 +1,25 @@
 ;(function ($) {
 
     const app = {
-        init: () => {
-
-            // Handle menu tabs
-            $('.wp-radio-my-account-navigation a[href=#]').on('click', app.handleTabs);
-
-            // Password fields toggle
-            $('.change-password-button').on('click', app.passwordFieldsToggle);
-
-            // Handle edit-account form
-            $('.wp-radio-form-edit-account').on('submit', app.handleEditAccount);
+        init: (e) => {
+            const isPjax = e.type === 'pjax:complete';
 
             // set favorites active tab if pagination
             const searchParams = new URLSearchParams(window.location.search);
             const isFavorites = searchParams.has('paginate');
             if (isFavorites) {
                 $(`.wp-radio-my-account-navigation a[data-target=favorites]`).trigger('click');
+            }
+
+            if (!isPjax) {
+                // Handle menu tabs
+                $('.wp-radio-my-account-navigation a[href=#]').on('click', app.handleTabs);
+
+                // Password fields toggle
+                $('.change-password-button').on('click', app.passwordFieldsToggle);
+
+                // Handle edit-account form
+                $('.wp-radio-form-edit-account').on('submit', app.handleEditAccount);
             }
         },
 
@@ -70,7 +73,7 @@
         },
     }
 
-    $(document).ready( app.init);
+    $(document).ready(app.init);
     $(document).on('pjax:complete', app.init);
 
 })(jQuery);

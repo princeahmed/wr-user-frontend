@@ -15,12 +15,12 @@
   .wp-radio-info {
     .report-btn {
       margin-left: auto;
-      color: #fff;
-      background: #f0ad4e;;
+      color: #555;
+      background: #fdd;;
       border: 1px solid #ffb400;
 
       &:hover {
-        background: #ffb400;
+        background: darken(#fdd, 10%);
         border: 1px solid #f0ad4e;;
       }
     }
