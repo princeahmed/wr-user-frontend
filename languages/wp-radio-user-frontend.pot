@@ -1,116 +1,123 @@
-# Copyright (C) 2022 wp-radio-user-frontend
-# This file is distributed under the same license as the wp-radio-user-frontend package.
+# Copyright (C) 2022 Prince
+# This file is distributed under the same license as the WP Radio User Frontend plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: wp-radio-user-frontend\n"
+"Project-Id-Version: WP Radio User Frontend 1.1.9\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-radio-user-frontend\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Content-Transfer-Econdig: 8bit\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"MIME-Version: 1.0\n"
-"Project-Id-Version: wp-radio-user-frontend\n"
-"X-Poedit-Basepath: ..\n"
-"X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
-"X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: *.js\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"POT-Creation-Date: 2022-05-12T05:27:16+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.6.0\n"
+"X-Domain: wp-radio-user-frontend\n"
 
-#: wp-radio-user-frontend.php:40
-msgid "Freemius SDK not found for WP Radio User Frontend!"
+#. Plugin Name of the plugin
+msgid "WP Radio User Frontend"
 msgstr ""
 
-#. translators: 1: Plugin name 2: WP Radio
-#: wp-radio-user-frontend.php:166
-msgid "\"%1$s\" requires \"%2$s\" to be installed and activated."
+#. Plugin URI of the plugin
+msgid "https://princeboss.com"
 msgstr ""
 
-#: wp-radio-user-frontend.php:168
-msgid "WP Radio"
+#. Description of the plugin
+msgid "Engage Your Radio Listeners to your website."
 msgstr ""
 
-#: wp-radio-user-frontend.php:144
-msgid "\"%1$s\" requires \"%2$s\" version %3$s or greater."
+#. Author of the plugin
+msgid "Prince"
 msgstr ""
 
-#: includes/class-ajax.php:41
+#. Author URI of the plugin
+msgid "http://princeboss.com"
+msgstr ""
+
+#: includes/class-ajax.php:46
 msgid "Invalid request"
 msgstr ""
 
-#: includes/class-ajax.php:47
+#: includes/class-ajax.php:52
 msgid "You are not logged in"
 msgstr ""
 
-#: includes/class-ajax.php:69, includes/class-hooks.php:144
+#: includes/class-ajax.php:74
 msgid "First name"
 msgstr ""
 
-#: includes/class-ajax.php:70, includes/class-hooks.php:145
+#: includes/class-ajax.php:75
 msgid "Last name"
 msgstr ""
 
-#: includes/class-ajax.php:71, includes/class-hooks.php:146, templates/my-account/form-login.php:80
+#: includes/class-ajax.php:76
+#: templates/my-account/form-login.php:80
 msgid "Email address"
 msgstr ""
 
-#: includes/class-ajax.php:77
+#: includes/class-ajax.php:82
 msgid "%s is required"
 msgstr ""
 
-#: includes/class-ajax.php:85
-msgid "Email address already exists"
-msgstr ""
-
-#: includes/class-ajax.php:83
+#: includes/class-ajax.php:88
 msgid "Email address is invalid"
 msgstr ""
 
-#: includes/class-ajax.php:104
-msgid "Current password is incorrect"
+#: includes/class-ajax.php:90
+msgid "Email address already exists"
 msgstr ""
 
-#: includes/class-ajax.php:101
-msgid "New password and confirm password do not match"
-msgstr ""
-
-#: includes/class-ajax.php:98
-msgid "Please confirm your new password"
-msgstr ""
-
-#: includes/class-ajax.php:95
-msgid "Please enter your current password"
-msgstr ""
-
-#: includes/class-ajax.php:92
+#: includes/class-ajax.php:97
 msgid "Please enter your new password"
 msgstr ""
 
-#: includes/class-ajax.php:115
+#: includes/class-ajax.php:100
+msgid "Please enter your current password"
+msgstr ""
+
+#: includes/class-ajax.php:103
+msgid "Please confirm your new password"
+msgstr ""
+
+#: includes/class-ajax.php:106
+msgid "New password and confirm password do not match"
+msgstr ""
+
+#: includes/class-ajax.php:109
+msgid "Current password is incorrect"
+msgstr ""
+
+#: includes/class-ajax.php:120
 msgid "Account details updated successfully"
 msgstr ""
 
-#: includes/class-ajax.php:164, includes/class-hooks.php:306
+#: includes/class-ajax.php:131
+msgid "You must be logged in to perform this action"
+msgstr ""
+
+#: includes/class-ajax.php:168
+msgid "Invalid review ID"
+msgstr ""
+
+#: includes/class-ajax.php:183
+#: includes/class-ajax.php:263
 msgid "Missing Require Field(s)"
 msgstr ""
 
-#: includes/class-ajax.php:225
+#: includes/class-ajax.php:244
 msgid "No More Reviews!"
 msgstr ""
 
-#: includes/class-ajax.php:239
-msgid "No Cheating, Hmm -_-"
-msgstr ""
-
-#: includes/class-ajax.php:257, includes/class-hooks.php:420
+#: includes/class-ajax.php:266
 msgid "New Report submitted for %s Station"
 msgstr ""
 
-#: includes/class-enqueue.php:25
+#: includes/class-enqueue.php:29
 msgid "Please, Login to add this station to your favourite list."
 msgstr ""
 
-#: includes/class-form-handler.php:38, includes/class-form-handler.php:42
+#: includes/class-form-handler.php:38
+#: includes/class-form-handler.php:42
 msgid "Error:"
 msgstr ""
 
@@ -122,75 +129,15 @@ msgstr ""
 msgid "Your account was created successfully. Your login details have been sent to your email address."
 msgstr ""
 
-#: includes/class-form-handler.php:222, includes/class-hooks.php:269
+#: includes/class-form-handler.php:222
 msgid "New Radio Station Submission"
 msgstr ""
 
-#: includes/class-hooks.php:43
+#: includes/class-hooks.php:48
 msgid "Report a problem"
 msgstr ""
 
-#: includes/class-hooks.php:151, includes/class-hooks.php:249, includes/class-hooks.php:412
-msgid "%s is a required field."
-msgstr ""
-
-#: includes/class-hooks.php:160
-msgid "This email address is already registered."
-msgstr ""
-
-#: includes/class-hooks.php:158, includes/functions.php:8
-msgid "Please provide a valid email address."
-msgstr ""
-
-#: includes/class-hooks.php:179
-msgid "Your current password is incorrect."
-msgstr ""
-
-#: includes/class-hooks.php:176
-msgid "New passwords do not match."
-msgstr ""
-
-#: includes/class-hooks.php:173
-msgid "Please re-enter your password."
-msgstr ""
-
-#: includes/class-hooks.php:170
-msgid "Please enter your current password."
-msgstr ""
-
-#: includes/class-hooks.php:167
-msgid "Please fill out all password fields."
-msgstr ""
-
-#: includes/class-hooks.php:240
-msgid "Title"
-msgstr ""
-
-#: includes/class-hooks.php:241
-msgid "Description"
-msgstr ""
-
-#: includes/class-hooks.php:242
-msgid "Country"
-msgstr ""
-
-#: includes/class-hooks.php:243
-msgid "Stream URL"
-msgstr ""
-
-#: includes/class-hooks.php:244, includes/class-hooks.php:405, templates/submit-station.php:169
-msgid "Email"
-msgstr ""
-
-#: includes/class-hooks.php:406
-msgid "Issue"
-msgstr ""
-
-#: includes/class-hooks.php:407
-msgid "Message"
-msgstr ""
-
-#: includes/class-hooks.php:490
+#: includes/class-hooks.php:71
 msgid "Station submission has been approved:"
 msgstr ""
 
@@ -204,6 +151,10 @@ msgstr ""
 
 #: includes/class-install.php:54
 msgid "Listener"
+msgstr ""
+
+#: includes/functions.php:8
+msgid "Please provide a valid email address."
 msgstr ""
 
 #: includes/functions.php:12
@@ -222,7 +173,7 @@ msgstr ""
 msgid "Please enter an account password."
 msgstr ""
 
-#: includes/functions.php:73, includes/functions.php:73
+#: includes/functions.php:73
 msgid "Report"
 msgstr ""
 
@@ -251,64 +202,124 @@ msgstr ""
 msgid "Message:"
 msgstr ""
 
-#: templates/html-report-form.php:23
-msgid "Report a Problem with Station:"
+#: templates/my-account/account.php:11
+msgid "Dashboard"
 msgstr ""
 
-#: templates/html-report-form.php:25
-msgid "Please, Fill out all the fields."
+#: templates/my-account/account.php:16
+msgid "Favorites"
 msgstr ""
 
-#: templates/html-report-form.php:29
-msgid "Your Email:"
+#: templates/my-account/account.php:21
+msgid "Submit station"
 msgstr ""
 
-#: templates/html-report-form.php:35
-msgid "Select issue:"
+#: templates/my-account/account.php:26
+msgid "Edit account"
 msgstr ""
 
-#: templates/html-report-form.php:47
-msgid "Your Message:"
+#: templates/my-account/account.php:32
+msgid "Logout"
 msgstr ""
 
-#: templates/html-report-form.php:52
-msgid "Radio Station:"
+#: templates/my-account/edit-account.php:8
+msgid "Account Details"
 msgstr ""
 
-#: templates/html-report-form.php:58, templates/html-report-form.php:58, templates/reviews.php:46, templates/submit-station.php:212
-msgid "Submit"
+#: templates/my-account/edit-account.php:17
+#: templates/my-account/form-login.php:59
+msgid "First Name"
 msgstr ""
 
-#: templates/html-report-form.php:58
-msgid "Send Message"
+#: templates/my-account/edit-account.php:25
+#: templates/my-account/form-login.php:65
+msgid "Last Name"
 msgstr ""
 
-#: templates/html-report-form.php:64
-msgid "Your message has been sent. Thanks %s"
+#: templates/my-account/edit-account.php:34
+msgid "Email Address"
 msgstr ""
 
-#: templates/reviews.php:15
-msgid "Leave a Review"
+#: templates/my-account/edit-account.php:44
+msgid "Current password (leave blank to leave unchanged)"
 msgstr ""
 
-#: templates/reviews.php:19
-msgid "Set your rating:"
+#: templates/my-account/edit-account.php:50
+msgid "New password (leave blank to leave unchanged)"
+msgstr ""
+
+#: templates/my-account/edit-account.php:56
+msgid "Confirm new password"
+msgstr ""
+
+#: templates/my-account/edit-account.php:67
+msgid "Update Details"
+msgstr ""
+
+#: templates/my-account/form-login.php:11
+msgid "Login"
+msgstr ""
+
+#: templates/my-account/form-login.php:16
+msgid "Username or email address"
+msgstr ""
+
+#: templates/my-account/form-login.php:24
+#: templates/my-account/form-login.php:88
+msgid "Password"
+msgstr ""
+
+#: templates/my-account/form-login.php:35
+msgid "Remember me"
+msgstr ""
+
+#: templates/my-account/form-login.php:39
+msgid "Log in"
+msgstr ""
+
+#: templates/my-account/form-login.php:43
+msgid "Lost your password?"
+msgstr ""
+
+#: templates/my-account/form-login.php:52
+#: templates/my-account/form-login.php:97
+msgid "Register"
+msgstr ""
+
+#: templates/my-account/form-login.php:72
+msgid "Username"
+msgstr ""
+
+#: templates/reviews.php:31
+msgid "No reviews added yet. Be the first to add a review for the station."
 msgstr ""
 
 #: templates/reviews.php:37
-msgid "Your Review:"
-msgstr ""
-
-#: templates/reviews.php:46
-msgid "Update"
-msgstr ""
-
-#: templates/reviews.php:74
 msgid "Load More Reviews"
 msgstr ""
 
-#: templates/submit-station.php:219
-msgid "You are not allowed to submit a station."
+#: templates/reviews.php:41
+msgid "Leave a review"
+msgstr ""
+
+#: templates/reviews.php:44
+msgid "Set your rating:"
+msgstr ""
+
+#: templates/reviews.php:61
+msgid "Your Review:"
+msgstr ""
+
+#: templates/reviews.php:72
+msgid "Delete Review"
+msgstr ""
+
+#: templates/reviews.php:78
+msgid "Update Review"
+msgstr ""
+
+#: templates/reviews.php:78
+msgid "Add Review"
 msgstr ""
 
 #: templates/submit-station.php:17
@@ -371,6 +382,10 @@ msgstr ""
 msgid "Address"
 msgstr ""
 
+#: templates/submit-station.php:169
+msgid "Email"
+msgstr ""
+
 #: templates/submit-station.php:176
 msgid "Phone"
 msgstr ""
@@ -379,86 +394,28 @@ msgstr ""
 msgid "Captcha"
 msgstr ""
 
-#: templates/my-account/account.php:11
-msgid "Dashboard"
+#: templates/submit-station.php:212
+msgid "Submit"
 msgstr ""
 
-#: templates/my-account/account.php:16
-msgid "Favorites"
+#: templates/submit-station.php:219
+msgid "You are not allowed to submit a station."
 msgstr ""
 
-#: templates/my-account/account.php:21
-msgid "Submit station"
+#: wp-radio-user-frontend.php:40
+msgid "Freemius SDK not found for WP Radio User Frontend!"
 msgstr ""
 
-#: templates/my-account/account.php:26
-msgid "Edit account"
+#. translators: 1: Plugin name 2: WP Radio 3: Required WP Radio version
+#: wp-radio-user-frontend.php:142
+msgid "\"%1$s\" requires \"%2$s\" version %3$s or greater."
 msgstr ""
 
-#: templates/my-account/account.php:32
-msgid "Logout"
+#. translators: 1: Plugin name 2: WP Radio
+#: wp-radio-user-frontend.php:164
+msgid "\"%1$s\" requires \"%2$s\" to be installed and activated."
 msgstr ""
 
-#: templates/my-account/edit-account.php:8
-msgid "Account Details"
-msgstr ""
-
-#: templates/my-account/edit-account.php:17, templates/my-account/form-login.php:59
-msgid "First Name"
-msgstr ""
-
-#: templates/my-account/edit-account.php:25, templates/my-account/form-login.php:65
-msgid "Last Name"
-msgstr ""
-
-#: templates/my-account/edit-account.php:34
-msgid "Email Address"
-msgstr ""
-
-#: templates/my-account/edit-account.php:44
-msgid "Current password (leave blank to leave unchanged)"
-msgstr ""
-
-#: templates/my-account/edit-account.php:50
-msgid "New password (leave blank to leave unchanged)"
-msgstr ""
-
-#: templates/my-account/edit-account.php:56
-msgid "Confirm new password"
-msgstr ""
-
-#: templates/my-account/edit-account.php:67
-msgid "Update Details"
-msgstr ""
-
-#: templates/my-account/form-login.php:11
-msgid "Login"
-msgstr ""
-
-#: templates/my-account/form-login.php:16
-msgid "Username or email address"
-msgstr ""
-
-#: templates/my-account/form-login.php:24, templates/my-account/form-login.php:88
-msgid "Password"
-msgstr ""
-
-#: templates/my-account/form-login.php:35
-msgid "Remember me"
-msgstr ""
-
-#: templates/my-account/form-login.php:39, templates/my-account/form-login.php:39
-msgid "Log in"
-msgstr ""
-
-#: templates/my-account/form-login.php:43
-msgid "Lost your password?"
-msgstr ""
-
-#: templates/my-account/form-login.php:52, templates/my-account/form-login.php:97, templates/my-account/form-login.php:97
-msgid "Register"
-msgstr ""
-
-#: templates/my-account/form-login.php:72
-msgid "Username"
+#: wp-radio-user-frontend.php:166
+msgid "WP Radio"
 msgstr ""

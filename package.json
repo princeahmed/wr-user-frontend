@@ -16,7 +16,7 @@
   "homepage": "https://github.com/princeahmed/wr-user-frontend#readme",
   "scripts": {
     "start": "gulp",
-    "build": "gulp build --prod"
+    "build": "wp i18n make-pot ./ languages/wp-radio-user-frontend.pot --exclude='/src,/vendor,/assets,/build' && gulp build --prod"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.16.7",
