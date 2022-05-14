@@ -12,17 +12,15 @@
     }
   }
 
-  .wp-radio-info {
-    .report-btn {
-      margin-left: auto;
-      color: #555;
-      background: #fdd;;
-      border: 1px solid #ffb400;
+  .report-btn {
+    margin-left: auto;
+    color: #555;
+    background: #fdd;;
+    border: 1px solid #ffb400;
 
-      &:hover {
-        background: darken(#fdd, 10%);
-        border: 1px solid #f0ad4e;;
-      }
+    &:hover {
+      background: darken(#fdd, 10%);
+      border: 1px solid #f0ad4e;;
     }
   }
 }

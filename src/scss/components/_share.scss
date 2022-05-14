@@ -1,0 +1,153 @@
+.share-modal {
+
+  input {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+  }
+
+  .swal2-close:focus {
+    outline: none;
+    background: transparent;
+    color: lightcoral;
+    box-shadow: none;
+  }
+
+  .embed-code {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    textarea {
+      margin-bottom: 15px;
+      width: 100%;
+      height: 150px;
+      resize: none;
+    }
+  }
+
+  &.embed {
+    .embed-code {
+      display: flex;
+    }
+
+    .share-links {
+      display: none;
+    }
+  }
+
+
+  .share-links {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .share-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #333;
+
+      i {
+        font-size: 2rem;
+        width: auto;
+        height: auto;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        padding: 10px;
+        margin: 10px;
+      }
+
+      span {
+        font-size: .875rem;
+      }
+
+      &.link {
+        i {
+          background: #fff;
+          border: 1px solid #ccc;
+          color: #333;
+        }
+
+        span {
+          color: #333;
+        }
+
+        &:hover {
+          i {
+            background: darken(#fff, 10%);
+          }
+        }
+      }
+
+      &.embed {
+        i {
+          background: #333;
+          border: 1px solid #333;
+          color: #fff;
+        }
+
+        &:hover {
+          i {
+            background: darken(#333, 10%);
+          }
+        }
+      }
+
+      &.facebook {
+        i {
+          background-color: #3b5998;
+          color: #fff;
+        }
+
+        span {
+          color: #3b5998;
+        }
+
+        &:hover {
+          i {
+            background-color: lighten(#3b5998, 10%);
+          }
+        }
+      }
+
+      &.twitter {
+        i {
+          background-color: #1da1f2;
+          color: #fff;
+        }
+
+        span {
+          color: #1da1f2;
+        }
+
+        &:hover {
+          i {
+            background-color: lighten(#1da1f2, 10%);
+          }
+        }
+      }
+
+      &.whatsapp {
+        i {
+          background-color: #25d366;
+          color: #fff;
+        }
+
+        span {
+          color: #25d366;
+        }
+
+        &:hover {
+          i {
+            background-color: lighten(#25d366, 10%);
+          }
+        }
+      }
+
+    }
+  }
+}

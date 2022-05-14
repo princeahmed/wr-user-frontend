@@ -7,7 +7,7 @@
             app.updateFavorites();
 
             if (!isPjax) {
-                $('.favorite-btn').on('click', app.toggleFavorite);
+                $(document).on('click','.favorite-btn', app.toggleFavorite);
                 wpRadioHooks.addAction('update_player_data', 'wp-radio', app.updateFavorites);
             }
         },
@@ -44,7 +44,7 @@
                     localStorage.setItem('favorite_stations', JSON.stringify(favorites));
 
                     //sweetalert toast
-                    throw Swal.fire({
+                    Swal.fire({
                         toast: true,
                         title: isFavorite ? 'Station removed from favorites.' : 'Station added to favorites',
                         icon: 'success',

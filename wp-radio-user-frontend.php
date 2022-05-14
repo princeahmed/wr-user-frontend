@@ -4,7 +4,7 @@
  * Plugin Name: WP Radio User Frontend
  * Plugin URI:  https://princeboss.com
  * Description: Engage Your Radio Listeners to your website.
- * Version:     1.1.9
+ * Version:     1.2.0
  * Author:      Prince
  * Author URI:  http://princeboss.com
  * Text Domain: wp-radio-user-frontend
@@ -106,7 +106,7 @@ if ( ! function_exists( 'wr_user_frontend_fs' ) ) {
 			return;
 		}
 
-		define( 'WR_USER_FRONTEND_VERSION', '1.1.9' );
+		define( 'WR_USER_FRONTEND_VERSION', '1.2.0' );
 		define( 'WR_USER_FRONTEND_FILE', __FILE__ );
 		define( 'WR_USER_FRONTEND_PATH', dirname( WR_USER_FRONTEND_FILE ) );
 		define( 'WR_USER_FRONTEND_INCLUDES', WR_USER_FRONTEND_PATH . '/includes' );
@@ -114,7 +114,7 @@ if ( ! function_exists( 'wr_user_frontend_fs' ) ) {
 		define( 'WR_USER_FRONTEND_ASSETS', WR_USER_FRONTEND_URL . '/assets' );
 		define( 'WR_USER_FRONTEND_TEMPLATES', WR_USER_FRONTEND_PATH . '/templates' );
 		define( 'WR_USER_FRONTEND_NAME', 'WP Radio User Frontend' );
-		define( 'WR_USER_FRONTEND_MIN_WP_RADIO', '3.1.7' );
+		define( 'WR_USER_FRONTEND_MIN_WP_RADIO', '3.1.8' );
 
 		if ( wr_user_frontend_fs_is_parent_active_and_loaded() ) {
 			// Init Freemius.

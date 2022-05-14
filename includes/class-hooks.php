@@ -7,28 +7,67 @@ class WR_User_Frontend_Hooks {
 	private static $instance = null;
 
 	public function __construct() {
+		$enable_share     = wp_radio_get_settings( 'enable_share', true );
+		$enable_report    = wp_radio_get_settings( 'enable_report', true );
+		$enable_reviews   = wp_radio_get_settings( 'enable_reviews', true );
+		$enable_favorites = wp_radio_get_settings( 'enable_favorites', true );
+		$enable_comment   = wp_radio_get_settings( 'enable_comment', true );
 
-		add_filter( 'comments_open', [ $this, 'enable_comment' ], 10, 2 );
 
 		add_action( 'admin_action_view_station_submission', [ $this, 'view_station_submission' ] );
 		add_action( 'pending_to_publish', [ $this, 'handle_station_approve' ] );
 
-		// Render favorite button
-		add_action( 'wp_radio/play_btn/before', [ $this, 'render_favorite_btn' ] );
+		if ( $enable_comment ) {
+			add_filter( 'comments_open', [ $this, 'enable_comment' ], 10, 2 );
+		}
 
-		add_action( 'wp_radio/player/controls/start', [ $this, 'render_favorite_btn' ] );
-
-		// Render reviews
-		if ( wp_radio_get_settings( 'enable_reviews', true ) ) {
+		if ( $enable_reviews ) {
 			add_action( 'wp_radio/single/playlist/after', [ $this, 'render_reviews' ] );
 		}
 
-		if ( wp_radio_get_settings( 'enable_report', true ) ) {
-			add_action( 'wp_radio/player/controls/end', [ $this, 'render_report_btn' ] );
-			add_action( 'wp_radio/single/footer/info/end', [ $this, 'render_report_btn' ] );
+		if ( $enable_share ) {
+			add_action( 'wp_radio/single/footer', [ $this, 'render_station_share_btn' ] );
+			add_action( 'wp_radio/player/controls/start', [ $this, 'render_player_share_btn' ], 10, 2 );
 		}
 
+		if ( $enable_favorites ) {
+			add_action( 'wp_radio/play_btn/before', [ $this, 'render_favorite_btn' ] );
+			add_action( 'wp_radio/player/controls/start', [ $this, 'render_favorite_btn' ] );
+		}
+
+		if ( $enable_report ) {
+			add_action( 'wp_radio/player/controls/end', [ $this, 'render_report_btn' ] );
+			add_action( 'wp_radio/single/footer', [ $this, 'render_report_btn' ] );
+		}
+
+
 	}
+
+	public function render_station_share_btn( $id ) { ?>
+        <button type="button" class="share-btn wp-radio-button"
+                aria-label="<?php esc_attr_e( 'Share', 'wp-radio-user-frontend' ); ?>"
+                title="<?php esc_attr_e( 'Share', 'wp-radio-user-frontend' ); ?>"
+                data-station='<?php echo json_encode( wp_radio_get_stream_data( $id ) ); ?>'
+        >
+            <i class="dashicons dashicons-share-alt2"></i>
+            <span>Share</span>
+        </button>
+	<?php }
+
+	public function render_player_share_btn( $id, $player_type ) {
+//		if ( 'full-width' != $player_type ) {
+//			return;
+//		}
+		?>
+        <button type="button" class="share-btn"
+                aria-label="<?php esc_attr_e( 'Share', 'wp-radio-user-frontend' ); ?>"
+                title="<?php esc_attr_e( 'Share', 'wp-radio-user-frontend' ); ?>"
+                data-station='<?php echo json_encode( wp_radio_get_stream_data( $id ) ); ?>'
+        >
+            <i class="dashicons dashicons-share-alt2"></i>
+            <span>Share</span>
+        </button>
+	<?php }
 
 	public function render_favorite_btn( $id ) { ?>
         <button type="button" class="favorite-btn" data-id="<?php echo $id; ?>">
@@ -118,14 +157,7 @@ class WR_User_Frontend_Hooks {
 			return $open;
 		}
 
-
-		$enable_comment = wp_radio_get_settings( 'enable_comment', true );
-		if ( $enable_comment ) {
-			$open = 'open';
-		}
-
-		return $open;
-
+		return 'open';
 	}
 
 	public static function instance() {

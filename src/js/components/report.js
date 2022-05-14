@@ -7,7 +7,6 @@
         HandleReport: function (e) {
             e.preventDefault();
 
-            const $this = $(this);
             const {id, title, link, thumbnail} = $(this).data('station');
 
             Swal.fire({
