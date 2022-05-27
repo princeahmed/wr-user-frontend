@@ -1,8 +1,6 @@
 DONE
 ----------
-* New: Added station sharing button to the sticky player and single station page.
-* New: Added favorite button hide show settings.
-* Fix: Fixed user favorites.
+* Fixed: My Account page navigation menu ajaxify.
 
 TODO
 ----------

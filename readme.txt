@@ -2,9 +2,9 @@
 Contributors: princeahmed
 Tags: wp radio user frontend, wp radio, post submission, radio, station, radio station
 Requires at least: 5.0
-Tested up to: 5.9
+Tested up to: 6.0
 Requires PHP: 5.6
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +53,9 @@ This page contains **[wp_radio_submit_station]** shortcode. You can use this sho
 5. Report Submission
 
 == Changelog ==
+
+= 1.2.1 =
+* Fix: Player embed sharing.
 
 = 1.2.0 =
 * New: Added station sharing button to the sticky player and single station page.

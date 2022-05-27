@@ -4,7 +4,7 @@
  * Plugin Name: WP Radio User Frontend
  * Plugin URI:  https://princeboss.com
  * Description: Engage Your Radio Listeners to your website.
- * Version:     1.2.0
+ * Version:     1.2.1
  * Author:      Prince
  * Author URI:  http://princeboss.com
  * Text Domain: wp-radio-user-frontend
@@ -106,7 +106,7 @@ if ( ! function_exists( 'wr_user_frontend_fs' ) ) {
 			return;
 		}
 
-		define( 'WR_USER_FRONTEND_VERSION', '1.2.0' );
+		define( 'WR_USER_FRONTEND_VERSION', '1.2.1' );
 		define( 'WR_USER_FRONTEND_FILE', __FILE__ );
 		define( 'WR_USER_FRONTEND_PATH', dirname( WR_USER_FRONTEND_FILE ) );
 		define( 'WR_USER_FRONTEND_INCLUDES', WR_USER_FRONTEND_PATH . '/includes' );

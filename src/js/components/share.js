@@ -18,7 +18,7 @@
                 title: 'Share',
                 html: `
                     <div class="embed-code">
-                        <textarea readonly><iframe src="${wpRadio.popupURL}/wp-radio/?player=popup&station_id=${id}" width="100%" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe></textarea>
+                        <textarea readonly><iframe src="${wpRadio.siteUrl}/wp-radio/?player=popup&station_id=${id}" width="100%" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe></textarea>
                         
                         <button type="submit" class="wp-radio-button">Copy Code</button>
                     </div>

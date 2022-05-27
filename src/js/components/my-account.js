@@ -11,16 +11,14 @@
                 $(`.wp-radio-my-account-navigation a[data-target=favorites]`).trigger('click');
             }
 
-            if (!isPjax) {
-                // Handle menu tabs
-                $('.wp-radio-my-account-navigation a[href=#]').on('click', app.handleTabs);
+            // Handle menu tabs
+            $('.wp-radio-my-account-navigation a[href=#]').on('click', app.handleTabs);
 
-                // Password fields toggle
-                $('.change-password-button').on('click', app.passwordFieldsToggle);
+            // Password fields toggle
+            $('.change-password-button').on('click', app.passwordFieldsToggle);
 
-                // Handle edit-account form
-                $('.wp-radio-form-edit-account').on('submit', app.handleEditAccount);
-            }
+            // Handle edit-account form
+            $('.wp-radio-form-edit-account').on('submit', app.handleEditAccount);
         },
 
         handleEditAccount: function (e) {
